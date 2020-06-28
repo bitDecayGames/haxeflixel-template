@@ -7,6 +7,7 @@ import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import components.BitDecayHelpers;
+import lime.system.System;
 
 class MainMenuState extends FlxUIState {
     var _btnPlay:FlxButton;
@@ -39,10 +40,12 @@ class MainMenuState extends FlxUIState {
         _btnCredits.updateHitbox();
         add(_btnCredits);
 
+        #if windows
         _btnExit = BitDecayHelpers.CreateMenuButton("Exit", clickExit);
         _btnExit.setPosition(FlxG.width/2 - _btnExit.width/2, FlxG.height - _btnExit.height - 40);
         _btnExit.updateHitbox();
         add(_btnExit);
+        #end
     }
 
     override public function update(elapsed:Float):Void {
@@ -60,7 +63,9 @@ class MainMenuState extends FlxUIState {
         FmodFlxUtilities.TransitionToState(new CreditsState());
     }
 
+    #if windows
     function clickExit():Void {
-
+        System.exit(0);
     }
+    #end
 }
