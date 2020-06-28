@@ -8,7 +8,7 @@ import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import components.BitDecayHelpers;
+import helpers.UiHelpers;
 
 class CreditsState extends FlxUIState {
 
@@ -27,7 +27,7 @@ class CreditsState extends FlxUIState {
 
         // Button
 
-        _btnMainMenu = BitDecayHelpers.CreateMenuButton("Main Menu", clickMainMenu);
+        _btnMainMenu = UiHelpers.CreateMenuButton("Main Menu", clickMainMenu);
         _btnMainMenu.setPosition(FlxG.width - _btnMainMenu.width, FlxG.height - _btnMainMenu.height);
         _btnMainMenu.updateHitbox();
         add(_btnMainMenu);
@@ -52,8 +52,6 @@ class CreditsState extends FlxUIState {
         AddSectionToCreditsTextArrays("Music composition and SFX", ["Tanner Moore"], _txtRole, _txtCreator);
         AddSectionToCreditsTextArrays("Programming", ["Logan Moore", "Mike Wingfield"], _txtRole, _txtCreator);
         AddSectionToCreditsTextArrays("Tools", [""], _txtRole, _txtCreator);
-
-        // "HaxeFlixel", "FL Studio", "FMOD"
 
         var creditsTextVerticalOffset = FlxG.height;
 
@@ -129,7 +127,7 @@ class CreditsState extends FlxUIState {
     override public function update(elapsed:Float):Void {
         super.update(elapsed);
 
-        // Stop scrolling
+        // Stop scrolling when "Thank You" text is in the center of the screen
         if (_txtThankYou.y + _txtThankYou.height/2 < FlxG.height/2){
             return;
         }

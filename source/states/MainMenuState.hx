@@ -6,7 +6,7 @@ import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import components.BitDecayHelpers;
+import helpers.UiHelpers;
 import lime.system.System;
 
 class MainMenuState extends FlxUIState {
@@ -30,18 +30,18 @@ class MainMenuState extends FlxUIState {
         
         add(_txtTitle);
 
-        _btnPlay = BitDecayHelpers.CreateMenuButton("Play", clickPlay);
+        _btnPlay = UiHelpers.CreateMenuButton("Play", clickPlay);
         _btnPlay.setPosition(FlxG.width/2 - _btnPlay.width/2, FlxG.height - _btnPlay.height - 100);
         _btnPlay.updateHitbox();
         add(_btnPlay);
 
-        _btnCredits = BitDecayHelpers.CreateMenuButton("Credits", clickCredits);
+        _btnCredits = UiHelpers.CreateMenuButton("Credits", clickCredits);
         _btnCredits.setPosition(FlxG.width/2 - _btnCredits.width/2, FlxG.height - _btnCredits.height - 70);
         _btnCredits.updateHitbox();
         add(_btnCredits);
 
         #if windows
-        _btnExit = BitDecayHelpers.CreateMenuButton("Exit", clickExit);
+        _btnExit = UiHelpers.CreateMenuButton("Exit", clickExit);
         _btnExit.setPosition(FlxG.width/2 - _btnExit.width/2, FlxG.height - _btnExit.height - 40);
         _btnExit.updateHitbox();
         add(_btnExit);

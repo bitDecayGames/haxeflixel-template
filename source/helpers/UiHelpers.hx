@@ -1,9 +1,9 @@
-package components;
+package helpers;
 
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
-class BitDecayHelpers {
+class UiHelpers {
     public static function CreateMenuButton(Text:String, Callback:Void->Void, ?ClickSoundPath:String = FmodSFX.MenuSelect):FlxButton {
     
         var button = new FlxButton(0, 0, Text);
