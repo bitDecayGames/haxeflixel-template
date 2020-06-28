@@ -1,33 +1,66 @@
 package states;
 
+import haxefmod.flixel.FmodFlxUtilities;
+import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import components.BitDecayHelpers;
 
 class MainMenuState extends FlxUIState {
     var _btnPlay:FlxButton;
-    var _btnTiles:FlxButton;
-    var _btnEditor:FlxButton;
-    var _btnDoob:FlxButton;
+    var _btnCredits:FlxButton;
+    var _btnExit:FlxButton;
+
+    var _txtTitle:FlxText;
 
     override public function create():Void {
         super.create();
+        FmodManager.PlaySong(FmodSongs.LetsGo);
         FlxG.log.notice("loaded scene");
         bgColor = FlxColor.TRANSPARENT;
 
-        _btnPlay = new FlxButton(0, 0, "Play", clickPlay);
+        _txtTitle = new FlxText();
+        _txtTitle.setPosition(FlxG.width/2, FlxG.height/4);
+        _txtTitle.size = 40;
+        _txtTitle.alignment = FlxTextAlign.CENTER;
+        _txtTitle.text = "Game Title";
+        
+        add(_txtTitle);
+
+        _btnPlay = BitDecayHelpers.CreateMenuButton("Play", clickPlay);
+        _btnPlay.setPosition(FlxG.width/2 - _btnPlay.width/2, FlxG.height - _btnPlay.height - 100);
         _btnPlay.updateHitbox();
-        _btnPlay.screenCenter();
         add(_btnPlay);
+
+        _btnCredits = BitDecayHelpers.CreateMenuButton("Credits", clickCredits);
+        _btnCredits.setPosition(FlxG.width/2 - _btnCredits.width/2, FlxG.height - _btnCredits.height - 70);
+        _btnCredits.updateHitbox();
+        add(_btnCredits);
+
+        _btnExit = BitDecayHelpers.CreateMenuButton("Exit", clickExit);
+        _btnExit.setPosition(FlxG.width/2 - _btnExit.width/2, FlxG.height - _btnExit.height - 40);
+        _btnExit.updateHitbox();
+        add(_btnExit);
     }
 
     override public function update(elapsed:Float):Void {
         super.update(elapsed);
+        FmodManager.Update();
+
+        _txtTitle.x = FlxG.width/2 - _txtTitle.width/2;
     }
 
     function clickPlay():Void {
-        FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
-        FlxG.switchState(new MainMenuState());
+        FmodFlxUtilities.TransitionToStateAndStopMusic(new MainMenuState());
+    }
+
+    function clickCredits():Void {
+        FmodFlxUtilities.TransitionToState(new CreditsState());
+    }
+
+    function clickExit():Void {
+
     }
 }
