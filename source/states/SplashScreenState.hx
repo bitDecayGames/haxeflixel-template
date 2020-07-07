@@ -1,10 +1,13 @@
 package states;
 
+import com.bitdecay.analytics.Bitlytics;
 import flixel.tweens.misc.VarTween;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxG;
+
+import analytics.Influx;
 
 class SplashScreenState extends FlxState {
 	var frame = 0;
@@ -16,8 +19,6 @@ class SplashScreenState extends FlxState {
 	override public function create():Void {
 		super.create();
 
-		FlxG.debugger.drawDebug = true;
-
 		// List splash screen frames here
 		loadFrames([
 			AssetPaths.bitdecaygamesinverted__png,
@@ -26,6 +27,8 @@ class SplashScreenState extends FlxState {
 
 		timer = frameDuration;
 		FlxTween.tween(frames[0], { alpha: 1 }, 1);
+
+		initAnalytics();
 	}
 
 	private function loadFrames(paths:Array<String>) {
@@ -38,6 +41,11 @@ class SplashScreenState extends FlxState {
 			splashSprite.alpha = 0;
 			frames.push(splashSprite);
 		}
+	}
+
+	private function initAnalytics() {
+		Bitlytics.Init("Brawnfire", Influx.getDataSender());
+		Bitlytics.Instance().NewSession();
 	}
 
 	override public function update(elapsed:Float):Void {
