@@ -1,14 +1,12 @@
 package states;
 
+import config.Configure;
 import haxefmod.flixel.FmodFlxUtilities;
-import com.bitdecay.analytics.Bitlytics;
 import flixel.tweens.misc.VarTween;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxG;
-
-import analytics.Influx;
 
 class SplashScreenState extends FlxState {
 	var index = 0;
@@ -29,7 +27,7 @@ class SplashScreenState extends FlxState {
 		timer = splashDuration;
 		FlxTween.tween(splashImages[0], { alpha: 1 }, 1);
 
-		initAnalytics();
+		Configure.initAnalytics();
 	}
 
 	private function loadSplashImages(paths:Array<String>) {
@@ -42,11 +40,6 @@ class SplashScreenState extends FlxState {
 			splashSprite.alpha = 0;
 			splashImages.push(splashSprite);
 		}
-	}
-
-	private function initAnalytics() {
-		Bitlytics.Init("Brawnfire", Influx.getDataSender());
-		Bitlytics.Instance().NewSession();
 	}
 
 	override public function update(elapsed:Float):Void {

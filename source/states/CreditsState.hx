@@ -1,5 +1,6 @@
 package states;
 
+import config.Configure;
 import flixel.FlxSprite;
 import flixel.ui.FlxVirtualPad.FlxDPadMode;
 import haxefmod.flixel.FmodFlxUtilities;
@@ -48,10 +49,9 @@ class CreditsState extends FlxUIState {
         add(_txtCreditsTitle);
         _allCreditElements.push(_txtCreditsTitle);
 
-        AddSectionToCreditsTextArrays("Art", ["Erik Meredeith"], _txtRole, _txtCreator);
-        AddSectionToCreditsTextArrays("Music composition and SFX", ["Tanner Moore"], _txtRole, _txtCreator);
-        AddSectionToCreditsTextArrays("Programming", ["Logan Moore", "Mike Wingfield"], _txtRole, _txtCreator);
-        AddSectionToCreditsTextArrays("Tools", [""], _txtRole, _txtCreator);
+        for (entry in Configure.getCredits()) {
+            AddSectionToCreditsTextArrays(entry.sectionName, entry.names, _txtRole, _txtCreator);
+        }
 
         var creditsTextVerticalOffset = FlxG.height;
 
