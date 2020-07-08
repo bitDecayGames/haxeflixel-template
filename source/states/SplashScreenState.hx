@@ -10,28 +10,28 @@ import flixel.FlxG;
 import analytics.Influx;
 
 class SplashScreenState extends FlxState {
-	var frame = 0;
-	var frames:Array<FlxSprite> = [];
+	var index = 0;
+	var splashImages:Array<FlxSprite> = [];
 
 	var timer = 0.0;
-	var frameDuration = 3.0;
+	var splashDuration = 3.0;
 
 	override public function create():Void {
 		super.create();
 
-		// List splash screen frames here
-		loadFrames([
+		// List splash screen image paths here
+		loadSplashImages([
 			AssetPaths.bitdecaygamesinverted__png,
 			AssetPaths.ld_logo__png
 		]);
 
-		timer = frameDuration;
-		FlxTween.tween(frames[0], { alpha: 1 }, 1);
+		timer = splashDuration;
+		FlxTween.tween(splashImages[0], { alpha: 1 }, 1);
 
 		initAnalytics();
 	}
 
-	private function loadFrames(paths:Array<String>) {
+	private function loadSplashImages(paths:Array<String>) {
 		for (p in paths) {
 			var splashSprite = new FlxSprite(0, 0, p);
 			splashSprite.scale.x = FlxG.width / splashSprite.frameWidth;
@@ -39,7 +39,7 @@ class SplashScreenState extends FlxState {
 			splashSprite.updateHitbox();
 			add(splashSprite);
 			splashSprite.alpha = 0;
-			frames.push(splashSprite);
+			splashImages.push(splashSprite);
 		}
 	}
 
@@ -52,17 +52,17 @@ class SplashScreenState extends FlxState {
 		super.update(elapsed);
 		timer -= elapsed;
 		if (timer < 0)
-			nextFrame();
+			nextSplash();
 	}
 
-	public function nextFrame() {
-		var tween:VarTween = FlxTween.tween(frames[frame], { alpha: 0 }, 0.5);
+	public function nextSplash() {
+		var tween:VarTween = FlxTween.tween(splashImages[index], { alpha: 0 }, 0.5);
 
-		frame += 1;
-		timer = frameDuration;
+		index += 1;
+		timer = splashDuration;
 
-		if (frame < frames.length) {
-			var splash = frames[frame];
+		if (index < splashImages.length) {
+			var splash = splashImages[index];
 			tween.then(FlxTween.tween(splash, { alpha: 1 }, 1));
 		} else {
 			tween.onComplete = (t) -> {
