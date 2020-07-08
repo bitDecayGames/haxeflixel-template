@@ -1,6 +1,6 @@
 {
 	"analytics": {
-		"name": "<PUT GAME NAME HERE>",
+		"name": "<PUT SIMPLIFIED GAME NAME HERE>",
 		"influx": {
 			"api": "https://us-west-2-1.aws.cloud2.influxdata.com/api/v2/write",
 			"org": "13ecc65d2303c6d7",
