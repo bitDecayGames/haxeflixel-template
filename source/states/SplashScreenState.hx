@@ -1,5 +1,6 @@
 package states;
 
+import haxefmod.flixel.FmodFlxUtilities;
 import com.bitdecay.analytics.Bitlytics;
 import flixel.tweens.misc.VarTween;
 import flixel.tweens.FlxTween;
@@ -66,7 +67,7 @@ class SplashScreenState extends FlxState {
 			tween.then(FlxTween.tween(splash, { alpha: 1 }, 1));
 		} else {
 			tween.onComplete = (t) -> {
-					FlxG.switchState(new MainMenuState());
+				FmodFlxUtilities.TransitionToState(new MainMenuState());
 			};
 		}
 	}
