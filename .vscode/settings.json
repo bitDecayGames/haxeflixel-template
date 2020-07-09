@@ -1,0 +1,23 @@
+{
+	"search.exclude": {
+		"export/**/*.hx": true
+	},
+	"lime.targetConfigurations": [
+        {
+            "target": "html5",
+            "args": [
+                "-debug",
+                "-D dev_analytics"
+            ],
+            "label": "HTML5 Debug Dev Analytics"
+		},
+		{
+            "target": "windows",
+            "args": [
+                "-debug",
+                "-D dev_analytics"
+            ],
+            "label": "Windows Debug Dev Analytics"
+        }
+    ]
+}
