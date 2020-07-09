@@ -1,0 +1,40 @@
+{
+	"analytics": {
+		"name": "<PUT SIMPLIFIED GAME NAME HERE>",
+		"influx": {
+			"api": "https://us-west-2-1.aws.cloud2.influxdata.com/api/v2/write",
+			"org": "13ecc65d2303c6d7",
+			"bucket": "<PUT BUCKET ID HERE>",
+			"token": "token loaded from `assets/data/analytics_token.txt` so it is not committed to source control"
+		}
+	},
+	"credits": {
+		"sections": [
+			{
+				"sectionName": "Art",
+				"names": [
+					"Erik Meredeith"
+				]
+			},
+			{
+				"sectionName": "Music composition and SFX",
+				"names": [
+					"Tanner Moore"
+				]
+			},
+			{
+				"sectionName": "Programming",
+				"names": [
+					"Logan Moore",
+					"Mike Wingfield"
+				]
+			},
+			{
+				"sectionName": "Tools",
+				"names": [
+					"Tim the Tool Man Taylor"
+				]
+			}
+		]
+	}
+}
