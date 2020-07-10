@@ -36,6 +36,7 @@
 	<haxelib name="flixel" />
 	<haxelib name="haxefmod" />
 	<haxelib name="bitlytics" />
+	<haxelib name="textpop" />
 
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
