@@ -8,4 +8,4 @@
 
 ### Running the project
 - If running in VSCode, the `settings.json` file already has debug run configurations for HTML5 and Windows
-- If running from console, use the `-D dev_analytics` flag while in development prior to analytics being configured
+- If running from console, use the `-D dev_analytics` flag while in development prior to analytics being configured and ready for a prod build
