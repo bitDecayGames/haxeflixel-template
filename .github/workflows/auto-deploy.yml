@@ -1,0 +1,35 @@
+name: AutoDeploy
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'assets/*'
+      - 'source/*'
+jobs:
+  publish-html5-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Make html5 build
+        uses: bitDecayGames/lime-build-action@v0.0.29
+        with:
+          buildArgs: -D dev_analytics
+          gitDependencies: textpop https://github.com/bitDecayGames/text-pop.git | flixelutils https://github.com/bitDecayGames/flixel-utils.git | bitlytics https://github.com/bitDecayGames/Bitlytics.git | haxefmod https://github.com/Tanz0rz/haxe-fmod.git
+
+      - name: Upload html5 zip artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: html5-build
+          path: export/html5.zip
+
+      - name: Publish html5 build to itch.io
+        uses: bitDecayGames/butler-deploy-action@v0.0.2
+        with:
+          dir: export/html5.zip
+          itchUserName: bitdecaygames
+          itchGameName: <INSERT_GAME_NAME_HERE>
+          itchChannel: web
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
