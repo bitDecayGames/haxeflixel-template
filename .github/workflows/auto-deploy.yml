@@ -4,6 +4,7 @@ on:
     branches:
       - master
     paths:
+      - 'Project.xml'
       - 'assets/*'
       - 'source/*'
 jobs:
