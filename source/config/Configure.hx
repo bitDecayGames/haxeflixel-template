@@ -15,7 +15,7 @@ class Configure {
 		if (config == null) {
 			loadConfig();
 		}
-		
+
 		Bitlytics.Init(config.analytics.name, InfluxDB.load(config.analytics.influx, analyticsToken));
 		Bitlytics.Instance().NewSession();
 	}
@@ -24,7 +24,7 @@ class Configure {
 		if (config == null) {
 			loadConfig();
 		}
-		
+
 		var creditSections:Array<CreditEntry> = config.credits.sections;
 		return creditSections;
 	}
@@ -33,8 +33,16 @@ class Configure {
 		var configBytes = Assets.getBytes(AssetPaths.config__json).toString();
 		config = Json.parse(configBytes);
 
+		trace(Statics.API_KEY);
+		// Check compile defines first
+		// if (isDefined("API_KEY")) {
+		// 	analyticsToken = getDefine("API_KEY");
+		// 	return;
+		// }
+
+		// Then check known file location
 		if (!Assets.exists(analyticsTokenPath)) {
-			trace("No auth token found. Production metrics will not work.");
+			trace("Token file ${analyticsTokenPath} does not exist. Production metrics will not work.");
 			analyticsToken = "";
 		} else {
 			analyticsToken = Assets.getBytes(analyticsTokenPath).toString();
