@@ -1,4 +1,5 @@
-package;
+package misc;
+
 class Macros {
 	// Shorthand for retrieving compiler flag values.
 	public static macro function getDefine(key : String) : haxe.macro.Expr {

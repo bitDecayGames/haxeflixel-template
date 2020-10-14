@@ -1,5 +1,6 @@
 package config;
 
+import misc.Macros;
 import haxe.Json;
 import com.bitdecay.analytics.Bitlytics;
 import openfl.Assets;
@@ -33,19 +34,13 @@ class Configure {
 		var configBytes = Assets.getBytes(AssetPaths.config__json).toString();
 		config = Json.parse(configBytes);
 
-		trace(Statics.API_KEY);
 		// Check compile defines first
-		// if (isDefined("API_KEY")) {
-		// 	analyticsToken = getDefine("API_KEY");
-		// 	return;
-		// }
-
-		// Then check known file location
-		if (!Assets.exists(analyticsTokenPath)) {
-			trace("Token file ${analyticsTokenPath} does not exist. Production metrics will not work.");
-			analyticsToken = "";
+		if (Macros.isDefined("API_KEY")) {
+			var define = Macros.getDefine("API_KEY");
+			analyticsToken = define.split("=")[0];
+			return;
 		} else {
-			analyticsToken = Assets.getBytes(analyticsTokenPath).toString();
+			trace("No API_KEY compile flag found. Production metrics will not work.");
 		}
 	}
 }

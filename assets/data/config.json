@@ -5,7 +5,7 @@
 			"api": "https://us-west-2-1.aws.cloud2.influxdata.com/api/v2/write",
 			"org": "13ecc65d2303c6d7",
 			"bucket": "<PUT BUCKET ID HERE>",
-			"token": "token loaded from `assets/data/analytics_token.txt` so it is not committed to source control"
+			"token": "token loaded from the '-D API_KEY=<key>' compile flag so it is not committed to source control"
 		}
 	},
 	"credits": {
