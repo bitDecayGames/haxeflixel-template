@@ -1,4 +1,4 @@
-name: AutoDeploy
+name: AutoDeploy-Prod
 on:
   release:
     types:
