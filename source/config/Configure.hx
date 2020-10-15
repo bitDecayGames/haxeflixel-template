@@ -37,8 +37,10 @@ class Configure {
 		// Check compile defines first
 		if (Macros.isDefined("API_KEY")) {
 			var define = Macros.getDefine("API_KEY");
-			analyticsToken = define.split("=")[0];
-			trace('got me a token: ${analyticsToken}');
+			// our define comes back as <val>=<val>
+			// Take the first half explicitly, as splitting on '=' might have unexpected
+			// behavior if the token has '=' characters in it
+			analyticsToken = define.substr(0, Std.int(define.length / 2));
 			return true;
 		} else {
 			trace('No API_KEY compile flag found. Production metrics will not work.');
