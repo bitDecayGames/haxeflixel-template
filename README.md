@@ -5,7 +5,15 @@
 - Main menu with buttons to load the credits or start the game
 - Credits state with built-in scrolling
 - Preconfigured .gitignore
+- Pre-integrated Bitlytics tie-ins
+- Automatic Github build actions
 
-### Running the project
-- If running in VSCode, the `settings.json` file already has debug run configurations for HTML5 and Windows
-- If running from console, use the `-D dev_analytics` flag while in development prior to analytics being configured and ready for a prod build
+### Configuration
+- Set the proper Github secrets:
+  - `BUTLER_KEY`: The Butler API key from itch.io
+  - `ANALYTICS_KEY`: The InfluxDB access token to the bucket
+- Fill out the `assets/data/config.json` fields
+  - `analytics.name`: The simplified game name, used as the metrics id and some other things. Should be snake case or similar.
+  - `analytics.influx.bucket`: The bucket ID from InfluxDB
+- Fill in the `itchGameName` in both workflow files
+  - This should be the URL name from itch.io
