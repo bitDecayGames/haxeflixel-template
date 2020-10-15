@@ -7,17 +7,17 @@ import openfl.Assets;
 import com.bitdecay.net.influx.InfluxDB;
 
 class Configure {
-	public static var analyticsTokenPath:String = "assets/data/analytics_token.txt";
-
 	private static var config:Dynamic;
 	private static var analyticsToken:String;
 
 	public static function initAnalytics() {
+		var devMode = false;
+
 		if (config == null) {
-			loadConfig();
+			devMode = !loadConfig();
 		}
 
-		Bitlytics.Init(config.analytics.name, InfluxDB.load(config.analytics.influx, analyticsToken));
+		Bitlytics.Init(config.analytics.name, InfluxDB.load(config.analytics.influx, analyticsToken), devMode);
 		Bitlytics.Instance().NewSession();
 	}
 
@@ -38,9 +38,11 @@ class Configure {
 		if (Macros.isDefined("API_KEY")) {
 			var define = Macros.getDefine("API_KEY");
 			analyticsToken = define.split("=")[0];
-			return;
+			trace('got me a token: ${analyticsToken}');
+			return true;
 		} else {
-			trace("No API_KEY compile flag found. Production metrics will not work.");
+			trace('No API_KEY compile flag found. Production metrics will not work.');
+			return false;
 		}
 	}
 }
