@@ -10,7 +10,7 @@
 
 ### Configuration
 - Set the proper Github secrets:
-  - `BUTLER_KEY`: The Butler API key from itch.io
+  - `BUTLER_API_KEY`: The Butler API key from itch.io
   - `ANALYTICS_KEY`: The InfluxDB access token to the bucket
 - Fill out the `assets/data/config.json` fields
   - `analytics.name`: The simplified game name, used as the metrics id and some other things. Should be snake case or similar.
