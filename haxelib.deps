@@ -1,0 +1,8 @@
+flixel 4.8.1
+flixel-addons 2.8.0
+flixel-ui 2.3.2
+openfl 9.0.2
+
+bitlytics git https://github.com/bitDecayGames/Bitlytics.git
+textpop git https://github.com/bitDecayGames/text-pop.git
+haxefmod git https://github.com/Tanz0rz/haxe-fmod.git
