@@ -11,10 +11,9 @@ jobs:
         uses: actions/checkout@master
 
       - name: Make html5 build
-        uses: bitDecayGames/lime-build-action@v0.0.29
+        uses: bitDecayGames/lime-build-action@v0.0.34
         with:
-          buildArgs: -D API_KEY=${{ secrets.ANALYTICS_TOKEN }}
-          gitDependencies: textpop https://github.com/bitDecayGames/text-pop.git | flixelutils https://github.com/bitDecayGames/flixel-utils.git | bitlytics https://github.com/bitDecayGames/Bitlytics.git | haxefmod https://github.com/Tanz0rz/haxe-fmod.git
+          buildArgs: -final -D API_KEY=${{ secrets.ANALYTICS_TOKEN }}
 
       - name: Upload html5 zip artifact
         uses: actions/upload-artifact@v2
