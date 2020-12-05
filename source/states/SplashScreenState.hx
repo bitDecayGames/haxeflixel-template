@@ -9,6 +9,8 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxG;
 
+using extensions.FlxStateExt;
+
 class SplashScreenState extends FlxState {
 	public static inline var PLAY_ANIMATION = "play";
 
@@ -29,8 +31,6 @@ class SplashScreenState extends FlxState {
 
 		timer = splashDuration;
 		fadeIn(index);
-
-		Configure.initAnalytics();
 	}
 
 	private function loadSplashImages(splashes:Array<SplashImage>) {
@@ -74,6 +74,16 @@ class SplashScreenState extends FlxState {
 			};
 		}
 	}
+
+	override public function onFocusLost() {
+		super.onFocusLost();
+		this.handleFocusLost();
+	}
+
+	override public function onFocus() {
+		super.onFocus();
+		this.handleFocus();
+	}
 }
 
 class SplashImage extends FlxSprite{
@@ -89,7 +99,7 @@ class SplashImage extends FlxSprite{
 		} else {
 			scale.set(FlxG.width / frameWidth, FlxG.height / frameHeight);
 		}
-		
+
 		updateHitbox();
 	}
 }
