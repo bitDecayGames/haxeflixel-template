@@ -41,7 +41,6 @@ class Configure {
 			// our define comes back as <val>=<val>
 			// Take the first half explicitly, as splitting on '=' might have unexpected
 			// behavior if the token has '=' characters in it
-			trace('token raw: "${define}"');
 			analyticsToken = define.substr(0, Std.int(define.length / 2));
 			loadSuccessful = analyticsToken.length > 0;
 		} else {
