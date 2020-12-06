@@ -5,8 +5,8 @@ on:
       - master
     paths:
       - 'Project.xml'
-      - 'assets/*'
-      - 'source/*'
+      - 'assets/**'
+      - 'source/**'
 jobs:
   publish-html5-build:
     runs-on: ubuntu-latest
