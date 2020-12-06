@@ -8,6 +8,9 @@
 			"token": "token loaded from the '-D API_KEY=<key>' compile flag so it is not committed to source control"
 		}
 	},
+	"splashScreens": {
+		"allowClickToSkip": true
+	},
 	"credits": {
 		"sections": [
 			{

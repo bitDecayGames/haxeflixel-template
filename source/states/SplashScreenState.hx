@@ -20,6 +20,8 @@ class SplashScreenState extends FlxState {
 	var timer = 0.0;
 	var splashDuration = 3.0;
 
+	var currentTween:FlxTween = null;
+
 	override public function create():Void {
 		super.create();
 
@@ -30,7 +32,13 @@ class SplashScreenState extends FlxState {
 		]);
 
 		timer = splashDuration;
-		fadeIn(index);
+		currentTween = fadeIn(index);
+	}
+
+	// A function that returns if the current splash should be skipped or not
+	// Customize this to check whatever we want (controller, mouse, etc)
+	private function checkForSkip():Bool {
+		return FlxG.mouse.justPressed;
 	}
 
 	private function loadSplashImages(splashes:Array<SplashImage>) {
@@ -44,8 +52,9 @@ class SplashScreenState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		timer -= elapsed;
-		if (timer < 0)
+		if (timer < 0 || (Configure.get().splashScreens.allowClickToSkip && checkForSkip())) {
 			nextSplash();
+		}
 	}
 
 	private function fadeIn(index:Int):VarTween {
@@ -61,15 +70,18 @@ class SplashScreenState extends FlxState {
 	}
 
 	public function nextSplash() {
-		var tween:VarTween = FlxTween.tween(splashImages[index], { alpha: 0 }, 0.5);
+		if (currentTween != null && !currentTween.finished ) {
+			currentTween.cancelChain();
+		}
+		currentTween = FlxTween.tween(splashImages[index], { alpha: 0 }, 0.5);
 
 		index += 1;
 		timer = splashDuration;
 
 		if (index < splashImages.length) {
-			tween.then(fadeIn(index));
+			currentTween.then(fadeIn(index));
 		} else {
-			tween.onComplete = (t) -> {
+			currentTween.onComplete = (t) -> {
 				FmodFlxUtilities.TransitionToState(new MainMenuState());
 			};
 		}
