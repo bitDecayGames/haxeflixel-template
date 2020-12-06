@@ -8,6 +8,8 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import helpers.UiHelpers;
 
+using extensions.FlxStateExt;
+
 class VictoryState extends FlxUIState {
     var _btnDone:FlxButton;
 
@@ -22,7 +24,7 @@ class VictoryState extends FlxUIState {
         _txtTitle.size = 40;
         _txtTitle.alignment = FlxTextAlign.CENTER;
         _txtTitle.text = "Game Over";
-        
+
         add(_txtTitle);
 
         _btnDone = UiHelpers.CreateMenuButton("Main Menu", clickMainMenu);
@@ -39,6 +41,16 @@ class VictoryState extends FlxUIState {
     }
 
     function clickMainMenu():Void {
-		FmodFlxUtilities.TransitionToState(new MainMenuState());
+        FmodFlxUtilities.TransitionToState(new MainMenuState());
+    }
+
+	override public function onFocusLost() {
+        super.onFocusLost();
+        this.handleFocusLost();
+    }
+
+    override public function onFocus() {
+        super.onFocus();
+        this.handleFocus();
     }
 }

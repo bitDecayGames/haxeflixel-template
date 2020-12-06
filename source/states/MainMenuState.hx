@@ -9,6 +9,8 @@ import flixel.util.FlxColor;
 import helpers.UiHelpers;
 import lime.system.System;
 
+using extensions.FlxStateExt;
+
 class MainMenuState extends FlxUIState {
     var _btnPlay:FlxButton;
     var _btnCredits:FlxButton;
@@ -27,7 +29,7 @@ class MainMenuState extends FlxUIState {
         _txtTitle.size = 40;
         _txtTitle.alignment = FlxTextAlign.CENTER;
         _txtTitle.text = "Game Title";
-        
+
         add(_txtTitle);
 
         _btnPlay = UiHelpers.CreateMenuButton("Play", clickPlay);
@@ -68,4 +70,14 @@ class MainMenuState extends FlxUIState {
         System.exit(0);
     }
     #end
+
+    override public function onFocusLost() {
+        super.onFocusLost();
+        this.handleFocusLost();
+    }
+
+    override public function onFocus() {
+        super.onFocus();
+        this.handleFocus();
+    }
 }
