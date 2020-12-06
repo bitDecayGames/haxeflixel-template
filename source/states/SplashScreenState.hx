@@ -21,6 +21,8 @@ class SplashScreenState extends FlxState {
 	var splashDuration = 3.0;
 
 	var currentTween:FlxTween = null;
+	var splashesOver:Bool = false;
+	var fadingOut:Bool = false;
 
 	override public function create():Void {
 		super.create();
@@ -32,7 +34,7 @@ class SplashScreenState extends FlxState {
 		]);
 
 		timer = splashDuration;
-		currentTween = fadeIn(index);
+		currentTween = getFadeIn(index);
 	}
 
 	// A function that returns if the current splash should be skipped or not
@@ -52,35 +54,49 @@ class SplashScreenState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		timer -= elapsed;
-		if (timer < 0 || (Configure.get().splashScreens.allowClickToSkip && checkForSkip())) {
+		var playerSkipped = !fadingOut &&
+							!splashesOver &&
+							Configure.get().splashScreens.allowClickToSkip && checkForSkip();
+		if (timer < 0 || playerSkipped) {
 			nextSplash();
 		}
 	}
 
-	private function fadeIn(index:Int):VarTween {
+	private function getFadeIn(index:Int):VarTween {
 		var splash = splashImages[index];
 		var fadeInTween = FlxTween.tween(splash, { alpha: 1 }, 1);
+		fadeInTween.onStart = (t) -> {
+			fadingOut = false;
+		};
 		if (splash.animation.getByName(PLAY_ANIMATION) != null) {
 			fadeInTween.onComplete = (t) -> splash.animation.play(PLAY_ANIMATION);
 			splash.animation.callback = (name, frameNumber, frameIndex) -> {
 				// Can add sfx or other things here
-			}
+			};
 		}
 		return fadeInTween;
 	}
 
 	public function nextSplash() {
-		if (currentTween != null && !currentTween.finished ) {
-			currentTween.cancelChain();
+		if (splashesOver) {
+			// nothing more to do
+			return;
 		}
+
+		if (currentTween != null && !currentTween.finished ) {
+			currentTween.cancel();
+		}
+
+		fadingOut = true;
 		currentTween = FlxTween.tween(splashImages[index], { alpha: 0 }, 0.5);
 
 		index += 1;
 		timer = splashDuration;
 
 		if (index < splashImages.length) {
-			currentTween.then(fadeIn(index));
+			currentTween.then(getFadeIn(index));
 		} else {
+			splashesOver = true;
 			currentTween.onComplete = (t) -> {
 				FmodFlxUtilities.TransitionToState(new MainMenuState());
 			};
