@@ -24,6 +24,7 @@ jobs:
         with:
           name: html5-build
           path: export/html5.zip
+          retention-days: 7
 
       - name: Publish html5 build to itch.io
         uses: bitDecayGames/butler-deploy-action@v0.0.2
