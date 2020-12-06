@@ -17,6 +17,14 @@ class Main extends Sprite
 		Configure.initAnalytics();
 		FlxG.fixedTimestep = false;
 
+		// Disable flixel volume controls as we don't use them because of FMOD
+		FlxG.sound.muteKeys = null;
+		FlxG.sound.volumeUpKeys = null;
+		FlxG.sound.volumeDownKeys = null;
+
+		// Don't use the flixel cursor
+		FlxG.mouse.useSystemCursor = true;
+
 		#if debug
 		FlxG.autoPause = false;
 		#end
