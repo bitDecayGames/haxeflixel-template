@@ -1,6 +1,6 @@
 flixel 4.8.1
-flixel-addons 2.8.0
-flixel-ui 2.3.2
+flixel-addons 2.9.0
+flixel-ui 2.3.3
 openfl 9.0.2
 
 bitlytics git https://github.com/bitDecayGames/Bitlytics.git

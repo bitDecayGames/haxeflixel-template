@@ -18,7 +18,7 @@ while read line; do
 
   if [[ ${libVersion} == "git" ]]; then
     gitLocation="${splits[2]}"
-    haxelib git ${libName} ${gitLocation}
+    haxelib git ${libName} ${gitLocation} --never
   else
     echo "Installing ${libName} version ${libVersion}"
     echo "haxelib set ${libName} ${libVersion} --always"
