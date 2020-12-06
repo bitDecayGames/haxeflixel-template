@@ -1,5 +1,6 @@
 package states;
 
+import signals.Lifecycle;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -7,9 +8,13 @@ import flixel.FlxState;
 
 /**
  * @author Tanner Moore
- * For games that are deployed to html5, the FMOD audio engine must be loaded before starting the game. 
+ * For games that are deployed to html5, the FMOD audio engine must be loaded before starting the game.
  */
 class LoadFmodState extends FlxState {
+
+    private var frameCount:Int = 0;
+    private var inited:Bool = false;
+
     override public function create():Void {
         FmodManager.Initialize();
 
@@ -20,7 +25,16 @@ class LoadFmodState extends FlxState {
         add(loadingText);
     }
     override public function update(elapsed:Float):Void {
-        if(FmodManager.IsInitialized()){
+        super.update(elapsed);
+
+        if (!inited && frameCount++ > 2) {
+            // XXX: FlxG doesn't update all key presses until the second time through update
+            inited = true;
+            Lifecycle.startup.dispatch();
+        }
+
+        if(FmodManager.IsInitialized() && inited) {
+            // Once FMOD is ready, and we've dispatched our startup
             FlxG.switchState(new SplashScreenState());
         }
     }

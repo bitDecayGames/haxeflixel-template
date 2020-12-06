@@ -1,5 +1,7 @@
 package;
 
+import flixel.input.keyboard.FlxKey;
+import flixel.input.FlxInput;
 import config.Configure;
 import flixel.util.FlxColor;
 import flixel.addons.transition.TransitionData;
@@ -14,7 +16,6 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		Configure.initAnalytics();
 		FlxG.fixedTimestep = false;
 
 		#if debug
@@ -32,5 +33,15 @@ class Main extends Sprite
 
 		// Don't use the flixel cursor
 		FlxG.mouse.useSystemCursor = true;
+
+		signals.Lifecycle.startup.add(() -> {
+			var disableAnalytics = false;
+			if (FlxG.keys.pressed.M) {
+				trace("!!!!!!! Dev analytics override started. No metrics will be reported !!!!!!!");
+				disableAnalytics = true;
+			}
+
+			Configure.initAnalytics(disableAnalytics);
+		});
 	}
 }

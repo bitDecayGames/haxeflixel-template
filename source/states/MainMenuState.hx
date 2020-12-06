@@ -7,7 +7,6 @@ import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import helpers.UiHelpers;
-import lime.system.System;
 
 using extensions.FlxStateExt;
 

@@ -23,7 +23,9 @@ class Configure {
 		return config;
 	}
 
-	public static function initAnalytics() {
+	public static function initAnalytics(dev:Bool = false) {
+		devMode = dev;
+
 		if (config == null) {
 			loadConfig();
 		}
@@ -60,6 +62,9 @@ class Configure {
 			loadSuccessful = false;
 		}
 
-		devMode = !loadSuccessful;
+		if (!devMode && !loadSuccessful) {
+			// go into dev mode if we didn't load successfully
+			devMode = true;
+		}
 	}
 }
