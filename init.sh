@@ -15,6 +15,8 @@ while read line; do
 
   libName="${splits[0]}"
   libVersion="${splits[1]}"
+  
+  haxelib dev ${libName}
 
   if [[ ${libVersion} == "git" ]]; then
     gitLocation="${splits[2]}"
