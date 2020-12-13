@@ -37,6 +37,7 @@
 	<haxelib name="haxefmod" />
 	<haxelib name="bitlytics" />
 	<haxelib name="textpop" />
+	<haxelib name="bitdecaybtree" />
 
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
