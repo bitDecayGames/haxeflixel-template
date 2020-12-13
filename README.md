@@ -1,12 +1,17 @@
 # Template Project for HaxeFlixel games
 
 ### Template features:
-- FMOD Studio project with menu sound effects and a random song I wrote
-- Main menu with buttons to load the credits or start the game
-- Credits state with built-in scrolling
+- Preconfigured libraries
+  - FMOD Studio project with menu sound effects and a random song I wrote
+  - Ready to use Bitlytics tie-ins
+  - Various utility libraries
+- Basic state templates
+  - Main menu with buttons to load the credits or start the game
+  - Credits state with built-in scrolling
 - Preconfigured .gitignore
-- Pre-integrated Bitlytics tie-ins
-- Automatic Github build actions
+- Github build actions
+  - Dev builds on push to master
+  - Production builds on releases
 
 ### Configuration
 - Set the proper Github secrets:
@@ -17,3 +22,17 @@
   - `analytics.influx.bucket`: The bucket ID from InfluxDB
 - Fill in the `itchGameName` in both workflow files
   - This should be the URL name from itch.io
+
+### Dependencies
+
+#### **haxelib.deps**
+
+* `haxelib.deps` - Contains all dependencies needed by the project other than haxe itself
+  * It supports two dep styles
+    * standard haxelib dependencies
+      * Formatted as: `<libName> <libVersion>`
+    * git dependencies
+      * Formatted as: `<libName> git <gitRepoLocation> <OPTIONAL: gitBranchOrTag>`
+* `init.sh` - Script that reads `haxelib.deps` file and configures `haxelib`
+  * This script will need to be run any time the dependencies change
+  * This script is run by the github actions as part of the build so local and github builds are equivalent
