@@ -30,7 +30,7 @@ class CreditsState extends FlxUIState {
 
         // Button
 
-        _btnMainMenu = UiHelpers.CreateMenuButton("Main Menu", clickMainMenu);
+        _btnMainMenu = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
         _btnMainMenu.setPosition(FlxG.width - _btnMainMenu.width, FlxG.height - _btnMainMenu.height);
         _btnMainMenu.updateHitbox();
         add(_btnMainMenu);

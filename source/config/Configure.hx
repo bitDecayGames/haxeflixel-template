@@ -6,15 +6,21 @@ import com.bitdecay.analytics.Bitlytics;
 import openfl.Assets;
 import com.bitdecay.net.influx.InfluxDB;
 
-// Provides access to the configuration json for the project. Helper functions
-// for computing more complex types can go in here, or you can use `get()` to
-// just get the whole config to process it any way you wish
+/**
+ * Provides access to the configuration json for the project. Helper functions
+ * for computing more complex types can go in here, or you can use `get()` to
+ * just get the whole config to process it any way you wish
+ */
 class Configure {
 	private static var config:Dynamic;
 	private static var analyticsToken:String;
 	private static var devMode:Bool = false;
 
-	// Returns the whole config option. Useful for getting basic type values (bool, string, int, etc)
+	/**
+	 * Returns the whole config option. Useful for getting basic type values (bool, string, int, etc)
+	 *
+	 * @returns a Dyanmic object representing all configuration as loaded
+	 */
 	public static function get():Dynamic{
 		if (config == null) {
 			loadConfig();
@@ -23,6 +29,11 @@ class Configure {
 		return config;
 	}
 
+	/**
+	 * Initializes analytics based on the values loaded from config.json
+	 *
+	 * @param dev control if analytics should be started in dev mode
+	 */
 	public static function initAnalytics(dev:Bool = false) {
 		devMode = dev;
 
@@ -34,6 +45,11 @@ class Configure {
 		Bitlytics.Instance().NewSession();
 	}
 
+	/**
+	 * Helper to load credits entries from config.json
+	 *
+	 * @returns Array of CreditEntry objects
+	 */
 	public static function getCredits():Array<CreditEntry> {
 		if (config == null) {
 			loadConfig();
@@ -43,6 +59,9 @@ class Configure {
 		return creditSections;
 	}
 
+	/**
+	 * Loads all configuration from config.json
+	 */
 	private static function loadConfig() {
 		var loadSuccessful = false;
 

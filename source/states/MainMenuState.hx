@@ -31,12 +31,12 @@ class MainMenuState extends FlxUIState {
 
         add(_txtTitle);
 
-        _btnPlay = UiHelpers.CreateMenuButton("Play", clickPlay);
+        _btnPlay = UiHelpers.createMenuButton("Play", clickPlay);
         _btnPlay.setPosition(FlxG.width/2 - _btnPlay.width/2, FlxG.height - _btnPlay.height - 100);
         _btnPlay.updateHitbox();
         add(_btnPlay);
 
-        _btnCredits = UiHelpers.CreateMenuButton("Credits", clickCredits);
+        _btnCredits = UiHelpers.createMenuButton("Credits", clickCredits);
         _btnCredits.setPosition(FlxG.width/2 - _btnCredits.width/2, FlxG.height - _btnCredits.height - 70);
         _btnCredits.updateHitbox();
         add(_btnCredits);

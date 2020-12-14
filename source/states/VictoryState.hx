@@ -27,7 +27,7 @@ class VictoryState extends FlxUIState {
 
         add(_txtTitle);
 
-        _btnDone = UiHelpers.CreateMenuButton("Main Menu", clickMainMenu);
+        _btnDone = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
         _btnDone.setPosition(FlxG.width/2 - _btnDone.width/2, FlxG.height - _btnDone.height - 40);
         _btnDone.updateHitbox();
         add(_btnDone);
