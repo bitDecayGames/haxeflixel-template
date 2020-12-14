@@ -9,7 +9,7 @@ class FlxStateExt {
         trace("lost focus: ignoring due to debug");
         #else
         Bitlytics.Instance().Pause();
-        FmodManager.PauseSong();
+        FmodManager.PauseAllSounds();
         #end
     }
 
@@ -18,7 +18,7 @@ class FlxStateExt {
         trace("regain focus: ignoring due to debug");
         #else
         Bitlytics.Instance().Resume();
-        FmodManager.UnpauseSong();
+        FmodManager.UnpauseAllSounds();
         #end
     }
 }
