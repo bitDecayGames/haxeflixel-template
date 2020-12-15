@@ -63,9 +63,10 @@ class Configure {
 	 * Loads all configuration from config.json
 	 */
 	private static function loadConfig() {
+		Validator.validateJson("assets/data/config.json");
 		var loadSuccessful = false;
 
-		var configBytes = Assets.getBytes(AssetPaths.config__json).toString();
+		var configBytes = Assets.getBytes("assets/data/config.json").toString();
 		config = Json.parse(configBytes);
 
 		// Check compile defines first
