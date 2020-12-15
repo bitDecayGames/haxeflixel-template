@@ -63,7 +63,11 @@ class Configure {
 	 * Loads all configuration from config.json
 	 */
 	private static function loadConfig() {
+		#if !display
+		// Only run this validation if we aren't running in display mode (aka auto-complete)
 		Validator.validateJson("assets/data/config.json");
+		#end
+
 		var loadSuccessful = false;
 
 		var configBytes = Assets.getBytes("assets/data/config.json").toString();
