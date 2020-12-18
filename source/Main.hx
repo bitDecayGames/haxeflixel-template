@@ -1,5 +1,6 @@
 package;
 
+import misc.FlxTextFactory;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.FlxInput;
 import config.Configure;
@@ -21,6 +22,8 @@ class Main extends Sprite
 		#if debug
 		FlxG.autoPause = false;
 		#end
+
+		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
 
 		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);

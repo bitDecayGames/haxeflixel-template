@@ -2,7 +2,6 @@ package states;
 
 import config.Configure;
 import flixel.FlxSprite;
-import flixel.ui.FlxVirtualPad.FlxDPadMode;
 import haxefmod.flixel.FmodFlxUtilities;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -10,6 +9,7 @@ import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import helpers.UiHelpers;
+import misc.FlxTextFactory;
 
 using extensions.FlxStateExt;
 
@@ -39,16 +39,17 @@ class CreditsState extends FlxUIState {
 
         _allCreditElements = new Array<FlxSprite>();
 
-        _txtCreditsTitle = new FlxText();
-        _txtThankYou = new FlxText();
+        _txtCreditsTitle = FlxTextFactory.make(
+            "Credits",
+            FlxG.width/2 - _txtCreditsTitle.width/2,
+            FlxG.height/2,
+            40);
+        _txtCreditsTitle.alignment = FlxTextAlign.CENTER;
+        add(_txtCreditsTitle);
+
         _txtRole = new Array<FlxText>();
         _txtCreator = new Array<FlxText>();
 
-        _txtCreditsTitle.size = 40;
-        _txtCreditsTitle.alignment = FlxTextAlign.CENTER;
-        _txtCreditsTitle.text = "Credits";
-        _txtCreditsTitle.setPosition(FlxG.width/2 - _txtCreditsTitle.width/2, FlxG.height/2);
-        add(_txtCreditsTitle);
         _allCreditElements.push(_txtCreditsTitle);
 
         for (entry in Configure.getCredits()) {
@@ -93,18 +94,18 @@ class CreditsState extends FlxUIState {
         add(haxeFlixelLogo);
         _allCreditElements.push(haxeFlixelLogo);
 
-        _txtThankYou.size = 40;
+        _txtThankYou = FlxTextFactory.make(
+            "Thank you!",
+            FlxG.width/2 - _txtThankYou.width/2,
+            haxeFlixelLogo.y + 400,
+            40);
         _txtThankYou.alignment = FlxTextAlign.CENTER;
-        _txtThankYou.text = "Thank you!";
-        _txtThankYou.setPosition(FlxG.width/2 - _txtThankYou.width/2, haxeFlixelLogo.y + 400);
         add(_txtThankYou);
         _allCreditElements.push(_txtThankYou);
     }
 
     private function AddSectionToCreditsTextArrays(role:String, creators:Array<String>, finalRoleArray:Array<FlxText>, finalCreatorsArray:Array<FlxText>) {
-        var roleText = new FlxText();
-        roleText.size = 15;
-        roleText.text = role;
+        var roleText = FlxTextFactory.make(role, 0, 0, 15);
         add(roleText);
         finalRoleArray.push(roleText);
         _allCreditElements.push(roleText);
@@ -117,9 +118,7 @@ class CreditsState extends FlxUIState {
             // Make an offset entry for the roles array
             finalRoleArray.push(new FlxText());
 
-            var creatorText = new FlxText();
-            creatorText.size = 15;
-            creatorText.text = creator;
+            var creatorText = FlxTextFactory.make(creator, 0, 0, 15);
             add(creatorText);
             finalCreatorsArray.push(creatorText);
             _allCreditElements.push(creatorText);

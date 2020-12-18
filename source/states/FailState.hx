@@ -1,5 +1,6 @@
 package states;
 
+import misc.FlxTextFactory;
 import haxefmod.flixel.FmodFlxUtilities;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -19,11 +20,12 @@ class VictoryState extends FlxUIState {
         super.create();
         bgColor = FlxColor.TRANSPARENT;
 
-        _txtTitle = new FlxText();
-        _txtTitle.setPosition(FlxG.width/2, FlxG.height/4);
-        _txtTitle.size = 40;
-        _txtTitle.alignment = FlxTextAlign.CENTER;
-        _txtTitle.text = "Game Over";
+        _txtTitle = FlxTextFactory.make(
+            "Game Over",
+            FlxG.width/2,
+            FlxG.height/4,
+            40,
+            FlxTextAlign.CENTER);
 
         add(_txtTitle);
 

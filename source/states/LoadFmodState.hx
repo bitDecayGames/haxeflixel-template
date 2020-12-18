@@ -1,5 +1,7 @@
 package states;
 
+import misc.FlxTextFactory;
+import misc.Macros;
 import signals.Lifecycle;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
@@ -18,8 +20,12 @@ class LoadFmodState extends FlxState {
     override public function create():Void {
         FmodManager.Initialize();
 
-        var loadingText = new FlxText(0, 0, "Loading...");
-        loadingText.setFormat(null, 20, FlxColor.WHITE, FlxTextAlign.CENTER, NONE, FlxColor.BLACK);
+        var loadingText = FlxTextFactory.make(
+            "Loading...",
+            FlxG.width/2,
+            FlxG.height/2,
+            60,
+            FlxTextAlign.CENTER);
         loadingText.x = (FlxG.width/2) - loadingText.width/2;
         loadingText.y = (FlxG.height/2) - loadingText.height/2;
         add(loadingText);
@@ -35,7 +41,11 @@ class LoadFmodState extends FlxState {
 
         if(FmodManager.IsInitialized() && inited) {
             // Once FMOD is ready, and we've dispatched our startup
-            FlxG.switchState(new SplashScreenState());
+            if (Macros.isDefined("SKIP_SPLASH")) {
+                FlxG.switchState(new MainMenuState());
+            } else {
+                FlxG.switchState(new SplashScreenState());
+            }
         }
     }
 }

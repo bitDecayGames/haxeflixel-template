@@ -7,6 +7,11 @@ import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import helpers.UiHelpers;
+import misc.FlxTextFactory;
+
+#if windows
+import lime.system.System;
+#end
 
 using extensions.FlxStateExt;
 
@@ -22,13 +27,15 @@ class MainMenuState extends FlxUIState {
         FmodManager.PlaySong(FmodSongs.LetsGo);
         FlxG.log.notice("loaded scene");
         bgColor = FlxColor.TRANSPARENT;
+        FlxG.camera.pixelPerfectRender = true;
 
-        _txtTitle = new FlxText();
-        _txtTitle.setPosition(FlxG.width/2, FlxG.height/4);
-        _txtTitle.size = 40;
-        _txtTitle.alignment = FlxTextAlign.CENTER;
-        _txtTitle.text = "Game Title";
-
+        _txtTitle = FlxTextFactory.make(
+            "Game Title",
+            FlxG.width/2,
+            FlxG.height/4,
+            40,
+            FlxTextAlign.CENTER,
+            FlxColor.WHITE);
         add(_txtTitle);
 
         _btnPlay = UiHelpers.createMenuButton("Play", clickPlay);
@@ -42,7 +49,7 @@ class MainMenuState extends FlxUIState {
         add(_btnCredits);
 
         #if windows
-        _btnExit = UiHelpers.CreateMenuButton("Exit", clickExit);
+        _btnExit = UiHelpers.createMenuButton("Exit", clickExit);
         _btnExit.setPosition(FlxG.width/2 - _btnExit.width/2, FlxG.height - _btnExit.height - 40);
         _btnExit.updateHitbox();
         add(_btnExit);
