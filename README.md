@@ -36,3 +36,11 @@
 * `init.sh` - Script that reads `haxelib.deps` file and configures `haxelib`
   * This script will need to be run any time the dependencies change
   * This script is run by the github actions as part of the build so local and github builds are equivalent
+  
+### Maintenance
+
+#### **Formatting**
+
+* This projects uses the [haxe-formatter](https://github.com/HaxeCheckstyle/haxe-formatter) package for formatting using default settings
+  * Install `formatter` by running: `haxelib install formatter`
+  * Apply formatting by running: `haxelib run formatter -s /source` from the root of the project
