@@ -8,7 +8,7 @@ using extensions.FlxStateExt;
 class PlayState extends FlxState {
 	override public function create() {
 		super.create();
-        FlxG.camera.pixelPerfectRender = true;
+		FlxG.camera.pixelPerfectRender = true;
 	}
 
 	override public function update(elapsed:Float) {

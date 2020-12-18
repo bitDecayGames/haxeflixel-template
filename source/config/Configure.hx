@@ -21,7 +21,7 @@ class Configure {
 	 *
 	 * @returns a Dyanmic object representing all configuration as loaded
 	 */
-	public static function get():Dynamic{
+	public static function get():Dynamic {
 		if (config == null) {
 			loadConfig();
 		}

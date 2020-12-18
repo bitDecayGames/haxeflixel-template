@@ -8,7 +8,7 @@ class Macros {
 	 *
 	 * @returns The value of the given key. If no value is defined for key, null is returned.
 	 */
-	public static macro function getDefine(key : String) : haxe.macro.Expr {
+	public static macro function getDefine(key:String):haxe.macro.Expr {
 		return macro $v{haxe.macro.Context.definedValue(key)};
 	}
 
@@ -18,7 +18,7 @@ class Macros {
 	 * @param key The key to set a defined value for
 	 * @param value The value to set for a defined value
 	 */
-	public static macro function setDefine(key : String, value : String) : haxe.macro.Expr {
+	public static macro function setDefine(key:String, value:String):haxe.macro.Expr {
 		haxe.macro.Compiler.define(key, value);
 		return macro null;
 	}
@@ -30,7 +30,7 @@ class Macros {
 	 *
 	 * @returns True if the key has a defined value, false otherwise
 	 */
-	public static macro function isDefined(key : String) : haxe.macro.Expr {
+	public static macro function isDefined(key:String):haxe.macro.Expr {
 		return macro $v{haxe.macro.Context.defined(key)};
 	}
 }

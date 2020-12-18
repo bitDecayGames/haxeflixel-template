@@ -54,9 +54,7 @@ class SplashScreenState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		timer -= elapsed;
-		var playerSkipped = !fadingOut &&
-							!splashesOver &&
-							Configure.get().splashScreens.allowClickToSkip && checkForSkip();
+		var playerSkipped = !fadingOut && !splashesOver && Configure.get().splashScreens.allowClickToSkip && checkForSkip();
 		if (timer < 0 || playerSkipped) {
 			nextSplash();
 		}
@@ -64,7 +62,7 @@ class SplashScreenState extends FlxState {
 
 	private function getFadeIn(index:Int):VarTween {
 		var splash = splashImages[index];
-		var fadeInTween = FlxTween.tween(splash, { alpha: 1 }, 1);
+		var fadeInTween = FlxTween.tween(splash, {alpha: 1}, 1);
 		fadeInTween.onStart = (t) -> {
 			fadingOut = false;
 		};
@@ -83,12 +81,12 @@ class SplashScreenState extends FlxState {
 			return;
 		}
 
-		if (currentTween != null && !currentTween.finished ) {
+		if (currentTween != null && !currentTween.finished) {
 			currentTween.cancel();
 		}
 
 		fadingOut = true;
-		currentTween = FlxTween.tween(splashImages[index], { alpha: 0 }, 0.5);
+		currentTween = FlxTween.tween(splashImages[index], {alpha: 0}, 0.5);
 
 		index += 1;
 		timer = splashDuration;
@@ -114,8 +112,7 @@ class SplashScreenState extends FlxState {
 	}
 }
 
-class SplashImage extends FlxSprite{
-
+class SplashImage extends FlxSprite {
 	public function new(gfx:FlxGraphicAsset, width:Int = 0, height:Int = 0, startFrame:Int = 0, endFrame:Int = -1, rate:Int = 10) {
 		super(gfx);
 		var animated = width != 0 && height != 0;

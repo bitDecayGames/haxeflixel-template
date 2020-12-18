@@ -12,10 +12,8 @@ import flixel.FlxGame;
 import openfl.display.Sprite;
 import states.LoadFmodState;
 
-class Main extends Sprite
-{
-	public function new()
-	{
+class Main extends Sprite {
+	public function new() {
 		super();
 		FlxG.fixedTimestep = false;
 
