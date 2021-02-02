@@ -75,14 +75,14 @@ while read line; do
     gitBranchOrTag="${splits[3]}"
     if [[ -z "${gitBranchOrTag}" ]]; then
       echo "Installing ${libName} git master"
-      haxelib git --never ${libName} ${gitLocation}
+      haxelib git --never --quiet ${libName} ${gitLocation}
     else
       echo "Installing ${libName} git branch ${gitBranchOrTag}"
-      haxelib git --always ${libName} ${gitLocation} ${gitBranchOrTag}
+      haxelib git --always --quiet ${libName} ${gitLocation} ${gitBranchOrTag}
     fi
   else
     echo "Installing ${libName} version ${libVersion}"
-    haxelib set ${libName} ${libVersion} --always
+    haxelib set ${libName} ${libVersion} --always --quiet
   fi
 done <haxelib.deps
 
