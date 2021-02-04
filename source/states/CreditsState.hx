@@ -1,5 +1,6 @@
 package states;
 
+import flixel.FlxObject;
 import config.Configure;
 import flixel.FlxSprite;
 import haxefmod.flixel.FmodFlxUtilities;
@@ -23,9 +24,15 @@ class CreditsState extends FlxUIState {
 	var _txtRole:Array<FlxText>;
 	var _txtCreator:Array<FlxText>;
 
+	// Quick appearance variables
+	private var backgroundColor = FlxColor.BLACK;
+	static inline var entryLeftMargin = 50;
+	static inline var entryRightMargin = 50;
+	static inline var entryVerticalSpacing = 25;
+
 	override public function create():Void {
 		super.create();
-		bgColor = FlxColor.TRANSPARENT;
+		bgColor = backgroundColor;
 
 		// Button
 
@@ -38,8 +45,8 @@ class CreditsState extends FlxUIState {
 
 		_allCreditElements = new Array<FlxSprite>();
 
-		_txtCreditsTitle = FlxTextFactory.make("Credits", FlxG.width / 2 - _txtCreditsTitle.width / 2, FlxG.height / 2, 40);
-		_txtCreditsTitle.alignment = FlxTextAlign.CENTER;
+		_txtCreditsTitle = FlxTextFactory.make("Credits", FlxG.width / 4, FlxG.height / 2, 40, FlxTextAlign.CENTER);
+		center(_txtCreditsTitle);
 		add(_txtCreditsTitle);
 
 		_txtRole = new Array<FlxText>();
@@ -54,15 +61,15 @@ class CreditsState extends FlxUIState {
 		var creditsTextVerticalOffset = FlxG.height;
 
 		for (flxText in _txtRole) {
-			flxText.setPosition(0, creditsTextVerticalOffset);
-			creditsTextVerticalOffset += 25;
+			flxText.setPosition(entryLeftMargin, creditsTextVerticalOffset);
+			creditsTextVerticalOffset += entryVerticalSpacing;
 		}
 
 		creditsTextVerticalOffset = FlxG.height;
 
 		for (flxText in _txtCreator) {
-			flxText.setPosition(FlxG.width - 250, creditsTextVerticalOffset);
-			creditsTextVerticalOffset += 25;
+			flxText.setPosition(FlxG.width - flxText.width - entryRightMargin, creditsTextVerticalOffset);
+			creditsTextVerticalOffset += entryVerticalSpacing;
 		}
 
 		var flStudioLogo = new FlxSprite();
@@ -89,8 +96,17 @@ class CreditsState extends FlxUIState {
 		add(haxeFlixelLogo);
 		_allCreditElements.push(haxeFlixelLogo);
 
-		_txtThankYou = FlxTextFactory.make("Thank you!", FlxG.width / 2 - _txtThankYou.width / 2, haxeFlixelLogo.y + 400, 40);
+		var pyxelEditLogo = new FlxSprite();
+		pyxelEditLogo.loadGraphic(AssetPaths.pyxel_edit__png);
+		pyxelEditLogo.scale.set(.7, .7);
+		pyxelEditLogo.updateHitbox();
+		pyxelEditLogo.setPosition(5, fmodLogo.y + fmodLogo.height + 10);
+		add(pyxelEditLogo);
+		_allCreditElements.push(pyxelEditLogo);
+
+		_txtThankYou = FlxTextFactory.make("Thank you!", FlxG.width / 2, pyxelEditLogo.y + 400, 40, FlxTextAlign.CENTER);
 		_txtThankYou.alignment = FlxTextAlign.CENTER;
+		center(_txtThankYou);
 		add(_txtThankYou);
 		_allCreditElements.push(_txtThankYou);
 	}
@@ -109,7 +125,7 @@ class CreditsState extends FlxUIState {
 			// Make an offset entry for the roles array
 			finalRoleArray.push(new FlxText());
 
-			var creatorText = FlxTextFactory.make(creator, 0, 0, 15);
+			var creatorText = FlxTextFactory.make(creator, 0, 0, 15, FlxTextAlign.RIGHT);
 			add(creatorText);
 			finalCreatorsArray.push(creatorText);
 			_allCreditElements.push(creatorText);
@@ -131,6 +147,10 @@ class CreditsState extends FlxUIState {
 				element.y -= .5;
 			}
 		}
+	}
+
+	private function center(o:FlxObject) {
+		o.x = (FlxG.width - o.width) / 2;
 	}
 
 	function clickMainMenu():Void {
