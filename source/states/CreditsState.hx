@@ -30,6 +30,13 @@ class CreditsState extends FlxUIState {
 	static inline var entryRightMargin = 50;
 	static inline var entryVerticalSpacing = 25;
 
+	var toolingImages = [
+		new ToolingImage(AssetPaths.FLStudioLogo__png, .25),
+		new ToolingImage(AssetPaths.FmodLogoWhite__png, .4),
+		new ToolingImage(AssetPaths.HaxeFlixelLogo__png, .5),
+		new ToolingImage(AssetPaths.pyxel_edit__png, .7)
+	];
+
 	override public function create():Void {
 		super.create();
 		bgColor = backgroundColor;
@@ -58,53 +65,33 @@ class CreditsState extends FlxUIState {
 			AddSectionToCreditsTextArrays(entry.sectionName, entry.names, _txtRole, _txtCreator);
 		}
 
-		var creditsTextVerticalOffset = FlxG.height;
+		var creditsVerticalOffset = FlxG.height;
 
 		for (flxText in _txtRole) {
-			flxText.setPosition(entryLeftMargin, creditsTextVerticalOffset);
-			creditsTextVerticalOffset += entryVerticalSpacing;
+			flxText.setPosition(entryLeftMargin, creditsVerticalOffset);
+			creditsVerticalOffset += entryVerticalSpacing;
 		}
 
-		creditsTextVerticalOffset = FlxG.height;
+		creditsVerticalOffset = FlxG.height;
 
 		for (flxText in _txtCreator) {
-			flxText.setPosition(FlxG.width - flxText.width - entryRightMargin, creditsTextVerticalOffset);
-			creditsTextVerticalOffset += entryVerticalSpacing;
+			flxText.setPosition(FlxG.width - flxText.width - entryRightMargin, creditsVerticalOffset);
+			creditsVerticalOffset += entryVerticalSpacing;
 		}
 
-		var flStudioLogo = new FlxSprite();
-		flStudioLogo.loadGraphic(AssetPaths.FLStudioLogo__png);
-		flStudioLogo.scale.set(.25, .25);
-		flStudioLogo.updateHitbox();
-		flStudioLogo.setPosition(-35, creditsTextVerticalOffset);
-		add(flStudioLogo);
-		_allCreditElements.push(flStudioLogo);
+		for (toolImg in toolingImages) {
+			var display = new FlxSprite();
+			display.loadGraphic(toolImg.path);
+			display.scale.set(toolImg.scale, toolImg.scale);
+			display.updateHitbox();
+			display.setPosition(0, creditsVerticalOffset);
+			display.x = (FlxG.width - display.width) / 2;
+			add(display);
+			creditsVerticalOffset += Math.ceil(display.height) + entryVerticalSpacing;
+			_allCreditElements.push(display);
+		}
 
-		var fmodLogo = new FlxSprite();
-		fmodLogo.loadGraphic(AssetPaths.FmodLogoWhite__png);
-		fmodLogo.scale.set(.4, .4);
-		fmodLogo.updateHitbox();
-		fmodLogo.setPosition(5, creditsTextVerticalOffset + flStudioLogo.height);
-		add(fmodLogo);
-		_allCreditElements.push(fmodLogo);
-
-		var haxeFlixelLogo = new FlxSprite();
-		haxeFlixelLogo.loadGraphic(AssetPaths.HaxeFlixelLogo__png);
-		haxeFlixelLogo.scale.set(.5, .5);
-		haxeFlixelLogo.updateHitbox();
-		haxeFlixelLogo.setPosition(fmodLogo.width + 40, creditsTextVerticalOffset + flStudioLogo.height + 10);
-		add(haxeFlixelLogo);
-		_allCreditElements.push(haxeFlixelLogo);
-
-		var pyxelEditLogo = new FlxSprite();
-		pyxelEditLogo.loadGraphic(AssetPaths.pyxel_edit__png);
-		pyxelEditLogo.scale.set(.7, .7);
-		pyxelEditLogo.updateHitbox();
-		pyxelEditLogo.setPosition(5, fmodLogo.y + fmodLogo.height + 10);
-		add(pyxelEditLogo);
-		_allCreditElements.push(pyxelEditLogo);
-
-		_txtThankYou = FlxTextFactory.make("Thank you!", FlxG.width / 2, pyxelEditLogo.y + 400, 40, FlxTextAlign.CENTER);
+		_txtThankYou = FlxTextFactory.make("Thank you!", FlxG.width / 2, creditsVerticalOffset + FlxG.height / 2, 40, FlxTextAlign.CENTER);
 		_txtThankYou.alignment = FlxTextAlign.CENTER;
 		center(_txtThankYou);
 		add(_txtThankYou);
@@ -165,5 +152,15 @@ class CreditsState extends FlxUIState {
 	override public function onFocus() {
 		super.onFocus();
 		this.handleFocus();
+	}
+}
+
+class ToolingImage {
+	public var path:String;
+	public var scale:Float;
+
+	public function new(p:String, s:Float) {
+		path = p;
+		scale = s;
 	}
 }
