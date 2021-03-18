@@ -9,9 +9,13 @@
 		<param type="string" value="credits"/>
 	</button>
 
+	<button x="50%" name="exit_button" label="Exit" align="center">
+		<param type="string" value="exit"/>
+	</button>
+
 	<align axis="vertical" spacing="2" resize="false">
 		<!-- May need to add space if we want more objects in this alignment -->
-		<bounds top="80%" bottom="90%"/>
-		<objects value="play_button,credits_button"/>
+		<bounds top="70%" bottom="90%"/>
+		<objects value="play_button,credits_button,exit_button"/>
 	</align>
 </data>

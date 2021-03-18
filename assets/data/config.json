@@ -11,6 +11,10 @@
 	"splashScreens": {
 		"allowClickToSkip": true
 	},
+	"menus": {
+		"keyboardNavigation": true,
+		"controllerNavigation": true
+	},
 	"credits": {
 		"sections": [
 			{

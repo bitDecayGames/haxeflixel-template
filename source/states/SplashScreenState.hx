@@ -40,7 +40,17 @@ class SplashScreenState extends FlxState {
 	// A function that returns if the current splash should be skipped or not
 	// Customize this to check whatever we want (controller, mouse, etc)
 	private function checkForSkip():Bool {
-		return FlxG.mouse.justPressed;
+		var skip = false;
+		if (Configure.get().menus.keyboardNavigation) {
+			skip = skip || FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.ENTER;
+		}
+		if (Configure.get().menus.controllerNavigation) {
+			var gamepad = FlxG.gamepads.lastActive;
+			if (gamepad != null) {
+				skip = skip || gamepad.justPressed.A;
+			}
+		}
+		return skip || FlxG.mouse.justPressed;
 	}
 
 	private function loadSplashImages(splashes:Array<SplashImage>) {
