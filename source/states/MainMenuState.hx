@@ -28,12 +28,7 @@ class MainMenuState extends FlxUIState {
 	var _txtTitle:FlxText;
 
 	override public function create():Void {
-
-		FlxG.log.notice("systemMouse: " + FlxG.mouse.useSystemCursor);
-		FlxG.log.notice("cursor visible: " + FlxG.mouse.visible);
-
 		_xml_id = "main_menu";
-
 		if (Configure.get().menus.keyboardNavigation || Configure.get().menus.controllerNavigation) {
 			_makeCursor = true;
 		}
@@ -65,6 +60,9 @@ class MainMenuState extends FlxUIState {
 		var test = _ui.getAsset("exit_button");
 		test.visible = false;
 		#end
+
+		// Trigger our focus logic as we are just creating the scene
+		this.handleFocus();
 	}
 
 	override public function getEvent(name:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
@@ -91,8 +89,6 @@ class MainMenuState extends FlxUIState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		FmodManager.Update();
-		FlxG.watch.addQuick("systemMouse: ", FlxG.mouse.useSystemCursor);
-		FlxG.watch.addQuick("cursor visible: ", FlxG.mouse.visible);
 	}
 
 	function clickPlay():Void {

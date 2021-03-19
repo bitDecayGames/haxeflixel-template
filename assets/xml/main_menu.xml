@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
-	<text x="0%" y="20%" width="100%" name="game_title" text="Game Title" size="40" align="center" />
+	<sprite x="0" y="0" width="100%" height="100%" name="title_image" src="title_image.png"/>
 	<button x="50%" name="play_button" label="Play" align="center">
 		<param type="string" value="play"/>
 	</button>

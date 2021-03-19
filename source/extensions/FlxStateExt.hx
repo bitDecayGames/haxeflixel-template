@@ -1,5 +1,7 @@
 package extensions;
 
+import flixel.FlxG;
+import config.Configure;
 import com.bitdecay.analytics.Bitlytics;
 import flixel.FlxState;
 
@@ -28,5 +30,8 @@ class FlxStateExt {
 		Bitlytics.Instance().Resume();
 		FmodManager.UnpauseAllSounds();
 		#end
+
+		FlxG.mouse.visible = Configure.get().mouse.cursorVisible;
+		FlxG.mouse.useSystemCursor = Configure.get().mouse.useSystemCursor;
 	}
 }
