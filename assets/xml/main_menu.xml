@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<sprite x="0" y="0" width="100%" height="100%" name="title_image" src="title_image.png"/>
+	<button x="50%" name="play_button" label="Play" align="center">
+		<param type="string" value="play"/>
+	</button>
+
+	<button x="50%" name="credits_button" label="Credits" align="center">
+		<param type="string" value="credits"/>
+	</button>
+
+	<button x="50%" name="exit_button" label="Exit" align="center">
+		<param type="string" value="exit"/>
+	</button>
+
+	<align axis="vertical" spacing="2" resize="false">
+		<!-- May need to add space if we want more objects in this alignment -->
+		<bounds top="70%" bottom="90%"/>
+		<objects value="play_button,credits_button,exit_button"/>
+	</align>
+</data>

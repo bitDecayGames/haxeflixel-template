@@ -11,6 +11,15 @@
 	"splashScreens": {
 		"allowClickToSkip": true
 	},
+	"mouse": {
+		"cursorVisible": true,
+		"useSystemCursor": true
+	},
+	"menus": {
+		"mouseNavigation": true,
+		"keyboardNavigation": true,
+		"controllerNavigation": true
+	},
 	"credits": {
 		"sections": [
 			{

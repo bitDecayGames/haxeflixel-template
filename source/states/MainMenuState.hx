@@ -1,5 +1,11 @@
 package states;
 
+import config.Configure;
+import flixel.addons.ui.FlxUITypedButton;
+import flixel.addons.ui.FlxUIButton;
+import flixel.addons.ui.FlxUICheckBox;
+import flixel.addons.ui.FlxUI;
+import flixel.addons.ui.FlxUICursor;
 import haxefmod.flixel.FmodFlxUtilities;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -22,38 +28,67 @@ class MainMenuState extends FlxUIState {
 	var _txtTitle:FlxText;
 
 	override public function create():Void {
+		_xml_id = "main_menu";
+		if (Configure.get().menus.keyboardNavigation || Configure.get().menus.controllerNavigation) {
+			_makeCursor = true;
+		}
+
 		super.create();
+
+		if (_makeCursor) {
+			cursor.loadGraphic(AssetPaths.pointer__png, true, 32, 32);
+			cursor.animation.add("pointing", [0, 1], 3);
+			cursor.animation.play("pointing");
+
+			var keys:Int = 0;
+			if (Configure.get().menus.keyboardNavigation) {
+				keys |= FlxUICursor.KEYS_ARROWS | FlxUICursor.KEYS_WASD;
+			}
+			if (Configure.get().menus.controllerNavigation) {
+				keys |= FlxUICursor.GAMEPAD_DPAD;
+			}
+			cursor.setDefaultKeys(keys);
+		}
+
 		FmodManager.PlaySong(FmodSongs.LetsGo);
 		FlxG.log.notice("loaded scene");
 		bgColor = FlxColor.TRANSPARENT;
 		FlxG.camera.pixelPerfectRender = true;
 
-		_txtTitle = FlxTextFactory.make("Game Title", FlxG.width / 2, FlxG.height / 4, 40, FlxTextAlign.CENTER, FlxColor.WHITE);
-		add(_txtTitle);
-
-		_btnPlay = UiHelpers.createMenuButton("Play", clickPlay);
-		_btnPlay.setPosition(FlxG.width / 2 - _btnPlay.width / 2, FlxG.height - _btnPlay.height - 100);
-		_btnPlay.updateHitbox();
-		add(_btnPlay);
-
-		_btnCredits = UiHelpers.createMenuButton("Credits", clickCredits);
-		_btnCredits.setPosition(FlxG.width / 2 - _btnCredits.width / 2, FlxG.height - _btnCredits.height - 70);
-		_btnCredits.updateHitbox();
-		add(_btnCredits);
-
-		#if windows
-		_btnExit = UiHelpers.createMenuButton("Exit", clickExit);
-		_btnExit.setPosition(FlxG.width / 2 - _btnExit.width / 2, FlxG.height - _btnExit.height - 40);
-		_btnExit.updateHitbox();
-		add(_btnExit);
+		#if !windows
+		// Hide exit button for non-windows targets
+		var test = _ui.getAsset("exit_button");
+		test.visible = false;
 		#end
+
+		// Trigger our focus logic as we are just creating the scene
+		this.handleFocus();
+	}
+
+	override public function getEvent(name:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
+		if (name == FlxUITypedButton.CLICK_EVENT) {
+			var button_action:String = params[0];
+			trace('Action: "${button_action}"');
+
+			if (button_action == "play") {
+				clickPlay();
+			}
+
+			if (button_action == "credits") {
+				clickCredits();
+			}
+
+			#if windows
+			if (button_action == "exit") {
+				clickExit();
+			}
+			#end
+		}
 	}
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		FmodManager.Update();
-
-		_txtTitle.x = FlxG.width / 2 - _txtTitle.width / 2;
 	}
 
 	function clickPlay():Void {
