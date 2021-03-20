@@ -1,13 +1,13 @@
 package states;
 
-import flixel.system.FlxAssets.FlxGraphicAsset;
 import config.Configure;
-import haxefmod.flixel.FmodFlxUtilities;
-import flixel.tweens.misc.VarTween;
-import flixel.tweens.FlxTween;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.FlxG;
+import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxTween;
+import flixel.tweens.misc.VarTween;
+import haxefmod.flixel.FmodFlxUtilities;
 
 using extensions.FlxStateExt;
 

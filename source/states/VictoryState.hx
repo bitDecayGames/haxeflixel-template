@@ -1,11 +1,11 @@
 package states;
 
-import haxefmod.flixel.FmodFlxUtilities;
-import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import haxefmod.flixel.FmodFlxUtilities;
 import helpers.UiHelpers;
 
 using extensions.FlxStateExt;

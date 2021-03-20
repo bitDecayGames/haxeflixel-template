@@ -1,24 +1,20 @@
 package states;
 
 import config.Configure;
-import flixel.addons.ui.FlxUITypedButton;
-import flixel.addons.ui.FlxUIButton;
-import flixel.addons.ui.FlxUICheckBox;
-import flixel.addons.ui.FlxUI;
-import flixel.addons.ui.FlxUICursor;
-import haxefmod.flixel.FmodFlxUtilities;
-import flixel.text.FlxText;
 import flixel.FlxG;
+import flixel.addons.ui.FlxUICursor;
 import flixel.addons.ui.FlxUIState;
+import flixel.addons.ui.FlxUITypedButton;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import helpers.UiHelpers;
-import misc.FlxTextFactory;
+import haxefmod.flixel.FmodFlxUtilities;
+
+using extensions.FlxStateExt;
 #if windows
 import lime.system.System;
 #end
 
-using extensions.FlxStateExt;
 
 class MainMenuState extends FlxUIState {
 	var _btnPlay:FlxButton;
