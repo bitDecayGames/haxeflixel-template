@@ -1,12 +1,11 @@
 package states;
 
+import flixel.FlxG;
+import flixel.FlxState;
+import flixel.text.FlxText;
 import misc.FlxTextFactory;
 import misc.Macros;
 import signals.Lifecycle;
-import flixel.util.FlxColor;
-import flixel.text.FlxText;
-import flixel.FlxG;
-import flixel.FlxState;
 
 /**
  * @author Tanner Moore

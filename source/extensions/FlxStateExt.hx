@@ -1,8 +1,8 @@
 package extensions;
 
-import flixel.FlxG;
 import config.Configure;
 import com.bitdecay.analytics.Bitlytics;
+import flixel.FlxG;
 import flixel.FlxState;
 
 class FlxStateExt {

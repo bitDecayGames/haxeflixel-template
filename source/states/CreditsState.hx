@@ -1,14 +1,14 @@
 package states;
 
-import flixel.FlxObject;
 import config.Configure;
-import flixel.FlxSprite;
-import haxefmod.flixel.FmodFlxUtilities;
-import flixel.text.FlxText;
 import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.addons.ui.FlxUIState;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import haxefmod.flixel.FmodFlxUtilities;
 import helpers.UiHelpers;
 import misc.FlxTextFactory;
 
