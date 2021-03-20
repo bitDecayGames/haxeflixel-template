@@ -83,14 +83,13 @@ class CreditsState extends FlxUIState {
 
 		for (toolImg in toolingImages) {
 			var display = new FlxSprite();
-			display.loadGraphic(toolImg.path);
+			display.loadGraphic(toolImg);
 			// scale them to be about 1/4 of the height of the screen
 			var scale = (FlxG.height / 4) / display.height;
 			if (display.width * scale > FlxG.width) {
 				// in case that's too wide, adjust accordingly
 				scale = FlxG.width / display.width;
 			}
-			trace('scale for ${toolImg.path} is ${scale}');
 			display.scale.set(scale, scale);
 			display.updateHitbox();
 			display.setPosition(0, creditsVerticalOffset);
@@ -161,15 +160,5 @@ class CreditsState extends FlxUIState {
 	override public function onFocus() {
 		super.onFocus();
 		this.handleFocus();
-	}
-}
-
-class ToolingImage {
-	public var path:String;
-	public var scale:Float;
-
-	public function new(p:String, s:Float) {
-		path = p;
-		scale = s;
 	}
 }
