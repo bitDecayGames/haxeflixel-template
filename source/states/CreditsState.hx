@@ -26,6 +26,7 @@ class CreditsState extends FlxUIState {
 
 	// Quick appearance variables
 	private var backgroundColor = FlxColor.BLACK;
+
 	static inline var entryLeftMargin = 50;
 	static inline var entryRightMargin = 50;
 	static inline var entryVerticalSpacing = 25;

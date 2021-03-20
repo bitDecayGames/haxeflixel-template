@@ -10,26 +10,25 @@ import flixel.math.FlxVector;
 import flixel.tile.FlxTilemap;
 
 class Level {
+	public var player:Spaceman;
 
-    public var player:Spaceman;
-
-    public var layer:FlxTilemap;
+	public var layer:FlxTilemap;
 
 	public function new(level:String) {
-        var loader = new FlxOgmo3Loader(AssetPaths.levels__ogmo, level);
-        layer = loader.loadTilemap("<AssetPath to tilemap for layer>", "<layer name>");
+		var loader = new FlxOgmo3Loader(AssetPaths.levels__ogmo, level);
+		layer = loader.loadTilemap("<AssetPath to tilemap for layer>", "<layer name>");
 
-        objects = new FlxGroup();
+		objects = new FlxGroup();
 
 		loader.loadEntities((entityData) -> {
-            var obj:FlxBasic;
-            switch(entityData.name) {
-                case "<entity name>":
+			var obj:FlxBasic;
+			switch (entityData.name) {
+				case "<entity name>":
 					obj = new FlxObject();
-                default:
+				default:
 					throw 'Entity \'${entityData.name}\' is not supported, add parsing to ${Type.getClassName(Type.getClass(this))}';
-            }
-            objects.add(obj);
+			}
+			objects.add(obj);
 		}, "<entity layer name>");
 	}
 }
