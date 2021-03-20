@@ -7,6 +7,7 @@
   - Various utility libraries
 - Basic state templates
   - Main menu with buttons to load the credits or start the game
+    - Controller, keyboard, or mouse support for menu navigation
   - Credits state with built-in scrolling
 - Preconfigured .gitignore
 - Github build actions
@@ -36,7 +37,7 @@
 * `init.sh` - Script that reads `haxelib.deps` file and configures `haxelib`
   * This script will need to be run any time the dependencies change
   * This script is run by the github actions as part of the build so local and github builds are equivalent
-  
+
 ### Maintenance
 
 #### **Formatting**

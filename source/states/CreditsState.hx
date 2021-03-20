@@ -32,15 +32,16 @@ class CreditsState extends FlxUIState {
 	static inline var entryVerticalSpacing = 25;
 
 	var toolingImages = [
-		new ToolingImage(AssetPaths.FLStudioLogo__png, .25),
-		new ToolingImage(AssetPaths.FmodLogoWhite__png, .4),
-		new ToolingImage(AssetPaths.HaxeFlixelLogo__png, .5),
-		new ToolingImage(AssetPaths.pyxel_edit__png, .7)
+		AssetPaths.FLStudioLogo__png,
+		AssetPaths.FmodLogoWhite__png,
+		AssetPaths.HaxeFlixelLogo__png,
+		AssetPaths.pyxel_edit__png
 	];
 
 	override public function create():Void {
 		super.create();
 		bgColor = backgroundColor;
+		camera.pixelPerfectRender = true;
 
 		// Button
 
@@ -83,10 +84,17 @@ class CreditsState extends FlxUIState {
 		for (toolImg in toolingImages) {
 			var display = new FlxSprite();
 			display.loadGraphic(toolImg.path);
-			display.scale.set(toolImg.scale, toolImg.scale);
+			// scale them to be about 1/4 of the height of the screen
+			var scale = (FlxG.height / 4) / display.height;
+			if (display.width * scale > FlxG.width) {
+				// in case that's too wide, adjust accordingly
+				scale = FlxG.width / display.width;
+			}
+			trace('scale for ${toolImg.path} is ${scale}');
+			display.scale.set(scale, scale);
 			display.updateHitbox();
 			display.setPosition(0, creditsVerticalOffset);
-			display.x = (FlxG.width - display.width) / 2;
+			center(display);
 			add(display);
 			creditsVerticalOffset += Math.ceil(display.height) + entryVerticalSpacing;
 			_allCreditElements.push(display);
