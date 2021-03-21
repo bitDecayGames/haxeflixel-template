@@ -1,0 +1,2 @@
+This is a special directory that the FlixelUI stuff looks in specificaly.
+Any files here are likely used in one of the assets/xml/*.xml files

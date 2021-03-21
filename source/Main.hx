@@ -1,14 +1,12 @@
 package;
 
-import misc.FlxTextFactory;
-import flixel.input.keyboard.FlxKey;
-import flixel.input.FlxInput;
 import config.Configure;
-import flixel.util.FlxColor;
-import flixel.addons.transition.TransitionData;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxGame;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.TransitionData;
+import flixel.util.FlxColor;
+import misc.FlxTextFactory;
 import openfl.display.Sprite;
 import states.LoadFmodState;
 

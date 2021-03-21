@@ -1,10 +1,10 @@
 package config;
 
-import misc.Macros;
-import haxe.Json;
 import com.bitdecay.analytics.Bitlytics;
-import openfl.Assets;
 import com.bitdecay.net.influx.InfluxDB;
+import haxe.Json;
+import misc.Macros;
+import openfl.Assets;
 
 /**
  * Provides access to the configuration json for the project. Helper functions

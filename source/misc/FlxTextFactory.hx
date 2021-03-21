@@ -1,8 +1,8 @@
 package misc;
 
 import flixel.system.FlxAssets;
-import flixel.util.FlxColor;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 /**
  * A factory to help create FlxText objects in a consistent mannor

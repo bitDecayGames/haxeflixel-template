@@ -17,8 +17,7 @@ class BasicControls {
 
 	public var pause:FlxActionDigital;
 
-	public function new()
-	{
+	public function new() {
 		up = new FlxActionDigital("up");
 		down = new FlxActionDigital("down");
 		left = new FlxActionDigital("left");
@@ -29,8 +28,7 @@ class BasicControls {
 
 		pause = new FlxActionDigital("pause");
 
-		if (actions == null)
-		{
+		if (actions == null) {
 			actions = FlxG.inputs.add(new FlxActionManager());
 		}
 		actions.addActions([up, down, left, right, mainAction, secondaryAction, pause]);
