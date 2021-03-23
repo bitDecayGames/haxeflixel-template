@@ -11,10 +11,10 @@ import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
 
 using extensions.FlxStateExt;
+
 #if windows
 import lime.system.System;
 #end
-
 
 class MainMenuState extends FlxUIState {
 	var _btnPlay:FlxButton;
@@ -88,7 +88,7 @@ class MainMenuState extends FlxUIState {
 	}
 
 	function clickPlay():Void {
-		FmodFlxUtilities.TransitionToStateAndStopMusic(new VictoryState());
+		FmodFlxUtilities.TransitionToStateAndStopMusic(new PlayState());
 	}
 
 	function clickCredits():Void {

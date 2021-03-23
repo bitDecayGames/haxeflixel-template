@@ -4,6 +4,10 @@ import flixel.FlxG;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 import flixel.input.actions.FlxActionManager;
 
+/**
+ * Basic control scheme handling keyboard and controller support
+ * for basic d-pad, pause, and two action button controls
+**/
 class BasicControls {
 	static var actions:FlxActionManager;
 
