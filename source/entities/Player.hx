@@ -1,8 +1,6 @@
 package entities;
 
-import flixel.FlxG;
 import input.InputCalcuator;
-import spacial.Cardinal;
 import input.BasicControls;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;

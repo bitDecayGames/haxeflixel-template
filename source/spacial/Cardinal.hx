@@ -1,6 +1,5 @@
 package spacial;
 
-import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxAngle;
 import flixel.math.FlxPoint;
