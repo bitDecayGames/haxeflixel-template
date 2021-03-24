@@ -3,13 +3,16 @@ package input;
 import flixel.math.FlxVector;
 import spacial.Cardinal;
 
+/**
+ * General helpers for deriving information from controls
+ */
 class InputCalcuator {
 	private static var temp = FlxVector.get();
 
 	/**
 	 * Gets the closest cardinal direction as defined by the Cardinal enum, or null
 	 * if no direction is pressed
-	**/
+	 */
 	public static function getInputCardinal(controls:BasicControls):Cardinal {
 		temp.set();
 

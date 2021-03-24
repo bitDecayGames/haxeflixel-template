@@ -2,6 +2,9 @@ package extensions;
 
 import flixel.FlxObject;
 
+/**
+ * General helpers for adding convenience functions onto FlxObject
+ */
 class FlxObjectExt {
 	/**
 	 * Sets the FlxObject position such that the midpoint is at (x,y)

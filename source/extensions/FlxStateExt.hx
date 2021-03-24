@@ -5,6 +5,9 @@ import com.bitdecay.analytics.Bitlytics;
 import flixel.FlxG;
 import flixel.FlxState;
 
+/**
+ * General helpers for adding convenience functions onto FlxState
+ */
 class FlxStateExt {
 	/**
 	 * Handles any common cleanup needed when focus is lost, including

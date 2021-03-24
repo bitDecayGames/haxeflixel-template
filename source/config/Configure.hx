@@ -1,5 +1,6 @@
 package config;
 
+import states.CreditsState.CreditEntry;
 import com.bitdecay.analytics.Bitlytics;
 import com.bitdecay.net.influx.InfluxDB;
 import haxe.Json;
