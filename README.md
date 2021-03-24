@@ -24,6 +24,9 @@
 - Fill in the `itchGameName` in both workflow files
   - This should be the URL name from itch.io
 
+### Analytics
+- Holding `M` as the game starts will allow playing the release game without sending metrics. This is indicated as a log on startup
+
 ### Dependencies
 
 #### **haxelib.deps**
@@ -43,5 +46,4 @@
 #### **Formatting**
 
 * This projects uses the [haxe-formatter](https://github.com/HaxeCheckstyle/haxe-formatter) package for formatting using default settings
-  * Install `formatter` by running: `haxelib install formatter`
-  * Apply formatting by running: `haxelib run formatter -s /source` from the root of the project
+  * `format.sh` is a convenience script will perform the formatting
