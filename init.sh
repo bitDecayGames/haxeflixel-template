@@ -1,8 +1,6 @@
 restoreDevCommands=()
 
 while read line; do
-  echo ""
-
   # trim line endings off of the line
   line="${line//[$'\t\r\n']}"
 
@@ -11,12 +9,22 @@ while read line; do
     continue
   fi
 
+  if [[ $line == \#* ]]; then
+    # skip lines beginning with '#'
+    continue
+  fi
+
+  echo ""
   echo "Processing '${line}'"
   # this syntax interprets the line as an array
   splits=(${line})
 
+  # lines should be of the format:
+  # <libName> <libVersionOrGitOrGit> <OPTIONAL_gitLocation> <OPTIONAL_gitBranchOrTag>
   libName="${splits[0]}"
-  libVersion="${splits[1]}"
+  libVersionOrGit="${splits[1]}"
+  gitLocation="${splits[2]}"
+  gitBranchOrTag="${splits[3]}"
 
   libInfo="$(haxelib list ${libName})"
 
@@ -70,9 +78,7 @@ while read line; do
   fi
 
   # Now we can handle actually installing the needed version
-  if [[ ${libVersion} == "git" ]]; then
-    gitLocation="${splits[2]}"
-    gitBranchOrTag="${splits[3]}"
+  if [[ ${libVersionOrGit} == "git" ]]; then
     if [[ -z "${gitBranchOrTag}" ]]; then
       echo "Installing ${libName} git master"
       haxelib git --never --quiet ${libName} ${gitLocation}
@@ -81,8 +87,8 @@ while read line; do
       haxelib git --always --quiet ${libName} ${gitLocation} ${gitBranchOrTag}
     fi
   else
-    echo "Installing ${libName} version ${libVersion}"
-    haxelib set ${libName} ${libVersion} --always --quiet
+    echo "Installing ${libName} version ${libVersionOrGit}"
+    haxelib set ${libName} ${libVersionOrGit} --always --quiet
   fi
 done <haxelib.deps
 
