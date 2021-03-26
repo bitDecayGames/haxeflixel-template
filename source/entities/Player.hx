@@ -20,8 +20,7 @@ class Player extends FlxSprite {
 		super.update(delta);
 
 		var inputDir = InputCalcuator.getInputCardinal(controls);
-		trace(inputDir);
-		if (inputDir != null) {
+		if (inputDir != NONE) {
 			inputDir.asVector(velocity).scale(speed);
 		} else {
 			velocity.set();

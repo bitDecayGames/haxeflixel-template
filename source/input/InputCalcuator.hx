@@ -33,7 +33,7 @@ class InputCalcuator {
 		}
 
 		if (temp.length == 0) {
-			return null;
+			return Cardinal.NONE;
 		}
 
 		return Cardinal.closest(temp);

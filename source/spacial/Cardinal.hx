@@ -19,6 +19,7 @@ enum abstract Cardinal(Int) from Int to Int {
 	var SW = 225;
 	var W = 270;
 	var NW = 315;
+	var NONE = -1;
 
 	/**
 	 * Converts the given cardinal direction to a unit vector
