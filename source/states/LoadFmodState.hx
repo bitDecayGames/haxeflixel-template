@@ -34,12 +34,16 @@ class LoadFmodState extends FlxState {
 		}
 
 		if (FmodManager.IsInitialized() && inited) {
+			#if play
+			FlxG.switchState(new PlayState());
+			#else
 			// Once FMOD is ready, and we've dispatched our startup
 			if (Macros.isDefined("SKIP_SPLASH")) {
 				FlxG.switchState(new MainMenuState());
 			} else {
 				FlxG.switchState(new SplashScreenState());
 			}
+			#end
 		}
 	}
 }

@@ -6,6 +6,9 @@ import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 
+/**
+ * Template for loading an Ogmo level file
+**/
 class Level {
 	public var layer:FlxTilemap;
 
