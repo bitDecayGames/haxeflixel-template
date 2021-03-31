@@ -1,5 +1,6 @@
 package states;
 
+import signals.Lifecycle;
 import entities.Player;
 import flixel.FlxSprite;
 import flixel.FlxG;
@@ -12,6 +13,8 @@ class PlayState extends FlxState {
 
 	override public function create() {
 		super.create();
+		Lifecycle.startup.dispatch();
+
 		FlxG.camera.pixelPerfectRender = true;
 
 		player = new Player();

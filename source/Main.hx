@@ -1,5 +1,9 @@
 package;
 
+import states.SplashScreenState;
+import misc.Macros;
+import states.MainMenuState;
+import flixel.FlxState;
 import config.Configure;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -8,22 +12,13 @@ import flixel.addons.transition.TransitionData;
 import flixel.util.FlxColor;
 import misc.FlxTextFactory;
 import openfl.display.Sprite;
-import states.LoadFmodState;
 
 class Main extends Sprite {
 	public function new() {
 		super();
+		Configure.initAnalytics(false);
+
 		FlxG.fixedTimestep = false;
-
-		#if debug
-		FlxG.autoPause = false;
-		#end
-
-		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
-
-		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
-		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
-		addChild(new FlxGame(0, 0, LoadFmodState, 1, 60, 60, true, false));
 
 		// Disable flixel volume controls as we don't use them because of FMOD
 		FlxG.sound.muteKeys = null;
@@ -33,14 +28,24 @@ class Main extends Sprite {
 		// Don't use the flixel cursor
 		FlxG.mouse.useSystemCursor = true;
 
-		signals.Lifecycle.startup.add(() -> {
-			var disableAnalytics = false;
-			if (FlxG.keys.pressed.M) {
-				trace("!!!!!!! Dev analytics override started. No metrics will be reported !!!!!!!");
-				disableAnalytics = true;
-			}
+		#if debug
+		FlxG.autoPause = false;
+		#end
 
-			Configure.initAnalytics(disableAnalytics);
-		});
+		// Set up basic transitions
+		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
+		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
+
+		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
+
+		var startingState:Class<FlxState> = SplashScreenState;
+		#if play
+		startingState = PlayState;
+		#else
+		if (Macros.isDefined("SKIP_SPLASH")) {
+			startingState = MainMenuState;
+		}
+		#end
+		addChild(new FlxGame(0, 0, startingState, 1, 60, 60, true, false));
 	}
 }

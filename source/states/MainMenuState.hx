@@ -1,5 +1,6 @@
 package states;
 
+import com.bitdecay.analytics.Bitlytics;
 import config.Configure;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUICursor;
@@ -85,6 +86,12 @@ class MainMenuState extends FlxUIState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		FmodManager.Update();
+
+		if (FlxG.keys.justPressed.D && FlxG.keys.justPressed.M) {
+			// Keys D.M. for Disable Metrics
+			Bitlytics.Instance().EndSession();
+			trace("---------- Bitlytics Stopped ----------");
+		}
 	}
 
 	function clickPlay():Void {
