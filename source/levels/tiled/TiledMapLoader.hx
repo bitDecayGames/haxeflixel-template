@@ -20,11 +20,7 @@ class TiledMapLoader extends TiledMap {
 
 	public function new(tiledLevel:FlxTiledMapAsset) {
 		super(tiledLevel);
-
 		relativeDir = Path.directory(tiledLevel);
-		trace(relativeDir);
-		// loadImages();
-		// loadObjects();
 	}
 
 	/**
