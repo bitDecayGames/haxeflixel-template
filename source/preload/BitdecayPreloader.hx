@@ -22,6 +22,8 @@ class BitdecayPreloader extends FlxBasePreloader {
 	private static inline var LOADING_BAR_OFFSET_Y = 50;
 	private static inline var LOADING_BAR_MAX_WIDTH = 80;
 
+	private static inline var MARGINS = 30;
+
 	var logo:Sprite;
 	var loadBar:Sprite;
 	var ratio:Float;
@@ -42,8 +44,8 @@ class BitdecayPreloader extends FlxBasePreloader {
 		logo = new Sprite();
 		logo.addChild(new Bitmap(new LogoImage(0, 0)));
 		logo.scaleX = logo.scaleY = ratio;
-		logo.x = ((Lib.current.stage.stageWidth) / 2) - ((LOADING_ICON_WIDTH * ratio) / 2);
-		logo.y = (Lib.current.stage.stageHeight / 2) - ((LOADING_ICON_HEIGHT * ratio) / 2);
+		logo.x = Lib.current.stage.stageWidth - ((LOADING_ICON_WIDTH + MARGINS) * ratio);
+		logo.y = Lib.current.stage.stageHeight - ((LOADING_ICON_HEIGHT + MARGINS) * ratio);
 		addChild(logo); // Adds the graphic to the NMEPreloader's buffer.
 
 		loadBar = new Sprite();
