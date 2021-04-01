@@ -1,5 +1,6 @@
 package levels.tiled;
 
+import flixel.math.FlxRect;
 import flixel.math.FlxMath;
 import flixel.FlxSprite;
 import flixel.addons.editors.tiled.TiledImageLayer;
@@ -26,7 +27,16 @@ class TiledMapLoader extends TiledMap {
 	/**
 	 * Returns the tilemaps for the given layer in the TiledMap
 	 * Note: Return multiple FlxTilemap objects if the layer
-	 *       uses multiple sprite sheets
+	 *       uses multiple sprite sheets (.tsx files)
+	 * IMPORTANT: Always collide the map with objects, not the other way around.
+	 *            This prevents odd collision errors (collision separation code off by 1 px).
+	 *            Example:
+	 *            ```
+	 *            if (FlxG.overlap(layer, obj))
+	 *            {
+	 *            	return true;
+	 *            }
+	 *            ```
 	 */
 	public function loadTilemap(layerName:String):Array<FlxTilemap> {
 		if (!layerMap.exists(layerName)) {
@@ -93,7 +103,7 @@ class TiledMapLoader extends TiledMap {
 		}
 		var layer = layerMap.get(objectLayer);
 		if (layer.type != TiledLayerType.TILE) {
-			throw 'Layer "${objectLayer} with type ${layer.type} cannot be loaded as a object layer';
+			throw 'Layer "${objectLayer} with type ${layer.type} cannot be loaded as an object layer';
 		}
 
 		var objectLayer:TiledObjectLayer = cast layer;
@@ -153,37 +163,11 @@ class TiledMapLoader extends TiledMap {
 		return imageSprites;
 	}
 
-	// public function collideWithLevel(obj:FlxObject, ?notifyCallback:FlxObject->FlxObject->Void, ?processCallback:FlxObject->FlxObject->Bool):Bool {
-	// 	if (collidableTileLayers == null)
-	// 		return false;
-	// 	for (map in collidableTileLayers)
-	// 	{
-	// 		// IMPORTANT: Always collide the map with objects, not the other way around.
-	// 		//            This prevents odd collision errors (collision separation code off by 1 px).
-	// 		if (FlxG.overlap(map, obj, notifyCallback, processCallback != null ? processCallback : FlxObject.separate))
-	// 		{
-	// 			return true;
-	// 		}
-	// 	}
-	// 	return false;
-	// }
-	// This is just here to not lose shape handling. Need to make this useful
-	private function objectShapeHandling(o:TiledObject) {
-		switch (o.objectType) {
-			case TiledObject.RECTANGLE:
-				trace("RECTANGLE");
-				trace('data: width:${o.width} height:${o.height}');
-			case TiledObject.ELLIPSE:
-				trace("ELLIPSE");
-				trace('data: width:${o.width} height:${o.height}');
-			case TiledObject.POLYGON:
-				trace("POLYGON");
-				trace('data: points:${o.points}');
-			case TiledObject.POLYLINE:
-				trace("POLYLINE");
-				trace('data: points:${o.points}');
-			default:
-				trace('unknown type: ${o.objectType}');
+	public function objectToRect(o:TiledObject):FlxRect {
+		if (o.objectType != TiledObject.RECTANGLE) {
+			throw 'object ${o.name} is not of type RECTANGLE';
 		}
+
+		return new FlxRect(o.x, o.y, o.width, o.height);
 	}
 }

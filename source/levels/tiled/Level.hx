@@ -13,7 +13,7 @@ class Level {
 
 	public function new(mapFile:String) {
 		var loader = new TiledMapLoader(mapFile);
-		layers = loader.loadTilemap("<layer name>");
+		layers = loader.loadTilemap("<tile layer name>");
 
 		var objects = new FlxGroup();
 
@@ -26,6 +26,6 @@ class Level {
 					throw 'Object \'${objectData.name}\' is not supported, add parsing to ${Type.getClassName(Type.getClass(this))}';
 			}
 			objects.add(obj);
-		}, "objects");
+		}, "<object layer name>");
 	}
 }
