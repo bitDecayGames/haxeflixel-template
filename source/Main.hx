@@ -18,6 +18,16 @@ class Main extends Sprite {
 		super();
 		Configure.initAnalytics(false);
 
+		var startingState:Class<FlxState> = SplashScreenState;
+		#if play
+		startingState = PlayState;
+		#else
+		if (Macros.isDefined("SKIP_SPLASH")) {
+			startingState = MainMenuState;
+		}
+		#end
+		addChild(new FlxGame(0, 0, startingState, 1, 60, 60, true, false));
+
 		FlxG.fixedTimestep = false;
 
 		// Disable flixel volume controls as we don't use them because of FMOD
@@ -37,15 +47,5 @@ class Main extends Sprite {
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 
 		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
-
-		var startingState:Class<FlxState> = SplashScreenState;
-		#if play
-		startingState = PlayState;
-		#else
-		if (Macros.isDefined("SKIP_SPLASH")) {
-			startingState = MainMenuState;
-		}
-		#end
-		addChild(new FlxGame(0, 0, startingState, 1, 60, 60, true, false));
 	}
 }
