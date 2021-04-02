@@ -24,9 +24,15 @@ class BitdecayPreloader extends FlxBasePreloader {
 
 	private static inline var MARGINS = 30;
 
+	private static inline var FADE_TIME = 0.5;
+
 	var logo:Sprite;
 	var loadBar:Sprite;
 	var ratio:Float;
+
+	var alphaFadeIncrement:Float;
+	var fadeFinished:Bool;
+	var loadCalled:Bool;
 
 	public function new(MinDisplayTime:Float = 0, ?AllowedURLs:Array<String>) {
 		// super(MinDisplayTime, ["https://bitdecaygames.itch.io/*", FlxBasePreloader.LOCAL]);
@@ -35,11 +41,14 @@ class BitdecayPreloader extends FlxBasePreloader {
 
 	override function create():Void {
 		super.create();
+		fadeFinished = false;
+		loadCalled = false;
 		// FMOD must be initialized before the game starts for audio to work properly
 		FmodManager.Initialize();
 
 		// we want the icon to take one quarter of the width of the screen
 		ratio = Lib.current.stage.stageWidth / 4 / LOADING_ICON_WIDTH;
+		alphaFadeIncrement = 1.0 / (Lib.current.stage.frameRate * FADE_TIME);
 
 		logo = new Sprite();
 		logo.addChild(new Bitmap(new LogoImage(0, 0)));
@@ -59,10 +68,27 @@ class BitdecayPreloader extends FlxBasePreloader {
 	override function update(percent:Float) {
 		super.update(percent);
 		loadBar.scaleX = LOADING_BAR_MAX_WIDTH * percent * ratio;
+
+		if (percent >= 1 && !fadeFinished) {
+			logo.alpha -= alphaFadeIncrement;
+			loadBar.alpha -= alphaFadeIncrement;
+			if (logo.alpha <= 0) {
+				logo.alpha = 0;
+				loadBar.alpha = 0;
+				fadeFinished = true;
+			}
+		}
+
+		if (fadeFinished && loadCalled && FmodManager.IsInitialized()) {
+			// Everything is good to go. Consider ourselves loaded
+			_loaded = true;
+		}
 	}
 
+	// We overload this to allow the fade to happen properly
 	override function onLoaded() {
 		super.onLoaded();
-		_loaded = _loaded && FmodManager.IsInitialized();
+		_loaded = false;
+		loadCalled = true;
 	}
 }
