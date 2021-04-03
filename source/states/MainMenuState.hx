@@ -89,7 +89,8 @@ class MainMenuState extends FlxUIState {
 
 		if (FlxG.keys.pressed.D && FlxG.keys.justPressed.M) {
 			// Keys D.M. for Disable Metrics
-			Bitlytics.Instance().EndSession();
+			Bitlytics.Instance().EndSession(false);
+			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 			trace("---------- Bitlytics Stopped ----------");
 		}
 	}
