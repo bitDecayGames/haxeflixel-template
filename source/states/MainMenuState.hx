@@ -1,5 +1,7 @@
 package states;
 
+import states.transitions.Trans;
+import states.transitions.SwirlTransition;
 import com.bitdecay.analytics.Bitlytics;
 import config.Configure;
 import flixel.FlxG;
@@ -48,7 +50,6 @@ class MainMenuState extends FlxUIState {
 		}
 
 		FmodManager.PlaySong(FmodSongs.LetsGo);
-		FlxG.log.notice("loaded scene");
 		bgColor = FlxColor.TRANSPARENT;
 		FlxG.camera.pixelPerfectRender = true;
 
@@ -60,6 +61,9 @@ class MainMenuState extends FlxUIState {
 
 		// Trigger our focus logic as we are just creating the scene
 		this.handleFocus();
+
+		// we will handle transitions manually
+		transOut = null;
 	}
 
 	override public function getEvent(name:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
@@ -96,7 +100,13 @@ class MainMenuState extends FlxUIState {
 	}
 
 	function clickPlay():Void {
-		FmodFlxUtilities.TransitionToStateAndStopMusic(new PlayState());
+		FmodManager.StopSong();
+		var swirlOut = new SwirlTransition(Trans.OUT, () -> {
+			// make sure our music is stopped;
+			FmodManager.StopSongImmediately();
+			FlxG.switchState(new PlayState());
+		}, FlxColor.GRAY);
+		openSubState(swirlOut);
 	}
 
 	function clickCredits():Void {
