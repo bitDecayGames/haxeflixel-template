@@ -1,20 +1,15 @@
 package states.transitions;
 
-import openfl.display.BitmapDataChannel;
-import openfl.display.BitmapDataChannel;
-import openfl.geom.Point;
-import openfl.geom.ColorTransform;
-import openfl.display.BitmapData;
-import openfl.display.Graphics;
-import openfl.display.Sprite;
-import openfl.geom.Rectangle;
-import flixel.util.FlxColor;
-import flixel.FlxSubState;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
+import openfl.display.BitmapData;
+import openfl.display.BitmapDataChannel;
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
 
 using Math;
 using extensions.FlxPointExt;
@@ -49,7 +44,8 @@ class SwirlTransition extends FlxSubState {
 		var minSpaceBetweenSwirls = maxDistance / totalSwirls;
 
 		var positionGetter:(num:Int) -> Float;
-		var diameterGetter:(num:Int) -> Float;
+		var radiusGetter:(num:Int) -> Int;
+		var circleDrawer:(p:FlxPoint, d:Int) -> Void;
 		var drawColor:Int;
 
 		var drawStyle:DrawStyle = {
@@ -58,19 +54,32 @@ class SwirlTransition extends FlxSubState {
 
 		switch (dir) {
 			case IN:
-				// TODO: This doesn't work until we can figure out how transparency can be
-				//       made to work.
-				// SEE: http://coinflipstudios.com/devblog/?p=421 (though it doesn't seem to work)
 				FlxSpriteUtil.fill(s, color);
-				drawColor = 0x3300ffff;
+				drawColor = 0x00ffffff;
 				drawStyle.blendMode = SUBTRACT;
 				positionGetter = (num:Int) -> {
 					return maxDistance * (num / totalCircles);
 				}
-				diameterGetter = (num:Float) -> {
+				radiusGetter = (num:Int) -> {
 					// add a little extra to prevent gaps between circles and to smooth things out
-					minSpaceBetweenSwirls / 2 + (maxDistance * (num / totalCircles) / 5);
+					return Std.int(minSpaceBetweenSwirls / 2 + (maxDistance * (num / totalCircles) / 5));
 				};
+				circleDrawer = (p, r) -> {
+					// The provided circle drawing utilties don't respect alpha, so we need to use the `setPixel32` below.
+					// This is using the formula for a half-cirlce to determine the pixels needed to be set to transparent
+					// as a workaround.
+					var sinInput = 0.0;
+					var xOffset = 0;
+					var height = 0;
+					for (i in 0...2*r) {
+						sinInput = i / r * Math.PI;
+						height = Std.int(Math.sqrt(Math.pow(r, 2) - Math.pow(i-r, 2)));
+						xOffset = i - r;
+						for (j in -height...height) {
+							s.pixels.setPixel32(Std.int(p.x) + xOffset, Std.int(p.y) + j, drawColor);
+						}
+					}
+				}
 			case OUT:
 				FlxSpriteUtil.fill(s, 0x00ffffff);
 				drawColor = color;
@@ -78,10 +87,13 @@ class SwirlTransition extends FlxSubState {
 				positionGetter = (num:Int) -> {
 					return maxDistance * ((totalCircles - num) / totalCircles);
 				}
-				diameterGetter = (num:Float) -> {
+				radiusGetter = (num:Float) -> {
 					// add a little extra to prevent gaps between circles and to smooth things out
-					minSpaceBetweenSwirls / 2 + (maxDistance * ((totalCircles - num) / totalCircles) / 5);
+					return Std.int(minSpaceBetweenSwirls / 2 + (maxDistance * ((totalCircles - num) / totalCircles) / 5));
 				};
+				circleDrawer = (p, r) -> {
+					FlxSpriteUtil.drawCircle(s, p.x, p.y, r, drawColor, null, drawStyle);
+				}
 		}
 
 		// Opting to go with many timers instead of one timer that loops many times as a timer can only
@@ -89,7 +101,7 @@ class SwirlTransition extends FlxSubState {
 		for (i in 0...totalCircles) {
 			new FlxTimer().start(i * timePerCircle + 0.01).onComplete = function(t:FlxTimer) {
 				var p = FlxPoint.get(FlxG.width * 0.5, FlxG.height * 0.5).pointOnCircumference(i * spacingDegs, positionGetter(i));
-				FlxSpriteUtil.drawCircle(s, p.x, p.y, diameterGetter(i), drawColor, null, drawStyle);
+				circleDrawer(p, radiusGetter(i));
 			}
 			t += timePerCircle;
 		}
@@ -101,26 +113,5 @@ class SwirlTransition extends FlxSubState {
 				close();
 			}
 		}
-	}
-
-	function invertedAlphaMaskFlxSprite(sprite:FlxSprite, mask:FlxSprite, output:FlxSprite):FlxSprite {
-		// Solution based on the discussion here:
-		// https://groups.google.com/forum/#!topic/haxeflixel/fq7_Y6X2ngY
-
-		// NOTE: The code below is the same as FlxSpriteUtil.alphaMaskFlxSprite(),
-		// except it has an EXTRA section below.
-
-		sprite.drawFrame();
-		var data:BitmapData = sprite.pixels.clone();
-		data.copyChannel(mask.pixels, new Rectangle(0, 0, sprite.width, sprite.height), new Point(), BitmapDataChannel.ALPHA, BitmapDataChannel.ALPHA);
-
-		// EXTRA:
-		// this code applies a -1 multiplier to the alpha channel,
-		// turning the opaque circle into a transparent circle.
-		// data.colorTransform(new Rectangle(0, 0, sprite.width, sprite.height), new ColorTransform(0,0,0,-1,0,0,0,255));
-		// end EXTRA
-
-		output.pixels = data;
-		return output;
 	}
 }
