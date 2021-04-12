@@ -42,7 +42,7 @@ class Main extends Sprite {
 		FlxG.autoPause = false;
 		#end
 
-		// Set up basic transitions
+		// Set up basic transitions. To override these see `transOut` and `transIn` on any FlxTransitionable states
 		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 

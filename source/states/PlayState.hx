@@ -1,14 +1,14 @@
 package states;
 
+import flixel.addons.transition.FlxTransitionableState;
 import signals.Lifecycle;
 import entities.Player;
 import flixel.FlxSprite;
 import flixel.FlxG;
-import flixel.FlxState;
 
 using extensions.FlxStateExt;
 
-class PlayState extends FlxState {
+class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
 
 	override public function create() {
