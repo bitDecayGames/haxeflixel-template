@@ -1,10 +1,10 @@
 package states;
 
+import flixel.FlxState;
 import config.Configure;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.addons.ui.FlxUIState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -14,7 +14,7 @@ import misc.FlxTextFactory;
 
 using extensions.FlxStateExt;
 
-class CreditsState extends FlxUIState {
+class CreditsState extends FlxState {
 	var _allCreditElements:Array<FlxSprite>;
 
 	var _btnMainMenu:FlxButton;

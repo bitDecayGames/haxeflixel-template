@@ -6,10 +6,6 @@ import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
-import openfl.display.BitmapData;
-import openfl.display.BitmapDataChannel;
-import openfl.geom.Point;
-import openfl.geom.Rectangle;
 
 using Math;
 using extensions.FlxPointExt;
