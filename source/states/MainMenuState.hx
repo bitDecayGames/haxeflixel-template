@@ -20,12 +20,6 @@ import lime.system.System;
 #end
 
 class MainMenuState extends FlxState {
-	var _btnPlay:FlxButton;
-	var _btnCredits:FlxButton;
-	var _btnExit:FlxButton;
-
-	var _txtTitle:FlxText;
-
 	override public function create():Void {
 		super.create();
 

@@ -4,11 +4,8 @@ import haxe.ui.containers.VBox;
 
 @:build(haxe.ui.macros.ComponentMacros.build("assets/xml/main_menu.xml"))
 class MainMenu extends VBox {
-
 	public function new(playClicked:Void->Void, creditsClicked:Void->Void) {
 		super();
-
-		width = 100;
 
 		playButton.onClick = _ -> {
 			playClicked();
