@@ -32,23 +32,27 @@
 	<classpath name="source" />
 	<assets path="assets" />
 
-	<!-- _______________________________ Libraries ______________________________ -->
+	<!-- _______________________________ Libraries _______________________________ -->
 
 	<haxelib name="flixel" />
-	<haxelib name="haxefmod" />
-	<haxelib name="bitlytics" />
-	<haxelib name="textpop" />
-	<haxelib name="bitdecaybtree" />
-	<haxelib name="dialog-manager" />
-
-	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 
+	<!-- _____________________________ First Party Libraries _____________________ -->
+
+	<haxelib name="bitdecaybtree" />
+	<haxelib name="bitlytics" />
+	<haxelib name="dialog-manager" />
+	<haxelib name="haxefmod" />
+	<haxelib name="textpop" />
+
 	<!--In case you want to use nape with flixel-->
 	<!--<haxelib name="nape-haxe4" />-->
+
+	<!--Enable this for Nape release builds for a serious peformance improvement-->
+	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -78,9 +82,6 @@
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
-
-	<!--Enable this for Nape release builds for a serious peformance improvement-->
-	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 
