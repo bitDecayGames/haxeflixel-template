@@ -1,5 +1,8 @@
 package states;
 
+import ui.MenuCursor;
+import haxe.ui.core.Component;
+import haxe.ui.focus.FocusManager;
 import flixel.FlxSprite;
 import ui.MainMenu;
 import flixel.FlxState;
@@ -8,27 +11,37 @@ import states.transitions.Trans;
 import states.transitions.SwirlTransition;
 import com.bitdecay.analytics.Bitlytics;
 import flixel.FlxG;
-import flixel.text.FlxText;
-import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
 
 using extensions.FlxStateExt;
+using extensions.FlxObjectExt;
+using ui.ComponentExt;
 
 #if windows
 import lime.system.System;
 #end
 
 class MainMenuState extends FlxState {
+
+	var cursor:FlxSprite;
+	var menuFocus:Component;
+
 	override public function create():Void {
 		super.create();
 
 		var bgImage = new FlxSprite(AssetPaths.title_image__png);
 		add(bgImage);
 
+		cursor = new MenuCursor();
+		add(cursor);
+
 		Toolkit.init({container: this});
 		var menu = new MainMenu(clickPlay, clickCredits);
 		add(menu);
+
+		FocusManager.instance.pushView(menu.menuItems);
+		menuFocus = FocusManager.instance.focusNext();
 
 		FmodManager.PlaySong(FmodSongs.LetsGo);
 		bgColor = FlxColor.TRANSPARENT;
@@ -49,6 +62,18 @@ class MainMenuState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		FmodManager.Update();
+
+		if (FlxG.keys.justPressed.J) {
+			menuFocus = FocusManager.instance.focusNext();
+			while(!menuFocus.visible) {
+				menuFocus = FocusManager.instance.focusNext();
+			}
+		}
+
+		// TODO: This positioning could be better
+		cursor.setPositionPoint(menuFocus.recursivePosition());
+		cursor.y -= 8;
+		cursor.x -= 40;
 
 		if (FlxG.keys.pressed.D && FlxG.keys.justPressed.M) {
 			// Keys D.M. for Disable Metrics
