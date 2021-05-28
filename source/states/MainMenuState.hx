@@ -28,7 +28,7 @@ class MainMenuState extends FlxUIState {
 
 	override public function create():Void {
 		_xml_id = "main_menu";
-		if (Configure.get().menus.keyboardNavigation || Configure.get().menus.controllerNavigation) {
+		if (Configure.config.menus.keyboardNavigation || Configure.config.menus.controllerNavigation) {
 			_makeCursor = true;
 		}
 
@@ -40,10 +40,10 @@ class MainMenuState extends FlxUIState {
 			cursor.animation.play("pointing");
 
 			var keys:Int = 0;
-			if (Configure.get().menus.keyboardNavigation) {
+			if (Configure.config.menus.keyboardNavigation) {
 				keys |= FlxUICursor.KEYS_ARROWS | FlxUICursor.KEYS_WASD;
 			}
-			if (Configure.get().menus.controllerNavigation) {
+			if (Configure.config.menus.controllerNavigation) {
 				keys |= FlxUICursor.GAMEPAD_DPAD;
 			}
 			cursor.setDefaultKeys(keys);

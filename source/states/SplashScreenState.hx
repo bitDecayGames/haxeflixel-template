@@ -41,10 +41,10 @@ class SplashScreenState extends FlxState {
 	// Customize this to check whatever we want (controller, mouse, etc)
 	private function checkForSkip():Bool {
 		var skip = false;
-		if (Configure.get().menus.keyboardNavigation) {
+		if (Configure.config.menus.keyboardNavigation) {
 			skip = skip || FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.ENTER;
 		}
-		if (Configure.get().menus.controllerNavigation) {
+		if (Configure.config.menus.controllerNavigation) {
 			var gamepad = FlxG.gamepads.lastActive;
 			if (gamepad != null) {
 				skip = skip || gamepad.justPressed.A;
@@ -64,7 +64,7 @@ class SplashScreenState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		timer -= elapsed;
-		var playerSkipped = !fadingOut && !splashesOver && Configure.get().splashScreens.allowClickToSkip && checkForSkip();
+		var playerSkipped = !fadingOut && !splashesOver && Configure.config.splashScreens.allowClickToSkip && checkForSkip();
 		if (timer < 0 || playerSkipped) {
 			nextSplash();
 		}
