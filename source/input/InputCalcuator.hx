@@ -1,5 +1,6 @@
 package input;
 
+import input.SimpleController.Button;
 import flixel.math.FlxVector;
 import spacial.Cardinal;
 
@@ -10,25 +11,25 @@ class InputCalcuator {
 	private static var temp = FlxVector.get();
 
 	/**
-	 * Gets the closest cardinal direction as defined by the Cardinal enum, or null
+	 * Gets the closest cardinal direction as defined by the Cardinal enum, or Cardinal.NONE
 	 * if no direction is pressed
 	 */
-	public static function getInputCardinal(controls:BasicControls):Cardinal {
+	public static function getInputCardinal(player:Int = 0):Cardinal {
 		temp.set();
 
-		if (controls.up.check()) {
+		if (SimpleController.pressed(Button.UP, player)) {
 			temp.add(0, -1);
 		}
 
-		if (controls.down.check()) {
+		if (SimpleController.pressed(Button.DOWN, player)) {
 			temp.add(0, 1);
 		}
 
-		if (controls.left.check()) {
+		if (SimpleController.pressed(Button.LEFT, player)) {
 			temp.add(-1, 0);
 		}
 
-		if (controls.right.check()) {
+		if (SimpleController.pressed(Button.RIGHT, player)) {
 			temp.add(1, 0);
 		}
 

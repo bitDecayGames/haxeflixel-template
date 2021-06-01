@@ -1,5 +1,9 @@
 # Template Project for HaxeFlixel games
 
+## Debugging
+
+To develop on the game, run `line test html5`
+
 ### Template features:
 - Preconfigured libraries
   - FMOD Studio project with menu sound effects and a random song I wrote

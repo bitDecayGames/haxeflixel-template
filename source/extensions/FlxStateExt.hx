@@ -34,7 +34,7 @@ class FlxStateExt {
 		FmodManager.UnpauseAllSounds();
 		#end
 
-		FlxG.mouse.visible = Configure.get().mouse.cursorVisible;
-		FlxG.mouse.useSystemCursor = Configure.get().mouse.useSystemCursor;
+		FlxG.mouse.visible = Configure.config.mouse.cursorVisible;
+		FlxG.mouse.useSystemCursor = Configure.config.mouse.useSystemCursor;
 	}
 }
