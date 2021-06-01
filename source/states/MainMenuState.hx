@@ -1,5 +1,7 @@
 package states;
 
+import config.Configure;
+import input.SimpleController;
 import ui.MenuCursor;
 import haxe.ui.core.Component;
 import haxe.ui.focus.FocusManager;
@@ -34,7 +36,13 @@ class MainMenuState extends FlxState {
 		add(bgImage);
 
 		cursor = new MenuCursor();
-		add(cursor);
+
+		if (Configure.config.menus.controllerNavigation ||
+			Configure.config.menus.keyboardNavigation) {
+			add(cursor);
+		} else {
+			cursor.visible = false;
+		}
 
 		Toolkit.init({container: this});
 		var menu = new MainMenu(clickPlay, clickCredits);
@@ -63,7 +71,14 @@ class MainMenuState extends FlxState {
 		super.update(elapsed);
 		FmodManager.Update();
 
-		if (FlxG.keys.justPressed.J) {
+		if (SimpleController.just_pressed(Button.UP)) {
+			menuFocus = FocusManager.instance.focusPrev();
+			while(!menuFocus.visible) {
+				menuFocus = FocusManager.instance.focusPrev();
+			}
+		}
+
+		if (SimpleController.just_pressed(Button.DOWN)) {
 			menuFocus = FocusManager.instance.focusNext();
 			while(!menuFocus.visible) {
 				menuFocus = FocusManager.instance.focusNext();
@@ -85,6 +100,7 @@ class MainMenuState extends FlxState {
 
 	function clickPlay():Void {
 		FmodManager.StopSong();
+		FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 		var swirlOut = new SwirlTransition(Trans.OUT, () -> {
 			// make sure our music is stopped;
 			FmodManager.StopSongImmediately();
@@ -94,6 +110,7 @@ class MainMenuState extends FlxState {
 	}
 
 	function clickCredits():Void {
+		FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 		FmodFlxUtilities.TransitionToState(new CreditsState());
 	}
 
