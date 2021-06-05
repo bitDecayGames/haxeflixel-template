@@ -1,17 +1,17 @@
 package states;
 
 import flixel.FlxG;
-import flixel.addons.ui.FlxUIState;
+import flixel.FlxState;
 import flixel.text.FlxText;
-import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import haxe.ui.focus.FocusManager;
 import haxefmod.flixel.FmodFlxUtilities;
-import helpers.UiHelpers;
+import ui.ReturnToMain;
 
 using extensions.FlxStateExt;
 
-class VictoryState extends FlxUIState {
-	var _btnDone:FlxButton;
+class VictoryState extends FlxState {
+	var menu:ReturnToMain;
 
 	var _txtTitle:FlxText;
 
@@ -27,10 +27,10 @@ class VictoryState extends FlxUIState {
 
 		add(_txtTitle);
 
-		_btnDone = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
-		_btnDone.setPosition(FlxG.width / 2 - _btnDone.width / 2, FlxG.height - _btnDone.height - 40);
-		_btnDone.updateHitbox();
-		add(_btnDone);
+		menu = new ReturnToMain(clickMainMenu);
+		add(menu);
+
+		FocusManager.instance.focus = menu.mainMenuButton;
 	}
 
 	override public function update(elapsed:Float):Void {

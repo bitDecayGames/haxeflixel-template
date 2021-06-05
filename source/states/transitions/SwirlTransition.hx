@@ -6,10 +6,6 @@ import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
-import openfl.display.BitmapData;
-import openfl.display.BitmapDataChannel;
-import openfl.geom.Point;
-import openfl.geom.Rectangle;
 
 using Math;
 using extensions.FlxPointExt;
@@ -71,9 +67,9 @@ class SwirlTransition extends FlxSubState {
 					var sinInput = 0.0;
 					var xOffset = 0;
 					var height = 0;
-					for (i in 0...2*r) {
+					for (i in 0...2 * r) {
 						sinInput = i / r * Math.PI;
-						height = Std.int(Math.sqrt(Math.pow(r, 2) - Math.pow(i-r, 2)));
+						height = Std.int(Math.sqrt(Math.pow(r, 2) - Math.pow(i - r, 2)));
 						xOffset = i - r;
 						for (j in -height...height) {
 							s.pixels.setPixel32(Std.int(p.x) + xOffset, Std.int(p.y) + j, drawColor);
