@@ -1,5 +1,7 @@
 package states;
 
+import ui.ReturnToMain;
+import haxe.ui.focus.FocusManager;
 import flixel.FlxState;
 import config.Configure;
 import flixel.FlxG;
@@ -17,7 +19,7 @@ using extensions.FlxStateExt;
 class CreditsState extends FlxState {
 	var _allCreditElements:Array<FlxSprite>;
 
-	var _btnMainMenu:FlxButton;
+	var menu:ReturnToMain;
 
 	var _txtCreditsTitle:FlxText;
 	var _txtThankYou:FlxText;
@@ -43,12 +45,10 @@ class CreditsState extends FlxState {
 		bgColor = backgroundColor;
 		camera.pixelPerfectRender = true;
 
-		// Button
+		menu = new ReturnToMain(clickMainMenu);
+		add(menu);
 
-		_btnMainMenu = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
-		_btnMainMenu.setPosition(FlxG.width - _btnMainMenu.width, FlxG.height - _btnMainMenu.height);
-		_btnMainMenu.updateHitbox();
-		add(_btnMainMenu);
+		FocusManager.instance.focus = menu.mainMenuButton;
 
 		// Credits
 

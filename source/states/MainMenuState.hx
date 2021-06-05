@@ -1,5 +1,6 @@
 package states;
 
+import spacial.Cardinal;
 import config.Configure;
 import input.SimpleController;
 import ui.MenuCursor;
@@ -25,8 +26,8 @@ import lime.system.System;
 #end
 
 class MainMenuState extends FlxState {
-
-	var cursor:FlxSprite;
+	var cursor:MenuCursor;
+	var menu:MainMenu;
 	var menuFocus:Component;
 
 	override public function create():Void {
@@ -37,15 +38,14 @@ class MainMenuState extends FlxState {
 
 		cursor = new MenuCursor();
 
-		if (Configure.config.menus.controllerNavigation ||
-			Configure.config.menus.keyboardNavigation) {
+		if (Configure.config.menus.controllerNavigation || Configure.config.menus.keyboardNavigation) {
 			add(cursor);
 		} else {
 			cursor.visible = false;
 		}
 
 		Toolkit.init({container: this});
-		var menu = new MainMenu(clickPlay, clickCredits);
+		menu = new MainMenu(clickPlay, clickCredits);
 		add(menu);
 
 		FocusManager.instance.pushView(menu.menuItems);
@@ -73,25 +73,22 @@ class MainMenuState extends FlxState {
 
 		if (SimpleController.just_pressed(Button.UP)) {
 			menuFocus = FocusManager.instance.focusPrev();
-			while(!menuFocus.visible) {
+			while (!menuFocus.visible) {
 				menuFocus = FocusManager.instance.focusPrev();
 			}
 		}
 
 		if (SimpleController.just_pressed(Button.DOWN)) {
 			menuFocus = FocusManager.instance.focusNext();
-			while(!menuFocus.visible) {
+			while (!menuFocus.visible) {
 				menuFocus = FocusManager.instance.focusNext();
 			}
 		}
 
-		// TODO: This positioning could be better
-		cursor.setPositionPoint(menuFocus.recursivePosition());
-		cursor.y -= 8;
-		cursor.x -= 40;
+		cursor.alignWith(menuFocus, Cardinal.E);
 
 		if (FlxG.keys.pressed.D && FlxG.keys.justPressed.M) {
-			// Keys D.M. for Disable Metrics
+			// Keys D+M for Disable Metrics
 			Bitlytics.Instance().EndSession(false);
 			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 			trace("---------- Bitlytics Stopped ----------");
@@ -122,5 +119,10 @@ class MainMenuState extends FlxState {
 	override public function onFocus() {
 		super.onFocus();
 		this.handleFocus();
+	}
+
+	override function switchTo(nextState:FlxState):Bool {
+		FocusManager.instance.removeView(menu.menuItems);
+		return super.switchTo(nextState);
 	}
 }
