@@ -19,17 +19,13 @@ To develop on the game, run `line test html5`
   - Production builds on releases
 
 ### Configuration
-- Set the proper Github secrets:
-  - `BUTLER_API_KEY`: The Butler API key from itch.io
-  - `ANALYTICS_TOKEN`: The InfluxDB access token to the bucket
-- Fill out the `assets/data/config.json` fields
-  - `analytics.name`: The simplified game name, used as the metrics id and some other things. Should be snake case or similar.
-  - `analytics.influx.bucket`: The bucket ID from InfluxDB
-- Fill in the `itchGameName` in both workflow files
-  - This should be the URL name from itch.io
+1. Set the proper Github secrets:
+    - `BUTLER_API_KEY`: The Butler API key from itch.io
+    - `ANALYTICS_TOKEN`: The InfluxDB access token to the bucket
+2. Run the `setup_repo.sh` script to update github workflow files and project configuration json
 
 ### Analytics
-- Holding `M` as the game starts will allow playing the release game without sending metrics. This is indicated as a log on startup
+- Holding `D` and pressing `M` at the main menu will allow playing the release game without sending metrics. This is indicated by a sound effect and a log message once pressed.
 
 ### Dependencies
 

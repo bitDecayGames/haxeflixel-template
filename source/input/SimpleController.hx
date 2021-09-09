@@ -11,7 +11,6 @@ import flixel.input.gamepad.FlxGamepadInputID;
  * Lovingly adapted from https://github.com/01010111/flixel-template
  */
 class SimpleController {
-
 	static var key_bindings:Array<Map<Button, Array<FlxKey>>> = [
 		// PLAYER ONE
 		[
@@ -56,7 +55,8 @@ class SimpleController {
 
 	static function pressed_pad(button:Button, player:Int):Bool {
 		var gamepads = FlxG.gamepads.getActiveGamepads();
-		if (gamepads.length < player || gamepads[player] == null) return false;
+		if (gamepads.length < player || gamepads[player] == null)
+			return false;
 		return gamepads[player].anyPressed(pad_bindings[button]);
 	}
 
@@ -70,7 +70,8 @@ class SimpleController {
 
 	static function just_pressed_pad(button:Button, player:Int):Bool {
 		var gamepads = FlxG.gamepads.getActiveGamepads();
-		if (gamepads.length < player || gamepads[player] == null) return false;
+		if (gamepads.length < player || gamepads[player] == null)
+			return false;
 		return gamepads[player].anyJustPressed(pad_bindings[button]);
 	}
 
@@ -84,7 +85,8 @@ class SimpleController {
 
 	static function just_released_pad(button:Button, player:Int):Bool {
 		var gamepads = FlxG.gamepads.getActiveGamepads();
-		if (gamepads.length < player || gamepads[player] == null) return false;
+		if (gamepads.length < player || gamepads[player] == null)
+			return false;
 		return gamepads[player].anyJustReleased(pad_bindings[button]);
 	}
 }
