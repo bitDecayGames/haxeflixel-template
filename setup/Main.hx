@@ -3,6 +3,7 @@ package;
 import sys.io.File;
 import haxe.Template;
 
+// This is a simple helper to fill out some configuration needed when first configuring a new repo
 class Main {
 	static public function main():Void {
 
@@ -58,7 +59,6 @@ class Main {
 			var content = File.getContent(file);
 			var tpl = new Template(content);
 			var output = tpl.execute(responses);
-			trace(output);
 			File.write(file).writeString(output);
 		}
 	}
