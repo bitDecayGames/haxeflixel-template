@@ -7,7 +7,6 @@ import haxe.Template;
 // first configuring a new repo. This modifies the files in-place
 class Main {
 	static public function main():Void {
-
 		var pattern = "^[A-Z0-9_-]+$";
 		var regex = new EReg(pattern, "i");
 
