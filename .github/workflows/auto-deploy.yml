@@ -31,6 +31,6 @@ jobs:
         with:
           dir: export/html5.zip
           itchUserName: bitdecaygames
-          itchGameName: <INSERT_GAME_NAME_HERE>
+          itchGameName: ::game_name::
           itchChannel: web-dev
           butlerApiKey: ${{ secrets.BUTLER_API_KEY }}

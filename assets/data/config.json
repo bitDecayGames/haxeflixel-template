@@ -1,10 +1,10 @@
 {
 	"analytics": {
-		"name": "<PUT SIMPLIFIED GAME NAME HERE>",
+		"name": "::simple_game_name::",
 		"influx": {
 			"api": "https://us-west-2-1.aws.cloud2.influxdata.com/api/v2/write",
 			"org": "13ecc65d2303c6d7",
-			"bucket": "<PUT BUCKET ID HERE>",
+			"bucket": "::influx_bucket_id::",
 			"token": "token loaded from the '-D API_KEY=<key>' compile flag so it is not committed to source control"
 		}
 	},
