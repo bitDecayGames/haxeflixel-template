@@ -3,7 +3,8 @@ package;
 import sys.io.File;
 import haxe.Template;
 
-// This is a simple helper to fill out some configuration needed when first configuring a new repo
+// This is a simple helper to fill out some configuration needed when
+// first configuring a new repo. This modifies the files in-place
 class Main {
 	static public function main():Void {
 
@@ -53,6 +54,23 @@ class Main {
 				}
 				break;
 			}
+		}
+
+		Sys.println("");
+		Sys.println("Please verify all responses");
+		Sys.println("");
+		for (key => value in responses) {
+			Sys.println('${key}: ${value}');
+		}
+
+		Sys.println("");
+		Sys.print("Does this look correct? (y/n): ");
+		var confirm = Sys.stdin().readLine();
+		if (confirm.toLowerCase() != "y") {
+			Sys.println("No changes were made, please re-run this script");
+			return;
+		} else {
+			Sys.println("Applying responses");
 		}
 
 		for (file in files) {
