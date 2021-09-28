@@ -61,9 +61,49 @@ enum abstract Cardinal(Int) from Int to Int {
 	}
 
 	/**
+	 * Returns the opposite cardinal (180 degrees away)
+	**/
+	public function opposite():Cardinal {
+		switch(this) {
+			case N:
+				return S;
+			case NE:
+				return SW;
+			case E:
+				return W;
+			case SE:
+				return NW;
+			case S:
+				return N;
+			case SW:
+				return NE;
+			case W:
+				return E;
+			case NW:
+				return SE;
+			default:
+				return NONE;
+		}
+	}
+
+	/**
+	 * Returns true if the cardinal is N or S, false otherwise
+	**/
+	public function vertical():Bool {
+		return this == Cardinal.N || this == Cardinal.S;
+	}
+
+	/**
+	 * Returns true if the cardinal is E or W, false otherwise
+	**/
+	public function horizontal():Bool {
+		return this == Cardinal.W || this == Cardinal.E;
+	}
+
+	/**
 	 * Finds the closest cardinal for the given vector
 	**/
-	public static function closest(vec:FlxVector):Cardinal {
+	public static function closest(vec:FlxVector, fourDirection:Bool = false):Cardinal {
 		// degrees: 0 is straight right, we want it to be straight up
 		var angle = vec.degrees + 90;
 		while (angle < 0) {
@@ -73,24 +113,38 @@ enum abstract Cardinal(Int) from Int to Int {
 			angle -= 360;
 		}
 
-		if (angle < N + halfAngle) {
-			return N;
-		} else if (angle < NE + halfAngle) {
-			return NE;
-		} else if (angle < E + halfAngle) {
-			return E;
-		} else if (angle < SE + halfAngle) {
-			return SE;
-		} else if (angle < S + halfAngle) {
-			return S;
-		} else if (angle < SW + halfAngle) {
-			return SW;
-		} else if (angle < W + halfAngle) {
-			return W;
-		} else if (angle < NW + halfAngle) {
-			return NW;
+		if (fourDirection) {
+			if (angle < 0 + NE) {
+				return N;
+			} else if (angle < 0 + SE) {
+				return E;
+			} else if (angle < 0 + SW) {
+				return S;
+			} else if (angle < 0 + NW) {
+				return W;
+			} else {
+				return N;
+			}
 		} else {
-			return N;
+			if (angle < N + halfAngle) {
+				return N;
+			} else if (angle < NE + halfAngle) {
+				return NE;
+			} else if (angle < E + halfAngle) {
+				return E;
+			} else if (angle < SE + halfAngle) {
+				return SE;
+			} else if (angle < S + halfAngle) {
+				return S;
+			} else if (angle < SW + halfAngle) {
+				return SW;
+			} else if (angle < W + halfAngle) {
+				return W;
+			} else if (angle < NW + halfAngle) {
+				return NW;
+			} else {
+				return N;
+			}
 		}
 	}
 }
