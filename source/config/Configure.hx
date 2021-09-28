@@ -27,7 +27,8 @@ class Configure {
 			// Take the first half explicitly, as splitting on '=' might have unexpected
 			// behavior if the token has '=' characters in it
 			analyticsToken = define.substr(0, Std.int(define.length / 2));
-			devMode = devMode || analyticsToken.length > 0;
+			trace("no valid analytics token found in API_KEY define, setting dev mode to true");
+			devMode = devMode || analyticsToken.length <= 0;
 		} else {
 			trace('No API_KEY compile flag found. Production metrics will not work.');
 			devMode = true;
