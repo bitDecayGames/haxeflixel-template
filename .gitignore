@@ -9,3 +9,4 @@ fmod/.cache/
 
 # misc
 .VSCodeCounter/
+.DS_Store
