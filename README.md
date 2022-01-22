@@ -2,7 +2,7 @@
 
 ## Debugging
 
-To develop on the game, run `line test html5`
+To develop on the game, run `lime test html5`
 
 ### Template features:
 - Preconfigured libraries
