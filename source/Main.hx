@@ -1,5 +1,7 @@
 package;
 
+import achievements.Achievements;
+import helpers.Storage;
 import states.SplashScreenState;
 import misc.Macros;
 import states.MainMenuState;
@@ -12,11 +14,17 @@ import flixel.addons.transition.TransitionData;
 import flixel.util.FlxColor;
 import misc.FlxTextFactory;
 import openfl.display.Sprite;
+#if play
+import states.PlayState;
+#end
 
 class Main extends Sprite {
 	public function new() {
 		super();
 		Configure.initAnalytics(false);
+
+		Storage.load();
+		Achievements.initAchievements();
 
 		var startingState:Class<FlxState> = SplashScreenState;
 		#if play
