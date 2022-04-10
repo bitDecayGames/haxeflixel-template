@@ -1,10 +1,10 @@
 package achievements;
 
-import helpers.Storage;
-import flixel.system.FlxSound;
-import flixel.FlxG;
-import com.bitdecay.analytics.Bitlytics;
 import achievements.AchievementToast;
+import flixel.FlxG;
+import flixel.system.FlxSound;
+import helpers.Analytics;
+import helpers.Storage;
 
 class Achievements {
 	public static var ACHIEVEMENT_NAME_HERE:AchievementDef;
@@ -83,8 +83,7 @@ class AchievementDef {
 
 				Achievements.ACHIEVEMENTS_DISPLAYED++;
 				a.show(Achievements.ACHIEVEMENTS_DISPLAYED);
-				// TODO: add reportAchievement into bitlytics
-				// Analytics.reportAchievement(this.key);
+				Analytics.reportAchievement(this.key);
 				Storage.saveAchievement(key);
 				achieved = true;
 			} else {
