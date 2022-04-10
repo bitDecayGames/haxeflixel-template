@@ -5,6 +5,8 @@ import input.InputCalcuator;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
+using extensions.FlxObjectExt;
+
 class Player extends FlxSprite {
 	var speed:Float = 30;
 	var playerNum = 0;
