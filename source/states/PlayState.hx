@@ -1,5 +1,6 @@
 package states;
 
+import achievements.Achievements;
 import flixel.addons.transition.FlxTransitionableState;
 import signals.Lifecycle;
 import entities.Player;
@@ -19,6 +20,8 @@ class PlayState extends FlxTransitionableState {
 
 		player = new Player();
 		add(player);
+
+		add(Achievements.ACHIEVEMENT_NAME_HERE.toToast(true, true));
 	}
 
 	override public function update(elapsed:Float) {

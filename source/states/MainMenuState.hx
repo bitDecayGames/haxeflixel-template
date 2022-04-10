@@ -2,6 +2,7 @@ package states;
 
 import states.transitions.Trans;
 import states.transitions.SwirlTransition;
+import states.AchievementsState;
 import com.bitdecay.analytics.Bitlytics;
 import config.Configure;
 import flixel.FlxG;
@@ -79,6 +80,10 @@ class MainMenuState extends FlxUIState {
 				clickCredits();
 			}
 
+			if (button_action == "achievements") {
+				clickAchievements();
+			}
+
 			#if windows
 			if (button_action == "exit") {
 				clickExit();
@@ -111,6 +116,10 @@ class MainMenuState extends FlxUIState {
 
 	function clickCredits():Void {
 		FmodFlxUtilities.TransitionToState(new CreditsState());
+	}
+
+	function clickAchievements():Void {
+		FmodFlxUtilities.TransitionToState(new AchievementsState());
 	}
 
 	#if windows
