@@ -1,5 +1,6 @@
 package entities;
 
+import helpers.DebugDraw;
 import input.SimpleController;
 import input.InputCalcuator;
 import flixel.util.FlxColor;
@@ -17,6 +18,8 @@ class Player extends FlxSprite {
 
 	override public function update(delta:Float) {
 		super.update(delta);
+
+		DebugDraw.ME.drawCameraRect(10, 10, 10, 10);
 
 		var inputDir = InputCalcuator.getInputCardinal(playerNum);
 		if (inputDir != NONE) {
