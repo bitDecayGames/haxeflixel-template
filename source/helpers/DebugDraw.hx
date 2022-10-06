@@ -113,7 +113,6 @@ class DebugDraw extends FlxBasic {
 		super.draw();
 
 		#if FLX_DEBUG
-		trace('drawing ${calls.length} debug draws');
 		for (drawCall in calls) {
 			drawCall(FlxG.camera.debugLayer.graphics);
 		}

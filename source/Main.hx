@@ -1,5 +1,6 @@
 package;
 
+import audio.FmodPlugin;
 import achievements.Achievements;
 import helpers.Storage;
 import states.SplashScreenState;
@@ -55,5 +56,7 @@ class Main extends Sprite {
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 
 		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
+
+		FlxG.plugins.add(new FmodPlugin());
 	}
 }

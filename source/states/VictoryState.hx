@@ -35,8 +35,6 @@ class VictoryState extends FlxUIState {
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		FmodManager.Update();
-
 		_txtTitle.x = FlxG.width / 2 - _txtTitle.width / 2;
 	}
 

@@ -94,7 +94,6 @@ class MainMenuState extends FlxUIState {
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		FmodManager.Update();
 
 		if (FlxG.keys.pressed.D && FlxG.keys.justPressed.M) {
 			// Keys D.M. for Disable Metrics

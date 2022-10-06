@@ -11,7 +11,7 @@ import misc.FlxTextFactory;
 
 using extensions.FlxStateExt;
 
-class VictoryState extends FlxUIState {
+class FailState extends FlxUIState {
 	var _btnDone:FlxButton;
 
 	var _txtTitle:FlxText;
@@ -24,7 +24,7 @@ class VictoryState extends FlxUIState {
 
 		add(_txtTitle);
 
-		_btnDone = UiHelpers.CreateMenuButton("Main Menu", clickMainMenu);
+		_btnDone = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
 		_btnDone.setPosition(FlxG.width / 2 - _btnDone.width / 2, FlxG.height - _btnDone.height - 40);
 		_btnDone.updateHitbox();
 		add(_btnDone);
@@ -32,8 +32,6 @@ class VictoryState extends FlxUIState {
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		FmodManager.Update();
-
 		_txtTitle.x = FlxG.width / 2 - _txtTitle.width / 2;
 	}
 
