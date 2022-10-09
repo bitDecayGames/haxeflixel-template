@@ -12,7 +12,7 @@ import haxefmod.flixel.FmodFlxUtilities;
 import helpers.UiHelpers;
 import misc.FlxTextFactory;
 
-using extensions.FlxStateExt;
+using states.FlxStateExt;
 
 class CreditsState extends FlxUIState {
 	var _allCreditElements:Array<FlxSprite>;
@@ -160,18 +160,5 @@ class CreditsState extends FlxUIState {
 	override public function onFocus() {
 		super.onFocus();
 		this.handleFocus();
-	}
-}
-
-/**
- * A section to be displayed in the credits screen.
- */
-class CreditEntry {
-	public var sectionName:String;
-	public var names:Array<String>;
-
-	public function new(section:String, names:Array<String>) {
-		this.sectionName = section;
-		this.names = names;
 	}
 }

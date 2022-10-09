@@ -9,7 +9,7 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.misc.VarTween;
 import haxefmod.flixel.FmodFlxUtilities;
 
-using extensions.FlxStateExt;
+using states.FlxStateExt;
 
 class SplashScreenState extends FlxState {
 	public static inline var PLAY_ANIMATION = "play";

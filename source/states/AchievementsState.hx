@@ -9,7 +9,7 @@ import haxefmod.flixel.FmodFlxUtilities;
 import achievements.Achievements;
 import helpers.UiHelpers;
 
-using extensions.FlxStateExt;
+using states.FlxStateExt;
 
 class AchievementsState extends FlxUIState {
 	private static var NUM_OF_COLUMNS:Int = 3;

@@ -7,7 +7,10 @@ import entities.Player;
 import flixel.FlxSprite;
 import flixel.FlxG;
 
-using extensions.FlxStateExt;
+import bitdecay.flixel.debug.DebugDraw;
+
+using states.FlxStateExt;
+using bitdecay.flixel.extensions.FlxCameraExt;
 
 class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
@@ -26,6 +29,9 @@ class PlayState extends FlxTransitionableState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		var cam = FlxG.camera;
+		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x-5, cam.getCenterPoint().y-5, 10, 10);
 	}
 
 	override public function onFocusLost() {

@@ -8,7 +8,7 @@ import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
 import helpers.UiHelpers;
 
-using extensions.FlxStateExt;
+using states.FlxStateExt;
 
 class VictoryState extends FlxUIState {
 	var _btnDone:FlxButton;

@@ -2,7 +2,7 @@ package input;
 
 import input.SimpleController.Button;
 import flixel.math.FlxVector;
-import spacial.Cardinal;
+import bitdecay.flixel.spacial.Cardinal;
 
 /**
  * General helpers for deriving information from controls

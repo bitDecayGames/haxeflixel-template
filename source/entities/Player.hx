@@ -1,10 +1,14 @@
 package entities;
 
-import helpers.DebugDraw;
+import flixel.FlxG;
+import flixel.math.FlxPoint;
+import bitdecay.flixel.debug.DebugDraw;
 import input.SimpleController;
 import input.InputCalcuator;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
+
+using bitdecay.flixel.extensions.FlxPointExt;
 
 class Player extends FlxSprite {
 	var speed:Float = 30;
@@ -16,10 +20,17 @@ class Player extends FlxSprite {
 		color = FlxColor.BLUE;
 	}
 
+	var pAngle = 0.0;
 	override public function update(delta:Float) {
 		super.update(delta);
 
-		DebugDraw.ME.drawCameraRect(10, 10, 10, 10);
+		var point = FlxPoint.get().pointOnCircumference(pAngle, 20);
+		DebugDraw.ME.drawWorldLine(x, y, x + point.x, y + point.y);
+		point.put();
+
+		FlxG.watch.addQuick("angle: ", pAngle);
+
+		pAngle += 10 * delta;
 
 		var inputDir = InputCalcuator.getInputCardinal(playerNum);
 		if (inputDir != NONE) {

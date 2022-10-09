@@ -9,7 +9,7 @@ import haxefmod.flixel.FmodFlxUtilities;
 import helpers.UiHelpers;
 import misc.FlxTextFactory;
 
-using extensions.FlxStateExt;
+using states.FlxStateExt;
 
 class FailState extends FlxUIState {
 	var _btnDone:FlxButton;

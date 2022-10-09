@@ -1,9 +1,9 @@
 package states;
 
-import states.transitions.Trans;
-import states.transitions.SwirlTransition;
+import bitdecay.flixel.transitions.TransitionDirection;
+import bitdecay.flixel.transitions.SwirlTransition;
 import states.AchievementsState;
-import com.bitdecay.analytics.Bitlytics;
+import bitdecay.analytics.Bitlytics;
 import config.Configure;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUICursor;
@@ -14,7 +14,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
 
-using extensions.FlxStateExt;
+using states.FlxStateExt;
 
 #if windows
 import lime.system.System;
@@ -105,11 +105,11 @@ class MainMenuState extends FlxUIState {
 
 	function clickPlay():Void {
 		FmodManager.StopSong();
-		var swirlOut = new SwirlTransition(Trans.OUT, () -> {
+		var swirlOut = new SwirlTransition(TransitionDirection.OUT, () -> {
 			// make sure our music is stopped;
 			FmodManager.StopSongImmediately();
 			FlxG.switchState(new PlayState());
-		}, FlxColor.GRAY);
+		}, FlxColor.GRAY, 0.75);
 		openSubState(swirlOut);
 	}
 
