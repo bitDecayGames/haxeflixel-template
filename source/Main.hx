@@ -1,5 +1,7 @@
 package;
 
+import flixel.system.debug.log.LogStyle;
+import haxe.Timer;
 import audio.FmodPlugin;
 import achievements.Achievements;
 import helpers.Storage;
@@ -58,5 +60,22 @@ class Main extends Sprite {
 		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
 
 		FlxG.plugins.add(new FmodPlugin());
+
+		configureLogging();
+	}
+
+	private function configureLogging() {
+		LogStyle.WARNING.openConsole = true;
+		LogStyle.WARNING.callbackFunction = () -> {
+			// Make sure we open the logger if a log triggered
+			FlxG.game.debugger.log.visible = true;
+		};
+
+		LogStyle.ERROR.openConsole = true;
+		LogStyle.ERROR.callbackFunction = () -> {
+			// Make sure we open the logger if a log triggered
+			FlxG.vcr.pause();
+			FlxG.game.debugger.log.visible = true;
+		};
 	}
 }

@@ -9,7 +9,6 @@ import flixel.FlxG;
 import bitdecay.flixel.debug.DebugDraw;
 
 using states.FlxStateExt;
-using bitdecay.flixel.extensions.FlxCameraExt;
 
 class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;

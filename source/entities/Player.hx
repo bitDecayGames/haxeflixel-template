@@ -8,8 +8,6 @@ import input.InputCalcuator;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
-using bitdecay.flixel.extensions.FlxPointExt;
-
 class Player extends FlxSprite {
 	var speed:Float = 30;
 	var playerNum = 0;
