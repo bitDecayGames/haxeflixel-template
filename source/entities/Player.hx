@@ -20,17 +20,8 @@ class Player extends FlxSprite {
 		color = FlxColor.BLUE;
 	}
 
-	var pAngle = 0.0;
 	override public function update(delta:Float) {
 		super.update(delta);
-
-		var point = FlxPoint.get().pointOnCircumference(pAngle, 20);
-		DebugDraw.ME.drawWorldLine(x, y, x + point.x, y + point.y);
-		point.put();
-
-		FlxG.watch.addQuick("angle: ", pAngle);
-
-		pAngle += 10 * delta;
 
 		var inputDir = InputCalcuator.getInputCardinal(playerNum);
 		if (inputDir != NONE) {

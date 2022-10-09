@@ -1,7 +1,7 @@
 package helpers;
 
-import bitdecay.metrics.Tag;
-import bitdecay.analytics.Bitlytics;
+import com.bitdecay.metrics.Tag;
+import com.bitdecay.analytics.Bitlytics;
 
 class Analytics {
 	private static var METRIC_PRACTICE_TIME = "practice_time";

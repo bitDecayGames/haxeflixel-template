@@ -3,7 +3,7 @@ package states;
 import bitdecay.flixel.transitions.TransitionDirection;
 import bitdecay.flixel.transitions.SwirlTransition;
 import states.AchievementsState;
-import bitdecay.analytics.Bitlytics;
+import com.bitdecay.analytics.Bitlytics;
 import config.Configure;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUICursor;

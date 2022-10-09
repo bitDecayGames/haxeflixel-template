@@ -1,7 +1,7 @@
 package config;
 
-import bitdecay.analytics.Bitlytics;
-import bitdecay.net.influx.InfluxDB;
+import com.bitdecay.analytics.Bitlytics;
+import com.bitdecay.net.influx.InfluxDB;
 import misc.Macros;
 
 /**
