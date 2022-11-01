@@ -65,6 +65,7 @@ class Main extends Sprite {
 	}
 
 	private function configureLogging() {
+		#if FLIXEL_DEBUG
 		LogStyle.WARNING.openConsole = true;
 		LogStyle.WARNING.callbackFunction = () -> {
 			// Make sure we open the logger if a log triggered
@@ -77,5 +78,6 @@ class Main extends Sprite {
 			FlxG.vcr.pause();
 			FlxG.game.debugger.log.visible = true;
 		};
+		#end
 	}
 }
