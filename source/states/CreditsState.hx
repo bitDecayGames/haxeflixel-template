@@ -1,14 +1,17 @@
 package states;
 
-import config.Configure;
+import flixel.text.FlxText.FlxTextAlign;
+import flixel.text.FlxBitmapText;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.ui.FlxUIState;
-import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+
 import haxefmod.flixel.FmodFlxUtilities;
+
+import config.Configure;
 import helpers.UiHelpers;
 import misc.FlxTextFactory;
 
@@ -19,10 +22,10 @@ class CreditsState extends FlxUIState {
 
 	var _btnMainMenu:FlxButton;
 
-	var _txtCreditsTitle:FlxText;
-	var _txtThankYou:FlxText;
-	var _txtRole:Array<FlxText>;
-	var _txtCreator:Array<FlxText>;
+	var _txtCreditsTitle:FlxBitmapText;
+	var _txtThankYou:FlxBitmapText;
+	var _txtRole:Array<FlxBitmapText>;
+	var _txtCreator:Array<FlxBitmapText>;
 
 	// Quick appearance variables
 	private var backgroundColor = FlxColor.BLACK;
@@ -58,8 +61,8 @@ class CreditsState extends FlxUIState {
 		center(_txtCreditsTitle);
 		add(_txtCreditsTitle);
 
-		_txtRole = new Array<FlxText>();
-		_txtCreator = new Array<FlxText>();
+		_txtRole = new Array<FlxBitmapText>();
+		_txtCreator = new Array<FlxBitmapText>();
 
 		_allCreditElements.push(_txtCreditsTitle);
 
@@ -106,21 +109,21 @@ class CreditsState extends FlxUIState {
 		_allCreditElements.push(_txtThankYou);
 	}
 
-	private function AddSectionToCreditsTextArrays(role:String, creators:Array<String>, finalRoleArray:Array<FlxText>, finalCreatorsArray:Array<FlxText>) {
-		var roleText = FlxTextFactory.make(role, 0, 0, 15);
+	private function AddSectionToCreditsTextArrays(role:String, creators:Array<String>, finalRoleArray:Array<FlxBitmapText>, finalCreatorsArray:Array<FlxBitmapText>) {
+		var roleText = FlxTextFactory.make(role, 0, 0, 24);
 		add(roleText);
 		finalRoleArray.push(roleText);
 		_allCreditElements.push(roleText);
 
 		if (finalCreatorsArray.length != 0) {
-			finalCreatorsArray.push(new FlxText());
+			finalCreatorsArray.push(new FlxBitmapText());
 		}
 
 		for (creator in creators) {
 			// Make an offset entry for the roles array
-			finalRoleArray.push(new FlxText());
+			finalRoleArray.push(new FlxBitmapText());
 
-			var creatorText = FlxTextFactory.make(creator, 0, 0, 15, FlxTextAlign.RIGHT);
+			var creatorText = FlxTextFactory.make(creator, 0, 0, 24, FlxTextAlign.RIGHT);
 			add(creatorText);
 			finalCreatorsArray.push(creatorText);
 			_allCreditElements.push(creatorText);

@@ -20,6 +20,9 @@ import openfl.display.Sprite;
 #if play
 import states.PlayState;
 #end
+#if credits
+import states.CreditsState;
+#end
 
 class Main extends Sprite {
 	public function new() {
@@ -32,6 +35,8 @@ class Main extends Sprite {
 		var startingState:Class<FlxState> = SplashScreenState;
 		#if play
 		startingState = PlayState;
+		#elseif credits
+		startingState = CreditsState;
 		#else
 		if (Macros.isDefined("SKIP_SPLASH")) {
 			startingState = MainMenuState;
@@ -57,7 +62,9 @@ class Main extends Sprite {
 		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 
-		FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
+		// Set any default font you want to be the default
+		// FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
+		FlxTextFactory.defaultSize = 24;
 
 		FlxG.plugins.add(new FmodPlugin());
 
