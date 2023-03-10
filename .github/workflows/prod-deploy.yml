@@ -14,6 +14,7 @@ jobs:
         uses: bitDecayGames/lime-build-action@v0.0.37
         with:
           buildArgs: -final -D API_KEY=${{ secrets.ANALYTICS_TOKEN }}
+          initScriptFile: ./bin/init_deps.sh
 
       - name: Upload html5 zip artifact
         uses: actions/upload-artifact@v2
