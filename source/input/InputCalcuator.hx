@@ -1,14 +1,14 @@
 package input;
 
 import input.SimpleController.Button;
-import flixel.math.FlxVector;
+import flixel.math.FlxPoint;
 import bitdecay.flixel.spacial.Cardinal;
 
 /**
  * General helpers for deriving information from controls
  */
 class InputCalcuator {
-	private static var temp = FlxVector.get();
+	private static var temp = FlxPoint.get();
 
 	/**
 	 * Gets the closest cardinal direction as defined by the Cardinal enum, or Cardinal.NONE

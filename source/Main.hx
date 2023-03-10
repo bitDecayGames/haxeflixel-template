@@ -42,7 +42,7 @@ class Main extends Sprite {
 			startingState = MainMenuState;
 		}
 		#end
-		addChild(new FlxGame(0, 0, startingState, 1, 60, 60, true, false));
+		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
 
 		FlxG.fixedTimestep = false;
 
