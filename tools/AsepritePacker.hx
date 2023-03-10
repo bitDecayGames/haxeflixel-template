@@ -2,7 +2,7 @@ package;
 
 import haxe.io.Path;
 
-class Packer {
+class AsepritePacker {
 	static var spritePath = "../art/";
 	static var outputDir = "../assets/images/";
 	static var aseExtensions = ["ase", "aseprite"];

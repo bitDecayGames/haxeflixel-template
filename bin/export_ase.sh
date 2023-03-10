@@ -1,2 +1,2 @@
 # cd into our tooling directory and run our setup script
-(cd tools && haxe --main Packer --interp)
+(cd tools && haxe --main AsepritePacker --interp)
