@@ -1,11 +1,12 @@
 package;
 
+#if sys
 import sys.io.File;
 import haxe.Template;
 
 // This is a simple helper to fill out some configuration needed when
 // first configuring a new repo. This modifies the files in-place
-class Main {
+class ProjectInit {
 	static public function main():Void {
 		var pattern = "^[A-Z0-9_-]+$";
 		var regex = new EReg(pattern, "i");
@@ -80,3 +81,10 @@ class Main {
 		}
 	}
 }
+#else
+class ProjectInit {
+	static public function main():Void {
+		trace("Can only be run on targets with 'sys' access");
+	}
+}
+#end
