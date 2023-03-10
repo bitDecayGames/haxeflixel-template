@@ -2,7 +2,7 @@ name: AutoDeploy-Dev
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
+
   push:
     branches:
       - master
@@ -21,6 +21,7 @@ jobs:
         uses: bitDecayGames/lime-build-action@v0.0.37
         with:
           buildArgs: -D API_KEY=${{ secrets.ANALYTICS_TOKEN }} -D dev_analytics
+          initScriptFile: ./bin/init.sh
 
       - name: Upload html5 zip artifact
         uses: actions/upload-artifact@v2
