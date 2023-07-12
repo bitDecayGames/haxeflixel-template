@@ -1,5 +1,6 @@
 package;
 
+import debug.DebugDraw;
 import flixel.system.debug.log.LogStyle;
 import haxe.Timer;
 import audio.FmodPlugin;
@@ -67,6 +68,8 @@ class Main extends Sprite {
 		FlxTextFactory.defaultSize = 24;
 
 		FlxG.plugins.add(new FmodPlugin());
+
+		DebugDraw.init();
 
 		configureLogging();
 	}
