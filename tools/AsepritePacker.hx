@@ -2,6 +2,11 @@ package;
 
 import haxe.io.Path;
 
+/**
+ * Searches through the root assets/images/ directory and exports all Aseprite
+ * files as sprite sheets and an accompanying json file with animation information
+ * into the assets/images/ directory ready for consumption by code
+**/
 class AsepritePacker {
 	static var spritePath = "../art/";
 	static var outputDir = "../assets/images/";
