@@ -1,5 +1,6 @@
-{ "frames": {
-   "player 0.ase": {
+{ "frames": [
+   {
+    "filename": "player 0.ase",
     "frame": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +8,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 1.ase": {
+   {
+    "filename": "player 1.ase",
     "frame": { "x": 16, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +17,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 2.ase": {
+   {
+    "filename": "player 2.ase",
     "frame": { "x": 32, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +26,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 3.ase": {
+   {
+    "filename": "player 3.ase",
     "frame": { "x": 0, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -31,7 +35,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 4.ase": {
+   {
+    "filename": "player 4.ase",
     "frame": { "x": 16, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -39,7 +44,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 5.ase": {
+   {
+    "filename": "player 5.ase",
     "frame": { "x": 32, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -47,7 +53,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 6.ase": {
+   {
+    "filename": "player 6.ase",
     "frame": { "x": 0, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -55,7 +62,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 7.ase": {
+   {
+    "filename": "player 7.ase",
     "frame": { "x": 16, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -63,7 +71,8 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
-   "player 8.ase": {
+   {
+    "filename": "player 8.ase",
     "frame": { "x": 32, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -71,7 +80,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    }
- },
+ ],
  "meta": {
   "app": "https://www.aseprite.org/",
   "version": "1.2.32-x64",

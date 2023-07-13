@@ -8,24 +8,38 @@ import haxe.io.Path;
  * into the assets/images/ directory ready for consumption by code
 **/
 class AsepritePacker {
+	#if sys
 	static var spritePath = "../art/";
 	static var outputDir = "../assets/images/";
 	static var aseExtensions = ["ase", "aseprite"];
 
-	static var writtenFiles:Array<String>;
+	static var skippedFiles:Int = 0;
+	static var writtenFiles:Array<String> = [];
+
+	static inline var BLUE = '\033[1;34m';
+	static inline var YELLOW = '\033[33m';
+	static inline var RED = '\033[31m';
+	static inline var GREEN = '\033[32m';
+	static inline var GRAY = '\033[0;37m';
+	#end
 
 	static public function main():Void {
-		writtenFiles = [];
+		#if sys
 		search(spritePath, exportAtlas);
 
 		trace('------------------------');
-		trace('    ${writtenFiles.length/2} files exported');
+		trace('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
+		trace('    ${RED}${skippedFiles} files ignored${GRAY}');
+		#else
+		throw 'Aseprite Packer can only be run against targets with sys access';
+		#end
 	}
 
+	#if sys
 	static function exportAtlas(aseFilePath:String) {
 		var normal = Path.normalize(aseFilePath);
 		if (aseExtensions.contains(Path.extension(normal)) && StringTools.startsWith(normal, spritePath)) {
-			trace(' +++ processing: $normal');
+			trace('\t${GREEN}⤷${GRAY} processing: ${BLUE}$normal${GRAY}');
 
 			var artPath = normal.split(spritePath)[1];
 			var plainName = Path.withoutExtension(Path.withoutDirectory(artPath));
@@ -51,7 +65,7 @@ class AsepritePacker {
 			"--list-tags",
 			"--list-layers",
 			"--list-slices",
-			"--format", "json-hash",
+			"--format", "json-array",
 			"--data", '$jsonOutputPath',
 			"--sheet", '$imageOutputPath'];
 
@@ -63,19 +77,22 @@ class AsepritePacker {
 			var exit = Sys.command(cmd, args);
 
 			if (exit != 0) {
-				trace(' !!! Export exited with code $exit for file $normal');
+				trace(' ${RED}!!! Export exited with code $exit for file $normal${GRAY}');
 			} else {
 				writtenFiles.push(imageOutputPath);
 				writtenFiles.push(jsonOutputPath);
 			}
 		  } else {
+			skippedFiles++;
+			#if debug
 			trace('- unknown file discovered: ${aseFilePath}');
+			#end
 		  }
 	}
 
 	static function search(directory:String = "path/to/", process:String->Void) {
 		if (sys.FileSystem.exists(directory)) {
-			trace('- searching directory: $directory');
+			trace('${GREEN}→${GRAY} searching directory: ${YELLOW}$directory${GRAY}');
 
 			for (file in sys.FileSystem.readDirectory(directory)) {
 				var path = haxe.io.Path.join([directory, file]);
@@ -89,5 +106,6 @@ class AsepritePacker {
 		} else {
 		  trace('"$directory" does not exists');
 		}
-	  }
+	}
+	#end
 }

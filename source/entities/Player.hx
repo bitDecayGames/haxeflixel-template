@@ -1,20 +1,20 @@
 package entities;
 
-import helpers.SpriteLoader;
-import helpers.AseAnims;
+import loaders.Aseprite;
+import loaders.AsepriteAnimations;
 import input.SimpleController;
 import input.InputCalcuator;
 import flixel.FlxSprite;
 
 class Player extends FlxSprite {
-	public static var anims = AseAnims.loadAnimNames("assets/images/characters/player.json");
+	public static var anims = AsepriteAnimations.loadNames("assets/images/characters/player.json");
 
 	var speed:Float = 30;
 	var playerNum = 0;
 
 	public function new() {
 		super();
-		SpriteLoader.loadAllAnimations(this, AssetPaths.player__png, AssetPaths.player__json);
+		Aseprite.loadAllAnimations(this, AssetPaths.player__png, AssetPaths.player__json);
 		animation.play(anims.left);
 	}
 
