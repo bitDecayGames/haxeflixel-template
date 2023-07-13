@@ -1,5 +1,7 @@
 package states;
 
+import flixel.util.FlxColor;
+import debug.DebugLayers;
 import achievements.Achievements;
 import flixel.addons.transition.FlxTransitionableState;
 import signals.Lifecycle;
@@ -29,7 +31,7 @@ class PlayState extends FlxTransitionableState {
 		super.update(elapsed);
 
 		var cam = FlxG.camera;
-		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10);
+		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.YELLOW);
 	}
 
 	override public function onFocusLost() {

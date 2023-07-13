@@ -1,6 +1,6 @@
 package;
 
-import debug.DebugDraw;
+import debug.DebugLayers;
 import flixel.system.debug.log.LogStyle;
 import haxe.Timer;
 import audio.FmodPlugin;
@@ -18,6 +18,7 @@ import flixel.addons.transition.TransitionData;
 import flixel.util.FlxColor;
 import misc.FlxTextFactory;
 import openfl.display.Sprite;
+import bitdecay.flixel.debug.DebugDraw;
 #if play
 import states.PlayState;
 #end
@@ -69,7 +70,7 @@ class Main extends Sprite {
 
 		FlxG.plugins.add(new FmodPlugin());
 
-		DebugDraw.init();
+		DebugDraw.init(Type.allEnums(DebugLayers));
 
 		configureLogging();
 	}
