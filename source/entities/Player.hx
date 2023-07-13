@@ -1,21 +1,21 @@
 package entities;
 
-import flixel.FlxG;
-import flixel.math.FlxPoint;
-import bitdecay.flixel.debug.DebugDraw;
+import helpers.SpriteLoader;
+import helpers.AseAnims;
 import input.SimpleController;
 import input.InputCalcuator;
-import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
 class Player extends FlxSprite {
+	public static var anims = AseAnims.loadAnimNames("assets/images/characters/player.json");
+
 	var speed:Float = 30;
 	var playerNum = 0;
 
 	public function new() {
 		super();
-		makeGraphic(20, 20, FlxColor.WHITE);
-		color = FlxColor.BLUE;
+		SpriteLoader.loadAllAnimations(this, AssetPaths.player__png, AssetPaths.player__json);
+		animation.play(anims.left);
 	}
 
 	override public function update(delta:Float) {

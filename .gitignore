@@ -7,6 +7,9 @@ fmod/CachedHaxeConstantsOutputLocation
 # FMOD
 fmod/.cache/
 
+# error files
+dump/
+
 # misc
 .VSCodeCounter/
 .DS_Store
