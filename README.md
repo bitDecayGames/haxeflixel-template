@@ -5,7 +5,7 @@
 To develop on the game, run `lime test html5`
 
 ### Template features:
-- Preconfigured libraries
+- Pre-configured libraries
   - FMOD Studio project with menu sound effects and a random song I wrote
   - Ready to use Bitlytics tie-ins
   - Various utility libraries
@@ -13,7 +13,8 @@ To develop on the game, run `lime test html5`
   - Main menu with buttons to load the credits or start the game
     - Controller, keyboard, or mouse support for menu navigation
   - Credits state with built-in scrolling
-- Preconfigured .gitignore
+- Pre-configured .gitignore
+- [Aseprite art pipeline](#aseprite)
 - Github build actions
   - Dev builds on push to master
   - Production builds on releases
@@ -40,6 +41,12 @@ To develop on the game, run `lime test html5`
 * `./bin/init_deps.sh` - Script that reads `haxelib.deps` file and configures `haxelib`
   * This script will need to be run any time the dependencies change
   * This script is run by the github actions as part of the build so local and github builds are equivalent
+
+### Aseprite
+
+All Aseprite files within the `art/` directory are automatically exported as Atlases as part of a pre-commit hook. The details of this process can be found in the `pre-commit` hook file, as well as the `AsepritePacker` tool code.
+
+There is an accompanying set of code in the `source/loaders/` directory to aid with loading these files into game objects that allow frames and durations to be driven entirely via the Aseprite files.
 
 ### Maintenance
 

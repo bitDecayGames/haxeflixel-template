@@ -17,5 +17,11 @@
             ],
             "label": "Windows Debug Dev Analytics"
         }
+    ],
+    "cSpell.words": [
+        "Aseprite",
+        "FMOD",
+        "haxe",
+        "haxelib"
     ]
 }
