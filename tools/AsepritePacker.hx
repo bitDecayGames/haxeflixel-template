@@ -8,15 +8,21 @@ import haxe.io.Path;
  * into the assets/images/ directory ready for consumption by code
 **/
 class AsepritePacker {
+
+	static inline var FLAG_INPUT_DIR = "--input-dir";
+	static inline var FLAG_OUTPUT_DIR = "--output-dir";
+	static inline var FLAG_CLEAN = "--clean";
+
 	#if sys
-	static var spritePath = "../art/";
-	static var outputDir = "../assets/images/";
+	static var inFileDir:String = null;
+	static var outputDir:String = null;
 	static var aseExtensions = ["ase", "aseprite"];
 
 	static var skippedFiles:Int = 0;
 	static var writtenFiles:Array<String> = [];
 
 	static inline var BLUE = '\033[1;34m';
+	static inline var MAGENTA = '\033[35m';
 	static inline var YELLOW = '\033[33m';
 	static inline var RED = '\033[31m';
 	static inline var GREEN = '\033[32m';
@@ -25,7 +31,24 @@ class AsepritePacker {
 
 	static public function main():Void {
 		#if sys
-		search(spritePath, exportAtlas);
+		var args = parseArgs(Sys.args());
+
+		inFileDir = args[FLAG_INPUT_DIR];
+		outputDir = args[FLAG_OUTPUT_DIR];
+
+		if (inFileDir == null || outputDir == null) {
+			throw '${RED}both ${FLAG_INPUT_DIR} and ${FLAG_OUTPUT_DIR} are required${GRAY}';
+		}
+
+		if (args.exists(FLAG_CLEAN)) {
+			trace('${BLUE}--clean${GRAY} flag provided');
+			trace('${GREEN}→${GRAY} deleting contents of ${YELLOW}${outputDir}${GRAY}');
+			deleteDirRecursively(outputDir);
+			trace('------------------------');
+			trace('');
+		}
+
+		search(inFileDir, exportAtlas);
 
 		trace('------------------------');
 		trace('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
@@ -36,12 +59,25 @@ class AsepritePacker {
 	}
 
 	#if sys
+	static function parseArgs(argsArr:Array<String>):Map<String, String> {
+		var result = new Map<String, String>();
+		for (arg in argsArr) {
+			var split = arg.split('=');
+			if (split.length > 1) {
+				result.set(split[0], [for (i in 1...split.length) split[i]].join(''));
+			} else {
+				result.set(split[0], null);
+			}
+		}
+		return result;
+	}
+
 	static function exportAtlas(aseFilePath:String) {
 		var normal = Path.normalize(aseFilePath);
-		if (aseExtensions.contains(Path.extension(normal)) && StringTools.startsWith(normal, spritePath)) {
+		if (aseExtensions.contains(Path.extension(normal)) && StringTools.startsWith(normal, inFileDir)) {
 			trace('\t${GREEN}⤷${GRAY} processing: ${BLUE}$normal${GRAY}');
 
-			var artPath = normal.split(spritePath)[1];
+			var artPath = normal.split(inFileDir)[1];
 			var plainName = Path.withoutExtension(Path.withoutDirectory(artPath));
 			var subDirs = Path.directory(artPath).split("/");
 
@@ -57,6 +93,10 @@ class AsepritePacker {
 			if (writtenFiles.contains(jsonOutputPath)) {
 				throw 'Multiple files trying to write to ${jsonOutputPath}';
 			}
+
+			trace('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$imageOutputPath${GRAY}');
+			trace('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$jsonOutputPath${GRAY}');
+
 
 			// aseprite -b player.ase --format json-array --data spritesheet.json --sheet spritesheet.png
 			var cmd = "aseprite";
@@ -107,5 +147,22 @@ class AsepritePacker {
 		  trace('"$directory" does not exists');
 		}
 	}
+
+	private static function deleteDirRecursively(path:String) : Void
+		{
+		  if (sys.FileSystem.exists(path) && sys.FileSystem.isDirectory(path))
+		  {
+			var entries = sys.FileSystem.readDirectory(path);
+			for (entry in entries) {
+				var entryPath = haxe.io.Path.join([path, entry]);
+				if (sys.FileSystem.isDirectory(entryPath)) {
+					deleteDirRecursively(entryPath);
+					sys.FileSystem.deleteDirectory(entryPath);
+				} else {
+					sys.FileSystem.deleteFile(entryPath);
+				}
+			}
+		  }
+		}
 	#end
 }

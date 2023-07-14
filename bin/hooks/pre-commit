@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+#---------------------------------------------------------#
+# This pre-commit hook detects new/changed Aseprite files #
+# and runs the Aseprite CLI export tooling to regenerate  #
+# the atlas files. Requires Aseprite CLI to be installed  #
+#---------------------------------------------------------#
+
+# If any command fails, exit immediately with that command's exit status
+set -eo pipefail
+
+ASEPRITE_CMD='aseprite'
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GRAY='\033[0;37m'
+NC='\033[0m'
+
+# Find all changed files for this commit
+# Compute the diff only once to save a small amount of time.
+CHANGED_FILES=$(git diff --name-only --cached --diff-filter=ACDMR)
+
+# Get only changed files that match our file suffix pattern
+get_pattern_files() {
+    pattern=$(echo "$*" | sed "s/ /\$\\\|/g")
+    echo "$CHANGED_FILES" | { grep "$pattern$" || true; }
+}
+
+# Get all changed aseprite files
+ASE_FILES=$(get_pattern_files .ase)
+ASEPRITE_FILES=$(get_pattern_files .aseprite)
+
+if [[ -n "$ASEPRITE_FILES" ]] || [[ -n "$ASE_FILES" ]]
+then
+	echo "found aseprite file updates:"
+	echo -e "${YELLOW}$ASE_FILES"
+	echo -e "$ASEPRITE_FILES${GRAY}"
+	echo ""
+
+	if ! command -v ${ASEPRITE_CMD} &> /dev/null
+	then
+		echo -e "${RED}ERROR: ${ASEPRITE_CMD} command could not be found. Unable to regenerate assets"
+		echo -e "If you are sure you want to commit these changes, commit with --no-verify${NC}"
+		exit 1
+	fi
+
+	./bin/export_ase.sh
+	git add ./assets/aseprite/
+fi
