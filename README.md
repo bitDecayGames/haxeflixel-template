@@ -19,11 +19,16 @@ To develop on the game, run `lime test html5`
   - Dev builds on push to master
   - Production builds on releases
 
-### Configuration
+### Template Configuration (on repo creation)
 1. Set the proper Github secrets:
     - `BUTLER_API_KEY`: The Butler API key from itch.io
     - `ANALYTICS_TOKEN`: The InfluxDB access token to the bucket
 2. Run the `./bin/setup_repo.sh` script to update github workflow files and project configuration json
+
+### User Configuration (new contributor setup)
+
+1. `./bin/setup_hooks.sh` - Run to copy git hooks over
+2. `./bin/init_deps.sh` - Run to get dependencies at the proper versions. See [haxelib.deps](#haxelibdeps) for more info.
 
 ### Analytics
 - Holding `D` and pressing `M` at the main menu will allow playing the release game without sending metrics. This is indicated by a sound effect and a log message once pressed.
