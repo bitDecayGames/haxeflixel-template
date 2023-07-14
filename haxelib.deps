@@ -1,8 +1,8 @@
 # Main build deps
-flixel 5.2.2
-flixel-addons 3.0.2
+flixel 5.3.1
+flixel-addons 3.1.1
 flixel-ui 2.5.0
-openfl 9.2.1
+openfl 9.2.2
 
 # bitDecayGames deps
 bitdecaybtree git https://github.com/bitDecayGames/BehaviorTree.git

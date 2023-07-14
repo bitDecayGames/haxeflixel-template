@@ -2,7 +2,7 @@ package achievements;
 
 import achievements.AchievementToast;
 import flixel.FlxG;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import helpers.Analytics;
 import helpers.Storage;
 

@@ -123,7 +123,7 @@ class SplashScreenState extends FlxState {
 }
 
 class SplashImage extends FlxSprite {
-	public function new(gfx:FlxGraphicAsset, width:Int = 0, height:Int = 0, startFrame:Int = 0, endFrame:Int = -1, rate:Int = 10) {
+	public function new(gfx:FlxGraphicAsset, width:Int = 0, height:Int = 0, startFrame:Int = 0, endFrame:Int = 1, rate:Int = 10) {
 		super(gfx);
 		var animated = width != 0 && height != 0;
 		loadGraphic(gfx, animated, width, height);

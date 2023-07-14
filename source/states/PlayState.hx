@@ -1,5 +1,6 @@
 package states;
 
+import entities.Item;
 import flixel.util.FlxColor;
 import debug.DebugLayers;
 import achievements.Achievements;
@@ -23,6 +24,10 @@ class PlayState extends FlxTransitionableState {
 
 		player = new Player();
 		add(player);
+
+		var item = new Item();
+		item.y = 50;
+		add(item);
 
 		add(Achievements.ACHIEVEMENT_NAME_HERE.toToast(true, true));
 	}

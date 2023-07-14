@@ -1,21 +1,28 @@
 package entities;
 
 import loaders.Aseprite;
-import loaders.AsepriteAnimations;
+import loaders.AsepriteMacros;
 import input.SimpleController;
 import input.InputCalcuator;
 import flixel.FlxSprite;
 
 class Player extends FlxSprite {
-	public static var anims = AsepriteAnimations.loadNames("assets/images/characters/player.json");
+	public static var anims = AsepriteMacros.tagNames("assets/images/characters/player.json");
+	public static var layers = AsepriteMacros.layerNames("assets/images/characters/player.json");
+	public static var eventData = AsepriteMacros.frameUserData("assets/images/characters/player.json", "Layer 1");
 
 	var speed:Float = 30;
 	var playerNum = 0;
 
 	public function new() {
 		super();
-		Aseprite.loadAllAnimations(this, AssetPaths.player__png, AssetPaths.player__json);
-		animation.play(anims.left);
+		Aseprite.loadAllAnimations(this, AssetPaths.player__json);
+		animation.play(anims.right);
+		animation.callback = (anim, frame, index) -> {
+			if (eventData.exists(index)) {
+				trace('frame $index has data ${eventData.get(index)}');
+			}
+		};
 	}
 
 	override public function update(delta:Float) {
