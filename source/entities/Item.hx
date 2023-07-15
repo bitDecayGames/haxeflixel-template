@@ -5,7 +5,7 @@ import loaders.AsepriteMacros;
 import flixel.FlxSprite;
 
 class Item extends FlxSprite {
-	public static var slices = AsepriteMacros.sliceNames("assets/images/items.json");
+	public static var slices = AsepriteMacros.sliceNames("assets/aseprite/items.json");
 
 	public function new() {
 		super();
