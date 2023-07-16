@@ -36,7 +36,7 @@ class PlayState extends FlxTransitionableState {
 		super.update(elapsed);
 
 		var cam = FlxG.camera;
-		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.YELLOW);
+		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
 	}
 
 	override public function onFocusLost() {

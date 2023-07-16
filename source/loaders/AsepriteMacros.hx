@@ -45,7 +45,7 @@ class AsepriteMacros {
 			var tags:Array<MetaTag> = json.meta.frameTags;
 			var map:Dynamic = {};
 			for (tag in tags) {
-				Reflect.setField(map,  clean(tag.name), tag.name);
+				Reflect.setField(map, clean(tag.name), tag.name);
 			}
 			macro $v{map};
 		} catch (e) {
@@ -60,7 +60,7 @@ class AsepriteMacros {
 			var map:Dynamic = {};
 			for (s in slices) {
 				for (key in s.keys) {
-					Reflect.setField(map,  clean('${s.name}_${key.frame}'), '${s.name}_${key.frame}');
+					Reflect.setField(map, clean('${s.name}_${key.frame}'), '${s.name}_${key.frame}');
 				}
 			}
 			macro $v{map};
@@ -101,7 +101,6 @@ class AsepriteMacros {
 		} catch (e) {
 			haxe.macro.Context.error('Failed to load json: $e', haxe.macro.Context.currentPos());
 		}
-
 	}
 
 	private static function clean(input:String):String {

@@ -4,7 +4,6 @@
 import haxefmod.FmodManager;
 import FmodConstants.FmodSFX;
 import FmodConstants.FmodSongs;
-
 // Give easy access to logging
 import bitdecay.flixel.system.QuickLog;
 

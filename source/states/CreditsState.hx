@@ -8,9 +8,7 @@ import flixel.FlxSprite;
 import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-
 import haxefmod.flixel.FmodFlxUtilities;
-
 import config.Configure;
 import helpers.UiHelpers;
 import misc.FlxTextFactory;
@@ -109,7 +107,8 @@ class CreditsState extends FlxUIState {
 		_allCreditElements.push(_txtThankYou);
 	}
 
-	private function AddSectionToCreditsTextArrays(role:String, creators:Array<String>, finalRoleArray:Array<FlxBitmapText>, finalCreatorsArray:Array<FlxBitmapText>) {
+	private function AddSectionToCreditsTextArrays(role:String, creators:Array<String>, finalRoleArray:Array<FlxBitmapText>,
+			finalCreatorsArray:Array<FlxBitmapText>) {
 		var roleText = FlxTextFactory.make(role, 0, 0, 24);
 		add(roleText);
 		finalRoleArray.push(roleText);

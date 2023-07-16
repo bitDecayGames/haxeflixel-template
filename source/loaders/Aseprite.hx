@@ -36,7 +36,7 @@ class Aseprite {
 
 		var tags:Array<AsepriteMacros.MetaTag> = json.meta.frameTags;
 		for (tag in tags) {
-			into.animation.add(tag.name, [ for (i in tag.from...tag.to + 1) i ]);
+			into.animation.add(tag.name, [for (i in tag.from...tag.to + 1) i]);
 		}
 	}
 
@@ -56,7 +56,7 @@ class Aseprite {
 
 		into.frame = atlasData.getByName(sliceName);
 		into.width = into.frame.frame.width;
-		into.height= into.frame.frame.height;
+		into.height = into.frame.frame.height;
 	}
 
 	private static function alreadyCached(asset:FlxGraphicAsset):Bool {
