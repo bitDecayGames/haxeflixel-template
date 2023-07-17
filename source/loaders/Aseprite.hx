@@ -1,52 +1,72 @@
 package loaders;
 
-import flixel.system.FlxAssets.FlxGraphicAsset;
-import flixel.FlxG;
-import flixel.graphics.FlxGraphic;
-import flixel.math.FlxPoint;
-import loaders.AsepriteMacros.Slice;
-import flixel.math.FlxRect;
-import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.io.Path;
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+import flixel.system.FlxAssets.FlxJsonAsset;
+import flixel.system.FlxAssets.FlxGraphicAsset;
+
+import loaders.AsepriteTypes.AseAtlas;
 
 class Aseprite {
-	private static var jsonCache:Map<String, Dynamic> = [];
+	// a cache to prevent us from reparsing json multiple times
+	private static var atlasCache:Map<String, AseAtlas> = [];
 
+	// loads all animations from the atlas file onto the provided sprite
 	public static function loadAllAnimations(into:FlxSprite, data:String) {
-		var json = jsonCache.get(data);
-		if (json == null) {
-			json = haxe.Json.parse(lime.utils.Assets.getText(data));
-			jsonCache.set(data, json);
+		if (!atlasCache.exists(data)) {
+			var asAtlas:FlxJsonAsset<AseAtlas> = data;
+			atlasCache.set(data, asAtlas.getData());
 		}
 
-		var imgAsset = Path.join([Path.directory(data), json.meta.image]);
+		var atlas = atlasCache.get(data);
+
+		var imgAsset = Path.join([Path.directory(data), atlas.meta.image]);
 
 		if (!alreadyCached(imgAsset)) {
 			loadAsepriteAtlas(data);
 		}
 
+		var width = 0;
+		var height = 0;
+		if (atlas.frames is Array) {
+			width = Std.int(atlas.frames[0].sourceSize.w);
+			height = Std.int(atlas.frames[0].sourceSize.h);
+		} else {
+			var hash:AsepriteTypes.Hash<AsepriteTypes.AseAtlasFrame> = atlas.frames;
+			var frame = hash.keyValueIterator().next();
+			width = Std.int(frame.value.sourceSize.w);
+			height = Std.int(frame.value.sourceSize.h);
+		}
+
 		// passing animated false here to just save generating frames we won't be using
-		into.loadGraphic(imgAsset, false, json.frames[0].sourceSize.w, json.frames[0].sourceSize.h);
+		into.loadGraphic(imgAsset, false, width, height);
 
 		// Loading the frames as FlxAtlasFrames will parse the duration off of the frames
 		// for us.
 		var atlasData = FlxAtlasFrames.fromAseprite(imgAsset, data);
 		into.frames = atlasData;
 
-		var tags:Array<AsepriteMacros.MetaTag> = json.meta.frameTags;
+		var tags:Array<AsepriteTypes.AseAtlasTag> = atlas.meta.frameTags;
 		for (tag in tags) {
 			into.animation.add(tag.name, [for (i in tag.from...tag.to + 1) i]);
 		}
 	}
 
+	// loads the requested slice image from the atlas onto the provided sprite
 	public static function loadSlice(into:FlxSprite, data:String, sliceName:String) {
-		var json = jsonCache.get(data);
-		if (json == null) {
-			json = haxe.Json.parse(lime.utils.Assets.getText(data));
-			jsonCache.set(data, json);
+		if (!atlasCache.exists(data)) {
+			var asAtlas:FlxJsonAsset<AseAtlas> = data;
+			atlasCache.set(data, asAtlas.getData());
 		}
-		var imgAsset = Path.join([Path.directory(data), json.meta.image]);
+
+		var atlas = atlasCache.get(data);
+
+		var imgAsset = Path.join([Path.directory(data), atlas.meta.image]);
 
 		if (!alreadyCached(imgAsset)) {
 			loadAsepriteAtlas(data);
@@ -68,28 +88,40 @@ class Aseprite {
 	}
 
 	private static function loadAsepriteAtlas(data:String) {
-		var json = haxe.Json.parse(lime.utils.Assets.getText(data));
-		var imgAsset = Path.join([Path.directory(data), json.meta.image]);
+		if (!atlasCache.exists(data)) {
+			var asAtlas:FlxJsonAsset<AseAtlas> = data;
+			atlasCache.set(data, asAtlas.getData());
+		}
+
+		var atlas = atlasCache.get(data);
+
+		var imgAsset = Path.join([Path.directory(data), atlas.meta.image]);
 		var atlasData = FlxAtlasFrames.fromAseprite(imgAsset, data);
 
-		var slices:Array<Slice> = json.meta.slices;
+		var slices:Array<AsepriteTypes.AseAtlasSlice> = atlas.meta.slices;
 		for (slice in slices) {
-			texturePackerSliceHelper(json.frames, slice, atlasData, true);
+			texturePackerSliceHelper(atlas.frames, slice, atlasData, true);
 		}
 	}
 
-	private static function texturePackerSliceHelper(frameData:Array<Dynamic>, slice:Slice, frames:FlxAtlasFrames, useFrameDuration = false):Void {
-		for (key in slice.keys) {
-			var refFrame = frameData[key.frame];
+	private static function texturePackerSliceHelper(frameData:AsepriteTypes.HashOrArray<AsepriteTypes.AseAtlasFrame>, slice:AsepriteTypes.AseAtlasSlice, frames:FlxAtlasFrames, useFrameDuration = false):Void {
+		if (frameData is Array ) {
+			for (key in slice.keys) {
+				var refFrame = frameData[key.frame];
 
-			var frameName = '${slice.name}_${key.frame}';
+				var frameName = '${slice.name}_${key.frame}';
 
-			var frameRect = FlxRect.get(refFrame.frame.x + key.bounds.x, refFrame.frame.y + key.bounds.y, key.bounds.w, key.bounds.h);
+				var frameRect = FlxRect.get(refFrame.frame.x + key.bounds.x, refFrame.frame.y + key.bounds.y, key.bounds.w, key.bounds.h);
 
-			final sourceSize = FlxPoint.get(refFrame.sourceSize.w, refFrame.sourceSize.h);
-			final offset = FlxPoint.get(refFrame.spriteSourceSize.x, refFrame.spriteSourceSize.y);
-			final duration = (useFrameDuration && refFrame.duration != null) ? refFrame.duration / 1000 : 0;
-			frames.addAtlasFrame(frameRect, sourceSize, offset, frameName, 0, false, false, duration);
+				final sourceSize = FlxPoint.get(refFrame.sourceSize.w, refFrame.sourceSize.h);
+				final offset = FlxPoint.get(refFrame.spriteSourceSize.x, refFrame.spriteSourceSize.y);
+				final duration = (useFrameDuration && refFrame.duration != null) ? refFrame.duration / 1000 : 0;
+				frames.addAtlasFrame(frameRect, sourceSize, offset, frameName, 0, false, false, duration);
+			}
+		} else {
+			var msg = "--json-hash Aseprite exports currently do not support slices. Use --json-array instead";
+			trace(msg);
+			throw msg;
 		}
 	}
 }
