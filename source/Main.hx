@@ -76,7 +76,7 @@ class Main extends Sprite {
 	}
 
 	private function configureLogging() {
-		#if FLIXEL_DEBUG
+		#if FLX_DEBUG
 		LogStyle.WARNING.openConsole = true;
 		LogStyle.WARNING.callbackFunction = () -> {
 			// Make sure we open the logger if a log triggered

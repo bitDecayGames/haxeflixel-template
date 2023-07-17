@@ -30,6 +30,8 @@ class PlayState extends FlxTransitionableState {
 		add(item);
 
 		add(Achievements.ACHIEVEMENT_NAME_HERE.toToast(true, true));
+
+		QuickLog.error('Example error');
 	}
 
 	override public function update(elapsed:Float) {
