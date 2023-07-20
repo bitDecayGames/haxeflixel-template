@@ -1,15 +1,14 @@
 package achievements;
 
 import achievements.AchievementToast;
-import flixel.FlxG;
-import flixel.sound.FlxSound;
 import helpers.Analytics;
 import helpers.Storage;
 
+typedef AchievementID = Int;
 class Achievements {
 	public static var ACHIEVEMENT_NAME_HERE:AchievementDef;
 
-	public static var ALL:Array<AchievementDef>;
+	public static var ALL:Map<AchievementID, AchievementDef>;
 	public static var ACHIEVEMENTS_DISPLAYED:Int = 0;
 
 	public static function initAchievements() {
@@ -18,7 +17,7 @@ class Achievements {
 
 		// @formatter:off
 		ALL = [
-			ACHIEVEMENT_NAME_HERE
+			1 => ACHIEVEMENT_NAME_HERE,
 		];
 		// @formatter:on
 	}
@@ -37,8 +36,7 @@ class AchievementDef {
 	public var iconIndex:Int;
 	public var count:Int;
 	public var achieved:Bool;
-
-	private var sfx:Array<FlxSound> = [];
+	public var secret:Bool;
 
 	private var soundPlaying = false;
 
@@ -53,34 +51,11 @@ class AchievementDef {
 		achieved = Storage.hasAchievement(key);
 	}
 
-	private function soundDone() {
-		soundPlaying = false;
-	}
-
-	private function initSounds() {
-		sfx = [
-			FlxG.sound.load(AssetPaths.Achieve1__ogg, soundDone),
-			FlxG.sound.load(AssetPaths.Achieve2__ogg, soundDone),
-			FlxG.sound.load(AssetPaths.Achieve3__ogg, soundDone),
-			FlxG.sound.load(AssetPaths.Achieve4__ogg, soundDone),
-			FlxG.sound.load(AssetPaths.Achieve5__ogg, soundDone),
-		];
-	}
-
 	public function toToast(show:Bool, force:Bool = false):AchievementToast {
-		if (sfx.length == 0) {
-			initSounds();
-		}
-
 		var a = new AchievementToast(this);
 		if (show) {
 			if (!achieved || force) {
-				if (!soundPlaying) {
-					var sound = sfx[FlxG.random.int(0, sfx.length - 1)];
-					sound.play(true);
-					soundPlaying = true;
-				}
-
+				FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 				Achievements.ACHIEVEMENTS_DISPLAYED++;
 				a.show(Achievements.ACHIEVEMENTS_DISPLAYED);
 				Analytics.reportAchievement(this.key);

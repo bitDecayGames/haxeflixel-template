@@ -1,13 +1,14 @@
 package achievements;
 
-import achievements.Achievements;
-import achievements.Achievements.AchievementDef;
 import flixel.tweens.FlxTween;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
+
+import achievements.Achievements;
+import achievements.Achievements.AchievementDef;
 
 class AchievementToast extends FlxTypedSpriteGroup<FlxSprite> {
 	private static var TIME_TO_TRANSITION:Float = .25;

@@ -4,6 +4,9 @@ flixel-addons 3.1.1
 flixel-ui 2.5.0
 openfl 9.2.2
 
+# newgrounds integration
+newgrounds 2.0.0
+
 # bitDecayGames deps
 bitdecaybtree git https://github.com/bitDecayGames/BehaviorTree.git
 bitlytics git https://github.com/bitDecayGames/Bitlytics.git

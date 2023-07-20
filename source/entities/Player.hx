@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.graphics.FlxAsepriteUtil;
 import loaders.Aseprite;
 import loaders.AsepriteMacros;
 import input.SimpleController;
@@ -16,6 +17,8 @@ class Player extends FlxSprite {
 
 	public function new() {
 		super();
+		// This call can be used once https://github.com/HaxeFlixel/flixel/pull/2860 is merged
+		// FlxAsepriteUtil.loadAseAtlasAndTags(this, AssetPaths.player__png, AssetPaths.player__json);
 		Aseprite.loadAllAnimations(this, AssetPaths.player__json);
 		animation.play(anims.right);
 		animation.callback = (anim, frame, index) -> {
