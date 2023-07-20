@@ -1,11 +1,11 @@
 package entities;
 
-import flixel.graphics.FlxAsepriteUtil;
+import flixel.FlxSprite;
+
+import input.InputCalcuator;
+import input.SimpleController;
 import loaders.Aseprite;
 import loaders.AsepriteMacros;
-import input.SimpleController;
-import input.InputCalcuator;
-import flixel.FlxSprite;
 
 class Player extends FlxSprite {
 	public static var anims = AsepriteMacros.tagNames("assets/aseprite/characters/player.json");
