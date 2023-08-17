@@ -8,6 +8,7 @@ To develop on the game, run `lime test html5`
 - Pre-configured libraries
   - FMOD Studio project with menu sound effects and a random song I wrote
   - Ready to use Bitlytics tie-ins
+  - Newgrounds API boiler plate
   - Various utility libraries
 - Basic state templates
   - Main menu with buttons to load the credits or start the game
