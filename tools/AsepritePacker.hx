@@ -10,11 +10,13 @@ import haxe.io.Path;
 class AsepritePacker {
 
 	static inline var FLAG_INPUT_DIR = "--input-dir";
+	static inline var FLAG_INPUT_FILES = "--input-files";
 	static inline var FLAG_OUTPUT_DIR = "--output-dir";
 	static inline var FLAG_CLEAN = "--clean";
 
 	#if sys
 	static var inFileDir:String = null;
+	static var inFilePaths:String = null;
 	static var outputDir:String = null;
 	static var aseExtensions = ["ase", "aseprite"];
 
@@ -34,6 +36,7 @@ class AsepritePacker {
 		var args = parseArgs(Sys.args());
 
 		inFileDir = args[FLAG_INPUT_DIR];
+		inFilePaths = args[FLAG_INPUT_FILES];
 		outputDir = args[FLAG_OUTPUT_DIR];
 
 		if (inFileDir == null || outputDir == null) {
@@ -48,7 +51,14 @@ class AsepritePacker {
 			trace('');
 		}
 
-		search(inFileDir, exportAtlas);
+		if (inFilePaths != null) {
+			var filePaths = inFilePaths.split(',');
+			for (fp in filePaths) {
+				exportAtlas(fp);
+			}
+		} else {
+			search(inFileDir, exportAtlas);
+		}
 
 		trace('------------------------');
 		trace('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');

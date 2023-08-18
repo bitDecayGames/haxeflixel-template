@@ -32,9 +32,12 @@ ASEPRITE_FILES=$(get_pattern_files .aseprite)
 
 if [[ -n "$ASEPRITE_FILES" ]] || [[ -n "$ASE_FILES" ]]
 then
+	all_files=(${ASEPRITE_FILES[@]} ${ASE_FILES[@]})
+
 	echo "found aseprite file updates:"
-	echo -e "${YELLOW}$ASE_FILES"
-	echo -e "$ASEPRITE_FILES${GRAY}"
+	echo -e "${YELLOW}"
+	printf '%s\n' "${all_files[@]}"
+	echo -e "${GRAY}"
 	echo ""
 
 	if ! command -v ${ASEPRITE_CMD} &> /dev/null
@@ -44,6 +47,8 @@ then
 		exit 1
 	fi
 
-	./bin/export_ase.sh
+	# add our ../ prefix as the exporter runs from the tools/ directory
+	all_files=( "${all_files[@]/#/../}" )
+	./bin/export_ase.sh "${all_files[@]}"
 	git add ./assets/aseprite/
 fi
