@@ -73,6 +73,8 @@ class Main extends Sprite {
 		DebugDraw.init(Type.allEnums(DebugLayers));
 
 		configureLogging();
+
+		trace('Build Hash: ${Macros.getGitCommitShortHash()}');
 	}
 
 	private function configureLogging() {
