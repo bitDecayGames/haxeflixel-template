@@ -1,13 +1,19 @@
 package loaders;
 
 class AsepriteMacros {
+	public static inline var ALL_FRAMES_ANIM_NAME = "all_frames";
+
 	public static macro function tagNames(path:String) {
 		return try {
 			var json = haxe.Json.parse(sys.io.File.getContent(path));
-			var tags:Array<loaders.AsepriteTypes.AseAtlasTag> = json.meta.frameTags;
+			var tags:Array<flixel.graphics.atlas.AseAtlas.AseAtlasTag> = json.meta.frameTags;
 			var map:Dynamic = {};
-			for (tag in tags) {
-				Reflect.setField(map, clean(tag.name), tag.name);
+			if (tags.length > 0) {
+				for (tag in tags) {
+					Reflect.setField(map, clean(tag.name), tag.name);
+				}
+			} else {
+				Reflect.setField(map, ALL_FRAMES_ANIM_NAME, ALL_FRAMES_ANIM_NAME);
 			}
 			macro $v{map};
 		} catch (e) {
@@ -18,7 +24,7 @@ class AsepriteMacros {
 	public static macro function sliceNames(path:String) {
 		return try {
 			var json = haxe.Json.parse(sys.io.File.getContent(path));
-			var slices:Array<loaders.AsepriteTypes.AseAtlasSlice> = json.meta.slices;
+			var slices:Array<flixel.graphics.atlas.AseAtlas.AseAtlasSlice> = json.meta.slices;
 			var map:Dynamic = {};
 			for (s in slices) {
 				for (key in s.keys) {
@@ -33,8 +39,8 @@ class AsepriteMacros {
 
 	public static macro function layerNames(path:String) {
 		return try {
-			var atlas:loaders.AsepriteTypes.AseAtlas = haxe.Json.parse(sys.io.File.getContent(path));
-			var layers:Array<loaders.AsepriteTypes.AseAtlasLayer> = atlas.meta.layers;
+			var atlas:flixel.graphics.atlas.AseAtlas.AseAtlas = haxe.Json.parse(sys.io.File.getContent(path));
+			var layers:Array<flixel.graphics.atlas.AseAtlas.AseAtlasLayer> = atlas.meta.layers;
 			var map:Dynamic = {};
 			for (l in layers) {
 				Reflect.setField(map, clean('${l.name}'), '${l.name}');
@@ -47,8 +53,8 @@ class AsepriteMacros {
 
 	public static macro function frameUserData(path:String, layer:String) {
 		return try {
-			var atlas:loaders.AsepriteTypes.AseAtlas = haxe.Json.parse(sys.io.File.getContent(path));
-			var layers:Array<loaders.AsepriteTypes.AseAtlasLayer> = atlas.meta.layers;
+			var atlas:flixel.graphics.atlas.AseAtlas.AseAtlas = haxe.Json.parse(sys.io.File.getContent(path));
+			var layers:Array<flixel.graphics.atlas.AseAtlas.AseAtlasLayer> = atlas.meta.layers;
 			var map:Map<Int, String> = [];
 			for (l in layers) {
 				if (l.name == layer) {
