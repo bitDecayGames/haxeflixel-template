@@ -16,6 +16,13 @@
 			"name": "Macro",
 			"type": "haxe-eval",
 			"request": "launch"
+		},
+		{
+			"name": "Prepare + Debug",
+			"type": "chrome",
+			"request": "launch",
+			"preLaunchTask": "Art + html5 debug",
+			"url": "http://localhost:3000",
 		}
 	]
 }

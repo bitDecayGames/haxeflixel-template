@@ -2,12 +2,35 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "lime",
 			"type": "lime",
 			"command": "test",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
-		}
+		},
+		{
+			"label": "Export Aseprite",
+			"type": "shell",
+			"command": "bash ./bin/export_ase.sh",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "Art + html5 debug",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Export Aseprite",
+				"lime: test html5 -debug -nolaunch",
+				"lime: build html5 -debug"
+			]
+		},
 	]
 }

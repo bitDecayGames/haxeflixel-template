@@ -48,7 +48,8 @@ then
 	fi
 
 	# add our ../ prefix as the exporter runs from the tools/ directory
-	all_files=( "${all_files[@]/#/../}" )
-	./bin/export_ase.sh "${all_files[@]}"
+	# all_files=( "${all_files[@]/#/../}" )
+	echo -e "${BLUE}running export script to ensure atlas art is up-to-date${GRAY}"
+	./bin/export_ase.sh
 	git add ./assets/aseprite/
 fi

@@ -1,22 +1,20 @@
 package;
 
+#if sys
+import sys.FileSystem;
+import sys.FileStat;
+import sys.io.File;
 import haxe.io.Path;
+#end
 
-/**
- * Searches through the root assets/images/ directory and exports all Aseprite
- * files as sprite sheets and an accompanying json file with animation information
- * into the assets/images/ directory ready for consumption by code
-**/
 class AsepritePacker {
 
 	static inline var FLAG_INPUT_DIR = "--input-dir";
-	static inline var FLAG_INPUT_FILES = "--input-files";
 	static inline var FLAG_OUTPUT_DIR = "--output-dir";
 	static inline var FLAG_CLEAN = "--clean";
 
 	#if sys
 	static var inFileDir:String = null;
-	static var inFilePaths:String = null;
 	static var outputDir:String = null;
 	static var aseExtensions = ["ase", "aseprite"];
 
@@ -36,33 +34,27 @@ class AsepritePacker {
 		var args = parseArgs(Sys.args());
 
 		inFileDir = args[FLAG_INPUT_DIR];
-		inFilePaths = args[FLAG_INPUT_FILES];
 		outputDir = args[FLAG_OUTPUT_DIR];
 
 		if (inFileDir == null || outputDir == null) {
 			throw '${RED}both ${FLAG_INPUT_DIR} and ${FLAG_OUTPUT_DIR} are required${GRAY}';
 		}
 
+		Sys.println('scanning Aseprite files');
+
 		if (args.exists(FLAG_CLEAN)) {
-			trace('${BLUE}--clean${GRAY} flag provided');
-			trace('${GREEN}→${GRAY} deleting contents of ${YELLOW}${outputDir}${GRAY}');
+			Sys.println('${BLUE}--clean${GRAY} flag provided');
+			Sys.println('${GREEN}→${GRAY} deleting contents of ${YELLOW}${outputDir}${GRAY}');
 			deleteDirRecursively(outputDir);
-			trace('------------------------');
-			trace('');
+			Sys.println('------------------------');
+			Sys.println('');
 		}
 
-		if (inFilePaths != null) {
-			var filePaths = inFilePaths.split(',');
-			for (fp in filePaths) {
-				exportAtlas(fp);
-			}
-		} else {
-			search(inFileDir, exportAtlas);
-		}
+		search(inFileDir, exportAtlasIfNeeded);
 
-		trace('------------------------');
-		trace('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
-		trace('    ${RED}${skippedFiles} files ignored${GRAY}');
+		Sys.println('------------------------');
+		Sys.println('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
+		Sys.println('    ${RED}${skippedFiles} files ignored${GRAY}');
 		#else
 		throw 'Aseprite Packer can only be run against targets with sys access';
 		#end
@@ -82,11 +74,9 @@ class AsepritePacker {
 		return result;
 	}
 
-	static function exportAtlas(aseFilePath:String) {
+	static function exportAtlasIfNeeded(aseFilePath:String) {
 		var normal = Path.normalize(aseFilePath);
 		if (aseExtensions.contains(Path.extension(normal)) && StringTools.startsWith(normal, inFileDir)) {
-			trace('\t${GREEN}⤷${GRAY} processing: ${BLUE}$normal${GRAY}');
-
 			var artPath = normal.split(inFileDir)[1];
 			var plainName = Path.withoutExtension(Path.withoutDirectory(artPath));
 			var subDirs = Path.directory(artPath).split("/");
@@ -96,65 +86,77 @@ class AsepritePacker {
 			var imageOutputPath = Path.join(outBase.concat([Path.withExtension(plainName, "png")]));
 			var jsonOutputPath = Path.join(outBase.concat([Path.withExtension(plainName, "json")]));
 
-			if (writtenFiles.contains(imageOutputPath)) {
-				throw 'Multiple files trying to write to ${imageOutputPath}';
-			}
-
-			if (writtenFiles.contains(jsonOutputPath)) {
-				throw 'Multiple files trying to write to ${jsonOutputPath}';
-			}
-
-			trace('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$imageOutputPath${GRAY}');
-			trace('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$jsonOutputPath${GRAY}');
-
-
-			// aseprite -b player.ase --format json-array --data spritesheet.json --sheet spritesheet.png
-			var cmd = "aseprite";
-			var args = ["-b", '$normal',
-			"--sheet-pack",
-			"--list-tags",
-			"--list-layers",
-			"--list-slices",
-			"--format", "json-array",
-			"--data", '$jsonOutputPath',
-			"--sheet", '$imageOutputPath'];
-
-			#if debug
-			args.push("--debug");
-			trace('running $cmd $args');
-			#end
-
-			var exit = Sys.command(cmd, args);
-
-			if (exit != 0) {
-				trace(' ${RED}!!! Export exited with code $exit for file $normal${GRAY}');
+			if (!FileSystem.exists(jsonOutputPath)) {
+				Sys.println('\t${GREEN}⤷${GRAY} needs export: ${BLUE}$normal${GRAY}');
+				exportAtlas(normal, imageOutputPath, jsonOutputPath);
 			} else {
-				writtenFiles.push(imageOutputPath);
-				writtenFiles.push(jsonOutputPath);
+				var artFileStat = FileSystem.stat(normal);
+				var jsonFileStat = FileSystem.stat(jsonOutputPath);
+				if (artFileStat.mtime.getTime() > jsonFileStat.mtime.getTime()) {
+					Sys.println('\t${GREEN}⤷${GRAY} needs update: ${BLUE}$normal${GRAY}');
+					exportAtlas(normal, imageOutputPath, jsonOutputPath);
+				}
 			}
 		  } else {
 			skippedFiles++;
 			#if debug
-			trace('- unknown file discovered: ${aseFilePath}');
+			Sys.println('- unknown file discovered: ${aseFilePath}');
 			#end
 		  }
 	}
 
 	static function search(directory:String = "path/to/", process:String->Void) {
 		if (sys.FileSystem.exists(directory)) {
-			trace('${GREEN}→${GRAY} searching directory: ${YELLOW}$directory${GRAY}');
+			Sys.println('${GREEN}→${GRAY} searching directory: ${YELLOW}$directory${GRAY}');
 
 			for (file in sys.FileSystem.readDirectory(directory)) {
 				var path = haxe.io.Path.join([directory, file]);
-				if (!sys.FileSystem.isDirectory(path)) {
-					process(path);
-				} else {
+				if (sys.FileSystem.isDirectory(path)) {
 					var directory = haxe.io.Path.addTrailingSlash(path);
 					search(directory, process);
+				} else {
+					process(path);
 				}
 			}
 		} else {
-		  trace('"$directory" does not exists');
+		  Sys.println('"$directory" does not exists');
+		}
+	}
+
+	static function exportAtlas(aseFilePath:String, imageOutputPath:String, jsonOutputPath:String) {
+		if (writtenFiles.contains(imageOutputPath)) {
+			throw 'Multiple files trying to write to ${imageOutputPath}';
+		}
+
+		if (writtenFiles.contains(jsonOutputPath)) {
+			throw 'Multiple files trying to write to ${jsonOutputPath}';
+		}
+
+		Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$imageOutputPath${GRAY}');
+		Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$jsonOutputPath${GRAY}');
+
+		var cmd = "aseprite";
+		var args = ["-b", '$aseFilePath',
+		"--sheet-pack",
+		"--list-tags",
+		"--list-layers",
+		"--list-slices",
+		"--format", "json-array",
+		"--data", '$jsonOutputPath',
+		"--sheet", '$imageOutputPath'];
+
+		#if debug
+		args.push("--debug");
+		Sys.println('running $cmd $args');
+		#end
+
+		var exit = Sys.command(cmd, args);
+
+		if (exit != 0) {
+			Sys.println(' ${RED}!!! Export exited with code $exit for file $aseFilePath${GRAY}');
+		} else {
+			writtenFiles.push(imageOutputPath);
+			writtenFiles.push(jsonOutputPath);
 		}
 	}
 

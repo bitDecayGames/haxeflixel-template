@@ -1,5 +1,5 @@
 # Main build deps
-flixel 5.3.1
+flixel git https://github.com/HaxeFlixel/flixel.git dev
 flixel-addons 3.1.1
 flixel-ui 2.5.0
 openfl 9.2.2
