@@ -2,6 +2,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Prepare + Debug",
+			"type": "chrome",
+			"request": "launch",
+			"preLaunchTask": "Art + html5 debug",
+			"url": "http://localhost:3000",
+		},
+		{
 			"name": "Build + Debug",
 			"type": "lime",
 			"request": "launch"
@@ -16,13 +23,6 @@
 			"name": "Macro",
 			"type": "haxe-eval",
 			"request": "launch"
-		},
-		{
-			"name": "Prepare + Debug",
-			"type": "chrome",
-			"request": "launch",
-			"preLaunchTask": "Art + html5 debug",
-			"url": "http://localhost:3000",
 		}
 	]
 }

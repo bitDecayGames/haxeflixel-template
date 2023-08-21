@@ -40,7 +40,7 @@ class AsepritePacker {
 			throw '${RED}both ${FLAG_INPUT_DIR} and ${FLAG_OUTPUT_DIR} are required${GRAY}';
 		}
 
-		Sys.println('scanning Aseprite files');
+		Sys.println('${GREEN}scanning Aseprite files${GRAY}');
 
 		if (args.exists(FLAG_CLEAN)) {
 			Sys.println('${BLUE}--clean${GRAY} flag provided');
@@ -52,9 +52,15 @@ class AsepritePacker {
 
 		search(inFileDir, exportAtlasIfNeeded);
 
-		Sys.println('------------------------');
-		Sys.println('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
+		if (writtenFiles.length > 0) {
+			Sys.println('------------------------');
+			Sys.println('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
+		} else {
+			Sys.println('${BLUE}no files found needing export${GRAY}');
+		}
+		#if verbose
 		Sys.println('    ${RED}${skippedFiles} files ignored${GRAY}');
+		#end
 		#else
 		throw 'Aseprite Packer can only be run against targets with sys access';
 		#end
@@ -99,7 +105,7 @@ class AsepritePacker {
 			}
 		  } else {
 			skippedFiles++;
-			#if debug
+			#if verbose
 			Sys.println('- unknown file discovered: ${aseFilePath}');
 			#end
 		  }
@@ -107,7 +113,9 @@ class AsepritePacker {
 
 	static function search(directory:String = "path/to/", process:String->Void) {
 		if (sys.FileSystem.exists(directory)) {
+			#if verbose
 			Sys.println('${GREEN}→${GRAY} searching directory: ${YELLOW}$directory${GRAY}');
+			#end
 
 			for (file in sys.FileSystem.readDirectory(directory)) {
 				var path = haxe.io.Path.join([directory, file]);
@@ -132,8 +140,10 @@ class AsepritePacker {
 			throw 'Multiple files trying to write to ${jsonOutputPath}';
 		}
 
+		#if verbose
 		Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$imageOutputPath${GRAY}');
 		Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$jsonOutputPath${GRAY}');
+		#end
 
 		var cmd = "aseprite";
 		var args = ["-b", '$aseFilePath',
