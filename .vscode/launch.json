@@ -5,7 +5,7 @@
 			"name": "Prepare + Debug",
 			"type": "chrome",
 			"request": "launch",
-			"preLaunchTask": "Art + html5 debug",
+			"preLaunchTask": "custom build and test",
 			"url": "http://localhost:3000",
 		},
 		{

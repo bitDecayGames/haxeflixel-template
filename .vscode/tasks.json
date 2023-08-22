@@ -28,9 +28,19 @@
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"Export Aseprite",
-				"lime: test html5 -debug -nolaunch",
 				"lime: build html5 -debug"
 			]
 		},
+		{
+			// XXX: A workaround to allow us to run the test server once, but allow art regen and the debug build
+			//  to be restarted while working on the project. VSCode seems to just ignore the first task if it is
+			//  already running, but still kicks off the second task to regen our art files and rebuild the game
+			"label": "custom build and test",
+			"dependsOrder": "parallel",
+			"dependsOn": [
+				"lime: test html5 -debug -nolaunch",
+				"Art + html5 debug"
+			]
+		}
 	]
 }
