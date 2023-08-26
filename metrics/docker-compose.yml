@@ -10,7 +10,6 @@ services:
   # Grafana - Graphical data visualization
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped

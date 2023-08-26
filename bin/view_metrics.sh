@@ -3,16 +3,16 @@
 openBrowserWithDelay () {
 	sleep $1;
 
-	url="localhost:3000"
+	url="http://localhost:3000"
 
 	if command -v start &> /dev/null
 	then
-		start http://localhost:3000
+		start "$url"
 	elif command -v open &> /dev/null
 	then
-		open http://localhost:3000
+		open "$url"
 	else
-		echo "Visit localhost:3000 from your browser"
+		echo "Visit http://localhost:3000 from your browser"
 	fi
 }
 
@@ -39,6 +39,8 @@ if [ ! -d "./metrics/data" ]; then
 	mkdir ./metrics/data/
 fi
 
-openBrowserWithDelay 3 &
+project=$(basename $PWD)
 
-docker-compose -f ./metrics/docker-compose.yml up
+openBrowserWithDelay 5 &
+
+docker-compose -p $project -f ./metrics/docker-compose.yml up
