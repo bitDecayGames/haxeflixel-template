@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: Bitlytics
+    type: influxdb
+    uid: "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+    isDefault: true
+    version: 2
+    access: proxy
+    url: https://us-east-1-1.aws.cloud2.influxdata.com/
+    jsonData:
+      version: Flux
+      organization: 7ad01ecb544b8723
+      defaultBucket: ${DEFAULT_BUCKET}
+      tlsSkipVerify: true
+    secureJsonData:
+      token: ${INFLUX_READ_TOKEN}

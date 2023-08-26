@@ -1,0 +1,414 @@
+{
+	"annotations": {
+	  "list": [
+		{
+		  "builtIn": 1,
+		  "datasource": {
+			"type": "grafana",
+			"uid": "-- Grafana --"
+		  },
+		  "enable": true,
+		  "hide": true,
+		  "iconColor": "rgba(0, 211, 255, 1)",
+		  "name": "Annotations & Alerts",
+		  "type": "dashboard"
+		}
+	  ]
+	},
+	"editable": true,
+	"fiscalYearStartMonth": 0,
+	"graphTooltip": 1,
+	"id": 1,
+	"links": [],
+	"liveNow": false,
+	"panels": [
+	  {
+		"datasource": {
+		  "type": "influxdb",
+		  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 0,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "none"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 4,
+		  "w": 3,
+		  "x": 0,
+		  "y": 0
+		},
+		"id": 2,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto"
+		},
+		"pluginVersion": "10.1.0",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "Bitlytics"
+			},
+			"query": "from(bucket: v.defaultBucket)\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>\r\n    r._measurement == \"victory\"\r\n  )\r\n  |> group()\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)\r\n  |> cumulativeSum()\r\n",
+			"refId": "A"
+		  }
+		],
+		"title": "Victories",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "influxdb",
+		  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 0,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "none"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 4,
+		  "w": 3,
+		  "x": 3,
+		  "y": 0
+		},
+		"id": 3,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto"
+		},
+		"pluginVersion": "10.1.0",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "Bitlytics"
+			},
+			"query": "from(bucket: v.defaultBucket)\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>\r\n    r._measurement == \"sessionStarted\"\r\n  )\r\n  |> group()\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)\r\n  |> cumulativeSum()\r\n",
+			"refId": "A"
+		  }
+		],
+		"title": "Sessions",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "influxdb",
+		  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+		},
+		"description": "Total play time across all sessions with time under 2 hours.",
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "thresholds"
+			},
+			"decimals": 0,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				}
+			  ]
+			},
+			"unit": "dthms"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 4,
+		  "w": 5,
+		  "x": 6,
+		  "y": 0
+		},
+		"id": 4,
+		"options": {
+		  "colorMode": "value",
+		  "graphMode": "none",
+		  "justifyMode": "auto",
+		  "orientation": "auto",
+		  "reduceOptions": {
+			"calcs": [
+			  "lastNotNull"
+			],
+			"fields": "",
+			"values": false
+		  },
+		  "textMode": "auto"
+		},
+		"pluginVersion": "10.1.0",
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "Bitlytics"
+			},
+			"query": "from(bucket: v.defaultBucket)\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>\r\n    r._measurement == \"sessionTime\" and\r\n    r._value < 7200\r\n  )\r\n  |> group()\r\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\r\n  |> cumulativeSum()\r\n",
+			"refId": "A"
+		  }
+		],
+		"title": "Cumulative Play Time",
+		"type": "stat"
+	  },
+	  {
+		"datasource": {
+		  "type": "influxdb",
+		  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "palette-classic"
+			},
+			"custom": {
+			  "axisCenteredZero": false,
+			  "axisColorMode": "text",
+			  "axisLabel": "",
+			  "axisPlacement": "auto",
+			  "barAlignment": 0,
+			  "drawStyle": "line",
+			  "fillOpacity": 0,
+			  "gradientMode": "none",
+			  "hideFrom": {
+				"legend": false,
+				"tooltip": false,
+				"viz": false
+			  },
+			  "insertNulls": false,
+			  "lineInterpolation": "linear",
+			  "lineWidth": 1,
+			  "pointSize": 5,
+			  "scaleDistribution": {
+				"type": "linear"
+			  },
+			  "showPoints": "auto",
+			  "spanNulls": false,
+			  "stacking": {
+				"group": "A",
+				"mode": "none"
+			  },
+			  "thresholdsStyle": {
+				"mode": "off"
+			  }
+			},
+			"decimals": 0,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			},
+			"unit": "none"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 8,
+		  "w": 12,
+		  "x": 0,
+		  "y": 4
+		},
+		"id": 1,
+		"options": {
+		  "legend": {
+			"calcs": [
+			  "count"
+			],
+			"displayMode": "list",
+			"placement": "bottom",
+			"showLegend": false
+		  },
+		  "tooltip": {
+			"mode": "single",
+			"sort": "none"
+		  }
+		},
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "Bitlytics",
+			  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+			},
+			"query": "from(bucket: v.defaultBucket)\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>\r\n    r._measurement == \"victory\"\r\n  )\r\n  |> group()\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)\r\n  |> cumulativeSum()\r\n",
+			"refId": "A"
+		  }
+		],
+		"title": "Victories Over Time",
+		"type": "timeseries"
+	  },
+	  {
+		"datasource": {
+		  "type": "influxdb",
+		  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+		},
+		"fieldConfig": {
+		  "defaults": {
+			"color": {
+			  "mode": "palette-classic"
+			},
+			"custom": {
+			  "axisCenteredZero": false,
+			  "axisColorMode": "text",
+			  "axisLabel": "",
+			  "axisPlacement": "auto",
+			  "barAlignment": 0,
+			  "drawStyle": "line",
+			  "fillOpacity": 0,
+			  "gradientMode": "none",
+			  "hideFrom": {
+				"legend": false,
+				"tooltip": false,
+				"viz": false
+			  },
+			  "insertNulls": false,
+			  "lineInterpolation": "linear",
+			  "lineWidth": 1,
+			  "pointSize": 5,
+			  "scaleDistribution": {
+				"type": "linear"
+			  },
+			  "showPoints": "auto",
+			  "spanNulls": false,
+			  "stacking": {
+				"group": "A",
+				"mode": "none"
+			  },
+			  "thresholdsStyle": {
+				"mode": "off"
+			  }
+			},
+			"decimals": 0,
+			"mappings": [],
+			"min": 0,
+			"thresholds": {
+			  "mode": "absolute",
+			  "steps": [
+				{
+				  "color": "green",
+				  "value": null
+				},
+				{
+				  "color": "red",
+				  "value": 80
+				}
+			  ]
+			},
+			"unit": "dthms"
+		  },
+		  "overrides": []
+		},
+		"gridPos": {
+		  "h": 8,
+		  "w": 12,
+		  "x": 0,
+		  "y": 12
+		},
+		"id": 5,
+		"options": {
+		  "legend": {
+			"calcs": [
+			  "count"
+			],
+			"displayMode": "list",
+			"placement": "bottom",
+			"showLegend": false
+		  },
+		  "tooltip": {
+			"mode": "single",
+			"sort": "none"
+		  }
+		},
+		"targets": [
+		  {
+			"datasource": {
+			  "type": "Bitlytics",
+			  "uid": "d6d4d37f-e763-4799-abcb-6f95202fb8a1"
+			},
+			"query": "from(bucket: v.defaultBucket)\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>\r\n    r._measurement == \"sessionTime\" and\r\n    r._value < 7200\r\n  )\r\n  |> group()\r\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\r\n  |> cumulativeSum()\r\n",
+			"refId": "A"
+		  }
+		],
+		"title": "Cumulative Play Time",
+		"type": "timeseries"
+	  }
+	],
+	"refresh": "",
+	"schemaVersion": 38,
+	"style": "dark",
+	"tags": [],
+	"templating": {
+	  "list": []
+	},
+	"time": {
+	  "from": "now-7d",
+	  "to": "now"
+	},
+	"timepicker": {},
+	"timezone": "",
+	"title": "Basic Stats",
+	"uid": "f3d32eca-2b54-4a31-b71f-3a0606338747",
+	"version": 3,
+	"weekStart": ""
+  }

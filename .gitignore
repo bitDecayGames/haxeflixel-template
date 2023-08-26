@@ -1,6 +1,12 @@
 # Build files
 /export
 
+# local grafana dashboard files
+metrics/data/
+
+# potential sensitive datasource information
+metrics/.env
+
 # haxefmod integration
 fmod/CachedHaxeConstantsOutputLocation
 

@@ -1,0 +1,33 @@
+version: "3.9"
+ 
+########################### NETWORKS
+networks:
+  default:
+    driver: bridge
+ 
+########################### SERVICES
+services:
+  # Grafana - Graphical data visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/var/lib/grafana
+      - ./dashboards:/var/lib/grafana/dashboards
+      - ./provisioning:/etc/grafana/provisioning
+    environment:
+      GF_AUTH_BASIC_ENABLED: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_NAME: "Main Org."
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_AUTH_DISABLE_SIGNOUT_MENU: "true"
+      INFLUX_READ_TOKEN: ${INFLUX_TOKEN}
+      DEFAULT_BUCKET: oddVerdure-release
