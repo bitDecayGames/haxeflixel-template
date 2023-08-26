@@ -33,7 +33,7 @@ class ProjectInit {
 		var files = [
 			"../.github/workflows/auto-deploy.yml",
 			"../.github/workflows/prod-deploy.yml",
-			"../assets/data/config.json"
+			"../assets/data/config.json",
 			"../metrics/docker-compose.yml"
 		];
 
