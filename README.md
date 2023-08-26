@@ -8,6 +8,7 @@ To develop on the game, run `lime test html5`
 - Pre-configured libraries
   - FMOD Studio project with menu sound effects and a random song I wrote
   - Ready to use Bitlytics tie-ins
+    - - Grafana metrics visualization
   - Newgrounds API boiler plate
   - Various utility libraries
 - Basic state templates
@@ -31,7 +32,9 @@ To develop on the game, run `lime test html5`
 1. `./bin/setup_hooks.sh` - Run to copy git hooks over
 2. `./bin/init_deps.sh` - Run to get dependencies at the proper versions. See [haxelib.deps](#haxelibdeps) for more info.
 
-### Analytics
+### Metrics & Analytics
+- Some basic analytics are already configured to be reported after the proper project configuration has been done.
+- To view game metrics, run `./bin/view_metrics.sh` and a grafana instance will be created locally that connects to the cloud metrics. Graphs will be available at `http://localhost:3000` if the browser doesn't automatically open.
 - Holding `D` and pressing `M` at the main menu will allow playing the release game without sending metrics. This is indicated by a sound effect and a log message once pressed.
 
 ### Dependencies
