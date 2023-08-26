@@ -35,6 +35,7 @@ To develop on the game, run `lime test html5`
 ### Metrics & Analytics
 - Some basic analytics are already configured to be reported after the proper project configuration has been done.
 - To view game metrics, run `./bin/view_metrics.sh` and a grafana instance will be created locally that connects to the cloud metrics. Graphs will be available at `http://localhost:3000` if the browser doesn't automatically open.
+  - This script will prompt for a read token the first time it is run for access to the data. Consult whoever controls your cloud data for a token.
 - Holding `D` and pressing `M` at the main menu will allow playing the release game without sending metrics. This is indicated by a sound effect and a log message once pressed.
 
 ### Dependencies
