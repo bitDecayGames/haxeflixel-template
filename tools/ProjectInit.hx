@@ -34,6 +34,7 @@ class ProjectInit {
 			"../.github/workflows/auto-deploy.yml",
 			"../.github/workflows/prod-deploy.yml",
 			"../assets/data/config.json"
+			"../metrics/docker-compose.yml"
 		];
 
 		Sys.println("");

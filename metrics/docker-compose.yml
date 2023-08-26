@@ -29,4 +29,5 @@ services:
       GF_AUTH_DISABLE_LOGIN_FORM: "true"
       GF_AUTH_DISABLE_SIGNOUT_MENU: "true"
       INFLUX_READ_TOKEN: ${INFLUX_TOKEN}
-      DEFAULT_BUCKET: oddVerdure-release
+      # This bucket name is populated by the ProjectInit tooling
+      DEFAULT_BUCKET: ::influx_bucket_id::
