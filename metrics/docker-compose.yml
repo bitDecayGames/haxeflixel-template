@@ -16,7 +16,7 @@ services:
     networks:
       - default
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./data:/var/lib/grafana
       - ./dashboards:/var/lib/grafana/dashboards

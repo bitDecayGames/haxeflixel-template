@@ -3,7 +3,7 @@
 openBrowserWithDelay () {
 	sleep $1;
 
-	url="http://localhost:3000"
+	url="http://localhost:3001"
 
 	if command -v start &> /dev/null
 	then
@@ -12,7 +12,7 @@ openBrowserWithDelay () {
 	then
 		open "$url"
 	else
-		echo "Visit http://localhost:3000 from your browser"
+		echo "Visit http://localhost:3001 from your browser"
 	fi
 }
 
