@@ -39,7 +39,9 @@ if [ ! -d "./metrics/data" ]; then
 	mkdir ./metrics/data/
 fi
 
-project=$(basename $PWD)
+baseDir=$(basename $PWD)
+
+project=$(echo "$baseDir" | awk '{print tolower($0)}')
 
 openBrowserWithDelay 5 &
 
