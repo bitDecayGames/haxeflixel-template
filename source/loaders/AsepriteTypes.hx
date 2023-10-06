@@ -76,7 +76,13 @@ typedef AseAtlasMeta =
 	var layers:Array<AseAtlasLayer>;
 }
 
-typedef AseAtlasTag = { name: String, from:Int, to:Int, direction:String };
+typedef AseAtlasTag = {
+	name: String,
+	from:Int,
+	to:Int,
+	direction:String,
+	repeat:Int,
+};
 
 typedef AseAtlasSliceKey =
 {
