@@ -42,7 +42,7 @@
 
 	<!-- _____________________________ First Party Libraries _____________________ -->
 
-	<haxelib name="bitdecaybtree" />
+	<haxelib name="behaviortree" />
 	<haxelib name="bitlytics" />
 	<haxelib name="flixelutils" />
 	<haxelib name="dialog-manager" />

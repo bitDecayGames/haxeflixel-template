@@ -1,5 +1,6 @@
 package states;
 
+import entities.ShooterEnemy;
 import entities.Item;
 import flixel.util.FlxColor;
 import debug.DebugLayers;
@@ -25,6 +26,9 @@ class PlayState extends FlxTransitionableState {
 		player = new Player();
 		add(player);
 
+		var enemy = new ShooterEnemy();
+		add(enemy);
+
 		var item = new Item();
 		item.y = 50;
 		add(item);
@@ -37,8 +41,7 @@ class PlayState extends FlxTransitionableState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		var cam = FlxG.camera;
-		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
+		DebugDraw.ME.drawWorldCircle(FlxG.mouse.x, FlxG.mouse.y, 100, null, FlxColor.WHITE);
 	}
 
 	override public function onFocusLost() {
