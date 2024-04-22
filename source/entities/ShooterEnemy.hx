@@ -6,7 +6,6 @@ import behavior.PickLocationAwayFromMouse;
 import behavior.MoveToLocation;
 import behavior.CloseToMouse;
 import behavior.PickRandomLocation;
-import js.html.IntersectionObserver;
 import bitdecay.behavior.tree.composite.Parallel;
 import bitdecay.behavior.tree.composite.Parallel.Condition;
 import bitdecay.behavior.tree.composite.Sequence;

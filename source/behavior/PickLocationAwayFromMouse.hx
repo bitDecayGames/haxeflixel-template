@@ -16,7 +16,7 @@ class PickLocationAwayFromMouse extends LeafNode {
     override public function doProcess(delta:Float):NodeStatus {
 		if (context.has("self")) {
 			var self:FlxSprite = context.get("self");
-			var dir = cast(FlxG.mouse.getPosition().subtractPoint(self.getMidpoint()), FlxVector).normalize().scale(-1);
+			var dir = FlxG.mouse.getPosition().subtractPoint(self.getMidpoint()).normalize().scale(-1);
 
 			target = FlxPoint.get(FlxG.mouse.x, FlxG.mouse.y).addPoint(dir.scale(200));
 			context.set("target", target);
