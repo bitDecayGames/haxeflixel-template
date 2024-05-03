@@ -25,6 +25,7 @@ To develop on the game, run `lime test html5`
 1. Set the proper Github secrets:
     - `BUTLER_API_KEY`: The Butler API key from itch.io
         - API keys can be generated from `itch.io` -> `Settings` -> `API Keys` -> `Generate new API key`
+        - If using this template for non Bit Decay games, the workflow files to use the correct `itchUserName`
     - `ANALYTICS_TOKEN`: The InfluxDB access token from influxdata.com
         - API token can be generated from `influxdata.com` -> `Load Data` -> `API Tokens` -> `Generate API Token`
 2. Run the `./bin/setup_repo.sh` script to update github workflow files and project configuration json
