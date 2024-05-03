@@ -1,8 +1,8 @@
 # Main build deps
 flixel 5.4.0
-flixel-addons 3.1.1
-flixel-ui 2.5.0
-openfl 9.2.2
+flixel-addons 3.2.2
+flixel-ui 2.6.1
+openfl 9.3.3
 
 # newgrounds integration
 newgrounds 2.0.0
