@@ -1,9 +1,7 @@
 package input;
 
-import flixel.input.gamepad.FlxGamepadAnalogStick;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.FlxG;
-import flixel.input.gamepad.FlxGamepad;
 
 class AnalogController {
 	public static function analog(axis:Axis, player:Int = 0):Float {
