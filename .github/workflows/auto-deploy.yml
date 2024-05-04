@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Make html5 build
-        uses: bitDecayGames/lime-build-action@v0.0.38
+        uses: bitDecayGames/lime-build-action@v0.0.39
         with:
           buildArgs: -D API_KEY=${{ secrets.ANALYTICS_TOKEN }} -D dev_analytics
           initScriptFile: ./bin/init_deps.sh
