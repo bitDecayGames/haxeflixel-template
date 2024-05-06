@@ -60,7 +60,7 @@ class Aseprite {
 			into.animation.add(tag.name, frames, loop);
 		}
 
-		into.animation.add("all_frames", [ for (i in 0...into.frames.frames.length) i], true);
+		into.animation.add("all_frames", [for (i in 0...into.frames.frames.length) i], true);
 	}
 
 	// loads the requested slice image from the atlas onto the provided sprite

@@ -3,11 +3,10 @@ package shaders;
 /**
  * Basic shader that shows how to pass uniforms into shaders
 **/
-class ExampleShader extends flixel.system.FlxAssets.FlxShader
-{
-    var totalElapsed = 0.0;
+class ExampleShader extends flixel.system.FlxAssets.FlxShader {
+	var totalElapsed = 0.0;
 
-    @:glFragmentSource('
+	@:glFragmentSource('
         #pragma header
 
         uniform float iTime;
@@ -28,9 +27,12 @@ class ExampleShader extends flixel.system.FlxAssets.FlxShader
         }
     ')
 
-    public function update(elapsed:Float)
-    {
-        totalElapsed += elapsed;
-        this.iTime.value = [totalElapsed];
+    public function new() {
+        super();
     }
+
+	public function update(elapsed:Float) {
+		totalElapsed += elapsed;
+		this.iTime.value = [totalElapsed];
+	}
 }

@@ -48,14 +48,14 @@ class Macros {
 			var commitHash:String = process.stdout.readLine();
 
 			process.close();
-			
+
 			// Generates a string expression
 			return macro $v{commitHash};
-		} catch(e) {
+		} catch (e) {
 			var output = 'Unable to get git hash: ${e}';
 			return macro $v{output};
 		}
-		#else 
+		#else
 		// `#if display` is used for code completion. In this case returning an
 		// empty string is good enough; We don't want to call git on every hint.
 		var commitHash:String = "";

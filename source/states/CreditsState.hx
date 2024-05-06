@@ -1,11 +1,11 @@
 package states;
 
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.text.FlxText.FlxTextAlign;
 import flixel.text.FlxBitmapText;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.addons.ui.FlxUIState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
@@ -15,7 +15,7 @@ import misc.FlxTextFactory;
 
 using states.FlxStateExt;
 
-class CreditsState extends FlxUIState {
+class CreditsState extends FlxTransitionableState {
 	var _allCreditElements:Array<FlxSprite>;
 
 	var _btnMainMenu:FlxButton;

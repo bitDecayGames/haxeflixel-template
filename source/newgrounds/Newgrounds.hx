@@ -1,11 +1,9 @@
 package newgrounds;
 
 import flixel.util.FlxTimer;
-
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 import flixel.util.FlxStringUtil;
-
 import io.newgrounds.Call.CallError;
 import io.newgrounds.NG;
 import io.newgrounds.NGLite.LoginOutcome;
@@ -13,7 +11,6 @@ import io.newgrounds.objects.Score;
 import io.newgrounds.objects.SaveSlot;
 import io.newgrounds.objects.SaveSlot.SaveSlotOutcome;
 import io.newgrounds.objects.events.Outcome;
-
 import newgrounds.NGEnv;
 
 typedef NGMedalID = Int;
@@ -68,7 +65,7 @@ class Newgrounds {
 			/* They are NOT playing on newgrounds.com, no session id was found. We must start one manually, if we want to.
 			 * Note: This will cause a new browser window to pop up where they can log in to newgrounds
 			 */
-			NG.core.requestLogin((r:LoginOutcome)-> {
+			NG.core.requestLogin((r:LoginOutcome) -> {
 				switch (r) {
 					case FAIL(error):
 						onCancel();
@@ -84,7 +81,7 @@ class Newgrounds {
 
 	static function onNGLogin() {
 		#if debug
-		trace ('logged in! user:${NG.core.user.name}');
+		trace('logged in! user:${NG.core.user.name}');
 		#end
 
 		loginSignal.dispatch();
@@ -109,7 +106,7 @@ class Newgrounds {
 		}
 	}
 
-	private static function dispatchScoreboardOnSuccess(boardId:NGScoreboardID):(Outcome<CallError>)->Void {
+	private static function dispatchScoreboardOnSuccess(boardId:NGScoreboardID):(Outcome<CallError>) -> Void {
 		return (outcome:Outcome<CallError>) -> {
 			#if debug
 			outcome.assert('Error loading board scores for ${boardId}');
@@ -145,7 +142,7 @@ class Newgrounds {
 				// Storage.syncNGMedals(NG.core.medals);
 				#if (ngdebug || debug)
 				NGVerify.verifyMedals(NG.core.medals);
-				#end 
+				#end
 		}
 	}
 
@@ -183,7 +180,7 @@ class Newgrounds {
 						break;
 					}
 					// These come 1-based
-					var slot = NG.core.saveSlots[i+1];
+					var slot = NG.core.saveSlots[i + 1];
 					if (slot.url != null) {
 						slot.load(onSingleSlotLoaded(slot));
 					} else {
@@ -191,20 +188,20 @@ class Newgrounds {
 						trace('save slot "${slot.id}" has no data');
 						#end
 						// Storage.loadSlotFromNG(slot);
-						slotLoadedSignal.dispatch(slot.id-1);
+						slotLoadedSignal.dispatch(slot.id - 1);
 					}
 				}
 		}
 	}
 
-	private static function onSingleSlotLoaded(slot:SaveSlot):(SaveSlotOutcome -> Void) {
+	private static function onSingleSlotLoaded(slot:SaveSlot):(SaveSlotOutcome->Void) {
 		return (outcome) -> {
 			switch (outcome) {
 				case FAIL(error):
 					trace('failed to load slot: $error');
 				case SUCCESS(contents):
 					// Storage.loadSlotFromNG(slot);
-					slotLoadedSignal.dispatch(slot.id-1);
+					slotLoadedSignal.dispatch(slot.id - 1);
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 package states;
 
 import config.Configure;
+#if !debug
 import com.bitdecay.analytics.Bitlytics;
+#end
 import flixel.FlxG;
 import flixel.FlxState;
 

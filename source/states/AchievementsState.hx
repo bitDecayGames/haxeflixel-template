@@ -1,8 +1,8 @@
 package states;
 
 import flixel.FlxG;
-import flixel.addons.ui.FlxUIState;
 import flixel.text.FlxText;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
@@ -11,7 +11,7 @@ import helpers.UiHelpers;
 
 using states.FlxStateExt;
 
-class AchievementsState extends FlxUIState {
+class AchievementsState extends FlxTransitionableState {
 	private static var NUM_OF_COLUMNS:Int = 3;
 	private static var VERTICAL_SPACING:Float = 100;
 	private static var HORIZONTAL_SPACING:Float = 0;

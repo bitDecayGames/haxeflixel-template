@@ -1,95 +1,43 @@
 package states;
 
+import flixel.util.FlxTimer;
+import flixel.util.FlxSpriteUtil;
+import input.SimpleController;
+import flixel.FlxSprite;
 import bitdecay.flixel.transitions.TransitionDirection;
 import bitdecay.flixel.transitions.SwirlTransition;
 import states.AchievementsState;
 import com.bitdecay.analytics.Bitlytics;
-import config.Configure;
 import flixel.FlxG;
-import flixel.addons.ui.FlxUICursor;
-import flixel.addons.ui.FlxUIState;
-import flixel.addons.ui.FlxUITypedButton;
-import flixel.text.FlxText;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
 
 using states.FlxStateExt;
 
-#if windows
-import lime.system.System;
-#end
-
-class MainMenuState extends FlxUIState {
-	var _btnPlay:FlxButton;
-	var _btnCredits:FlxButton;
-	var _btnExit:FlxButton;
-
-	var _txtTitle:FlxText;
+class MainMenuState extends FlxTransitionableState {
+	var startButton:FlxButton;
+	var handleInput = true;
 
 	override public function create():Void {
-		_xml_id = "main_menu";
-		if (Configure.config.menus.keyboardNavigation || Configure.config.menus.controllerNavigation) {
-			_makeCursor = true;
-		}
-
 		super.create();
-
-		if (_makeCursor) {
-			cursor.loadGraphic(AssetPaths.pointer__png, true, 32, 32);
-			cursor.animation.add("pointing", [0, 1], 3);
-			cursor.animation.play("pointing");
-
-			var keys:Int = 0;
-			if (Configure.config.menus.keyboardNavigation) {
-				keys |= FlxUICursor.KEYS_ARROWS | FlxUICursor.KEYS_WASD;
-			}
-			if (Configure.config.menus.controllerNavigation) {
-				keys |= FlxUICursor.GAMEPAD_DPAD;
-			}
-			cursor.setDefaultKeys(keys);
-		}
-
-		FmodManager.PlaySong(FmodSongs.LetsGo);
 		bgColor = FlxColor.TRANSPARENT;
 		FlxG.camera.pixelPerfectRender = true;
 
-		#if !windows
-		// Hide exit button for non-windows targets
-		var test = _ui.getAsset("exit_button");
-		test.visible = false;
-		#end
+		var bgImage = new FlxSprite(AssetPaths.title_image__png);
+		add(bgImage);
 
-		// Trigger our focus logic as we are just creating the scene
-		this.handleFocus();
+		// This can be swapped out for an image instead
+		startButton = new FlxButton("Play", clickPlay);
+		startButton.screenCenter(X);
+		startButton.y = FlxG.height * .6;
+		add(startButton);
+
+		FmodManager.PlaySong(FmodSongs.LetsGo);
 
 		// we will handle transitions manually
 		transOut = null;
-	}
-
-	override public function getEvent(name:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
-		if (name == FlxUITypedButton.CLICK_EVENT) {
-			var button_action:String = params[0];
-			trace('Action: "${button_action}"');
-
-			if (button_action == "play") {
-				clickPlay();
-			}
-
-			if (button_action == "credits") {
-				clickCredits();
-			}
-
-			if (button_action == "achievements") {
-				clickAchievements();
-			}
-
-			#if windows
-			if (button_action == "exit") {
-				clickExit();
-			}
-			#end
-		}
 	}
 
 	override public function update(elapsed:Float):Void {
@@ -100,6 +48,14 @@ class MainMenuState extends FlxUIState {
 			Bitlytics.Instance().EndSession(false);
 			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 			trace("---------- Bitlytics Stopped ----------");
+		}
+
+		if (handleInput && SimpleController.just_pressed(START)) {
+			handleInput = false;
+			FlxSpriteUtil.flicker(startButton, 0, 0.25);
+			new FlxTimer().start(1, (t) -> {
+				clickPlay();
+			});
 		}
 	}
 
@@ -113,19 +69,15 @@ class MainMenuState extends FlxUIState {
 		openSubState(swirlOut);
 	}
 
+	// If we want to add a way to go to credits from main menu, call this
 	function clickCredits():Void {
 		FmodFlxUtilities.TransitionToState(new CreditsState());
 	}
 
+	// If we want to add a way to go to achievements from main menu, call this
 	function clickAchievements():Void {
 		FmodFlxUtilities.TransitionToState(new AchievementsState());
 	}
-
-	#if windows
-	function clickExit():Void {
-		System.exit(0);
-	}
-	#end
 
 	override public function onFocusLost() {
 		super.onFocusLost();

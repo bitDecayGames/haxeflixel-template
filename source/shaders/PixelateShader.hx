@@ -6,11 +6,11 @@ import flixel.FlxG;
  * Shader that will downsample the game to the specified resolution.
 **/
 class PixelateShader extends flixel.system.FlxAssets.FlxShader {
-    var debug = false;
-    var enabled = true;
-    var sampleDistance = 0.125;
+	var debug = false;
+	var enabled = true;
+	var sampleDistance = 0.125;
 
-    @:glFragmentSource('
+	@:glFragmentSource('
         #pragma header
 
         // effect enabled
@@ -68,34 +68,32 @@ class PixelateShader extends flixel.system.FlxAssets.FlxShader {
             gl_FragColor = col;
         }
     ')
+	public function new(pWide:Int, pHigh:Int) {
+		super();
+		this.iPixelSize.value = [1.0 / pWide, 1.0 / pHigh];
+		this.iDebug.value = [debug];
+		this.iEnabled.value = [enabled];
+		this.iSampleDistance.value = [sampleDistance];
+	}
 
-    public function new(pWide:Int, pHigh:Int) {
-        super();
-        this.iPixelSize.value = [1.0 / pWide, 1.0 / pHigh];
-        this.iDebug.value = [debug];
-        this.iEnabled.value = [enabled];
-        this.iSampleDistance.value = [sampleDistance];
-    }
+	public function update(elapsed:Float) {
+		if (FlxG.keys.justPressed.P) {
+			enabled = !enabled;
+			this.iEnabled.value = [enabled];
+		}
 
-    public function update(elapsed:Float)
-    {
-        if (FlxG.keys.justPressed.P) {
-            enabled = !enabled;
-            this.iEnabled.value = [enabled];
-        } 
+		if (FlxG.keys.justPressed.O) {
+			debug = !debug;
+			this.iDebug.value = [debug];
+		}
 
-        if (FlxG.keys.justPressed.O) {
-            debug = !debug;
-            this.iDebug.value = [debug];
-        }
-
-        if (FlxG.keys.justPressed.I) {
-            sampleDistance = Math.min(sampleDistance + .125, .875);
-            this.iSampleDistance.value = [sampleDistance];
-        }
-        if (FlxG.keys.justPressed.K) {
-            sampleDistance = Math.max(sampleDistance - .125, .0);
-            this.iSampleDistance.value = [sampleDistance];
-        }
-    }
+		if (FlxG.keys.justPressed.I) {
+			sampleDistance = Math.min(sampleDistance + .125, .875);
+			this.iSampleDistance.value = [sampleDistance];
+		}
+		if (FlxG.keys.justPressed.K) {
+			sampleDistance = Math.max(sampleDistance - .125, .0);
+			this.iSampleDistance.value = [sampleDistance];
+		}
+	}
 }

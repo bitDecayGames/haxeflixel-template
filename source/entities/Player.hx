@@ -1,7 +1,6 @@
 package entities;
 
 import flixel.FlxSprite;
-
 import input.InputCalcuator;
 import input.SimpleController;
 import loaders.Aseprite;

@@ -68,7 +68,7 @@ class Main extends Sprite {
 		// FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
 		FlxTextFactory.defaultSize = 24;
 
-		FlxG.plugins.add(new FmodPlugin());
+		FlxG.plugins.addPlugin(new FmodPlugin());
 
 		DebugDraw.init(Type.allEnums(DebugLayers));
 

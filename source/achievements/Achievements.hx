@@ -5,6 +5,7 @@ import helpers.Analytics;
 import helpers.Storage;
 
 typedef AchievementID = Int;
+
 class Achievements {
 	public static var ACHIEVEMENT_NAME_HERE:AchievementDef;
 

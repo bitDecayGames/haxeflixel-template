@@ -4,28 +4,22 @@ package loaders;
  * A bunch of typedefs for the Aseprite export json format. Borrowed from GeoKureli's PR pending merge into
  * flixel code base: https://github.com/HaxeFlixel/flixel/pull/2860/files
 **/
+typedef AtlasBase<T> = {frames:T}
 
-typedef AtlasBase<T> = { frames:T }
-
-typedef AseAtlasBase<T> = AtlasBase<T> &
-{
+typedef AseAtlasBase<T> = AtlasBase<T> & {
 	var meta:AseAtlasMeta;
 }
 
 typedef AseAtlasArray = AseAtlasBase<Array<AseAtlasFrame>>;
 
-abstract Hash<T>(Dynamic)
-{
-	public inline function keyValueIterator():KeyValueIterator<String, T>
-	{
+abstract Hash<T>(Dynamic) {
+	public inline function keyValueIterator():KeyValueIterator<String, T> {
 		var keys = Reflect.fields(this).iterator();
-		return
-		{
+		return {
 			hasNext: keys.hasNext,
-			next: ()->
-			{
+			next: () -> {
 				final key = keys.next();
-				return { key:key, value:Reflect.field(this, key)};
+				return {key: key, value: Reflect.field(this, key)};
 			}
 		};
 	}
@@ -34,15 +28,14 @@ abstract Hash<T>(Dynamic)
 /**
  * Position struct use for atlas json parsing, { x:Float, y:Float }
  */
- typedef AtlasPos = { x:Float, y:Float };
+typedef AtlasPos = {x:Float, y:Float};
 
 /**
  * Rectangle struct use for atlas json parsing, { x:Float, y:Float, w:Float, h:Float }
  */
- typedef AtlasRect = AtlasPos & AtlasSize;
+typedef AtlasRect = AtlasPos & AtlasSize;
 
-typedef AtlasFrame =
-{
+typedef AtlasFrame = {
 	var filename:String;
 	var rotated:Bool;
 	var frame:AtlasRect;
@@ -50,21 +43,17 @@ typedef AtlasFrame =
 	var spriteSourceSize:AtlasPos;
 }
 
-typedef AseAtlasFrame = AtlasFrame & { duration:Int }
-
+typedef AseAtlasFrame = AtlasFrame & {duration:Int}
 typedef AseAtlasHash = AseAtlasBase<Hash<AseAtlasFrame>>;
-
 typedef HashOrArray<T> = flixel.util.typeLimit.OneOfTwo<Hash<T>, Array<T>>;
-
 typedef AseAtlas = AseAtlasBase<HashOrArray<AseAtlasFrame>>;
 
 /**
  * Size struct use for atlas json parsing, { w:Float, h:Float }
  */
- typedef AtlasSize = { w:Float, h:Float };
+typedef AtlasSize = {w:Float, h:Float};
 
-typedef AseAtlasMeta =
-{
+typedef AseAtlasMeta = {
 	var app:String;
 	var version:String;
 	var image:String;
@@ -77,38 +66,36 @@ typedef AseAtlasMeta =
 }
 
 typedef AseAtlasTag = {
-	name: String,
+	name:String,
 	from:Int,
 	to:Int,
 	direction:String,
 	repeat:Int,
 };
 
-typedef AseAtlasSliceKey =
-{
+typedef AseAtlasSliceKey = {
 	/**
 	 * The frame that the slice changes size
 	 */
 	var frame:Int;
+
 	/**
 	 * The size of the slice at this frame
 	 */
 	var bounds:AtlasRect;
 };
 
-typedef AseAtlasSlice =
-{
+typedef AseAtlasSlice = {
 	var name:String;
 	var color:String;
 
 	/**
 	 * Info of at what frames the slice changes size
 	 */
-	var keys: Array<AseAtlasSliceKey>;
+	var keys:Array<AseAtlasSliceKey>;
 }
 
-enum abstract AseBlendMode(String)
-{
+enum abstract AseBlendMode(String) {
 	var NORMAL = "normal";
 
 	var DARKEN = "darken";
@@ -136,13 +123,12 @@ enum abstract AseBlendMode(String)
 }
 
 typedef AseCelData = {
-    frame:Int,
-    color:String,
-    data:String,
+	frame:Int,
+	color:String,
+	data:String,
 }
 
-typedef AseAtlasLayer =
-{
+typedef AseAtlasLayer = {
 	var name:String;
 
 	/**

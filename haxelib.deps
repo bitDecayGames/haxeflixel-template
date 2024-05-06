@@ -1,18 +1,21 @@
 # Main build deps
 flixel 5.4.0
 flixel-addons 3.2.2
-flixel-ui 2.6.1
 openfl 9.3.3
 
 # newgrounds integration
 newgrounds 2.0.0
 
+# arcade physics
+# echo git https://github.com/MondayHopscotch/echo.git
+
+# full physics
+# nape-haxe4 2.0.22
+
 # bitDecayGames deps
 bitdecaybtree git https://github.com/bitDecayGames/BehaviorTree.git
 bitlytics git https://github.com/bitDecayGames/Bitlytics.git
 flixelutils git https://github.com/bitDecayGames/flixel-utils.git
-textpop git https://github.com/bitDecayGames/text-pop.git
 
 # misc deps
-dialog-manager git https://github.com/Tanz0rz/haxe-dialog-manager.git
 haxefmod git https://github.com/Tanz0rz/haxe-fmod.git

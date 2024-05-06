@@ -1,7 +1,7 @@
 package states;
 
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
-import flixel.addons.ui.FlxUIState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -10,7 +10,7 @@ import helpers.UiHelpers;
 
 using states.FlxStateExt;
 
-class VictoryState extends FlxUIState {
+class VictoryState extends FlxTransitionableState {
 	var _btnDone:FlxButton;
 
 	var _txtTitle:FlxText;

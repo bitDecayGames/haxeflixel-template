@@ -6,7 +6,6 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
-
 import achievements.Achievements;
 import achievements.Achievements.AchievementDef;
 
