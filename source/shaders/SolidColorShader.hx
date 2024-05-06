@@ -26,10 +26,9 @@ class SolidColorShader extends FlxShader {
                 gl_FragColor = color;
             }
         }')
+	public function new(color:FlxColor) {
+		super();
 
-     public function new(color:FlxColor) {
-        super();
-        
 		this.color.value = [color.red, color.green, color.blue, color.alpha];
-    }
+	}
 }

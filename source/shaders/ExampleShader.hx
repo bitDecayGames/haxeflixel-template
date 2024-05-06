@@ -26,10 +26,9 @@ class ExampleShader extends flixel.system.FlxAssets.FlxShader {
             gl_FragColor = vec4(1., 1., 1., 1.);
         }
     ')
-
-    public function new() {
-        super();
-    }
+	public function new() {
+		super();
+	}
 
 	public function update(elapsed:Float) {
 		totalElapsed += elapsed;

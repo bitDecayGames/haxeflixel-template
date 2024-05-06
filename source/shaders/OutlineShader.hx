@@ -3,9 +3,9 @@ package shaders;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxColor;
 
-// Outlines the underlying texture with the provided color
-class Outline extends FlxShader
-{
+// Outlines the underlying texture with the provided color. Sizes > 1 may yield strange results for images
+// with sharp points
+class OutlineShader extends FlxShader {
 	@:glFragmentSource('
         #pragma header
 
@@ -31,9 +31,7 @@ class Outline extends FlxShader
             }
             gl_FragColor = sample;
         }')
-
-	public function new(color:FlxColor = 0xFFFFFFFF, width:Float = 1, height:Float = 1)
-	{
+	public function new(color:FlxColor = 0xFFFFFFFF, width:Float = 1, height:Float = 1) {
 		super();
 		this.color.value = [color.red, color.green, color.blue, color.alpha];
 		this.size.value = [width, height];
