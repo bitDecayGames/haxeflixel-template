@@ -1,6 +1,9 @@
 # Build files
 /export
 
+# local copy of dependencies
+/.haxelib
+
 # local grafana dashboard files
 metrics/data/
 

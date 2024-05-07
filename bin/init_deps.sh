@@ -5,6 +5,8 @@
 
 restoreDevCommands=()
 
+haxelib newrepo
+
 while read -r line; do
   # trim line endings off of the line
   line="${line//[$'\t\r\n']}"
