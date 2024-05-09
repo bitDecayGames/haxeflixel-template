@@ -101,7 +101,13 @@ while read -r line; do
     echo "Installing ${libName} version ${libVersionOrGit}"
     haxelib set ${libName} ${libVersionOrGit} --always --quiet
   fi
+
+  if [[ ${libName} == "lime" ]]; then
+    # this is a one-off just to make sure that lime is configured properly in our local repo
+    haxelib run lime setup
+  fi
 done <haxelib.deps
+
 
 if [ ${#restoreDevCommands[@]} -ne 0 ]; then
     echo ""

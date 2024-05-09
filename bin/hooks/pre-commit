@@ -42,8 +42,9 @@ then
 
 	if ! command -v ${ASEPRITE_CMD} &> /dev/null
 	then
-		echo -e "${RED}ERROR: ${ASEPRITE_CMD} command could not be found. Unable to regenerate assets"
-		echo -e "If you are sure you want to commit these changes, commit with --no-verify${NC}"
+		echo -e "${RED}ERROR: ${ASEPRITE_CMD} command could not be found. Unable to regenerate assets."
+		echo -e "Add the ${ASEPRITE_CMD} to your PATH before trying again."
+		echo -e "If you are sure you want to commit these changes without regenerating assets, commit with --no-verify${NC}"
 		exit 1
 	fi
 

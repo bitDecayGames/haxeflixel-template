@@ -44,7 +44,9 @@
 	<haxelib name="flixelutils" />
 	<haxelib name="haxefmod" />
 	<haxelib name="newgrounds" />
-	<haxelib name="echo-flixel" />
+
+	<!-- for echo physics -->
+	<!-- <haxelib name="echo-flixel" /> -->
 
 	<!--In case you want to use nape with flixel-->
 	<!--<haxelib name="nape-haxe4" />-->
