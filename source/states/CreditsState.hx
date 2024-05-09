@@ -1,17 +1,18 @@
 package states;
 
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.text.FlxText.FlxTextAlign;
-import flixel.text.FlxBitmapText;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.text.FlxText.FlxTextAlign;
+import flixel.text.FlxBitmapText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import haxefmod.flixel.FmodFlxUtilities;
+
 import config.Configure;
-import helpers.UiHelpers;
+import haxefmod.flixel.FmodFlxUtilities;
 import misc.FlxTextFactory;
+import ui.MenuBuilder;
 
 using states.FlxStateExt;
 
@@ -46,7 +47,7 @@ class CreditsState extends FlxTransitionableState {
 
 		// Button
 
-		_btnMainMenu = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
+		_btnMainMenu = MenuBuilder.createTextButton("Main Menu", clickMainMenu);
 		_btnMainMenu.setPosition(FlxG.width - _btnMainMenu.width, FlxG.height - _btnMainMenu.height);
 		_btnMainMenu.updateHitbox();
 		add(_btnMainMenu);

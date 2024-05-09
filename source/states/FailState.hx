@@ -1,20 +1,22 @@
 package states;
 
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
-import flixel.text.FlxText;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.text.FlxText.FlxTextAlign;
+import flixel.text.FlxBitmapText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+
 import haxefmod.flixel.FmodFlxUtilities;
-import helpers.UiHelpers;
 import misc.FlxTextFactory;
+import ui.MenuBuilder;
 
 using states.FlxStateExt;
 
 class FailState extends FlxTransitionableState {
 	var _btnDone:FlxButton;
 
-	var _txtTitle:FlxText;
+	var _txtTitle:FlxBitmapText;
 
 	override public function create():Void {
 		super.create();
@@ -24,7 +26,7 @@ class FailState extends FlxTransitionableState {
 
 		add(_txtTitle);
 
-		_btnDone = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
+		_btnDone = MenuBuilder.createTextButton("Main Menu", clickMainMenu);
 		_btnDone.setPosition(FlxG.width / 2 - _btnDone.width / 2, FlxG.height - _btnDone.height - 40);
 		_btnDone.updateHitbox();
 		add(_btnDone);

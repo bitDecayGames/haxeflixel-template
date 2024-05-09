@@ -5,9 +5,10 @@ import flixel.text.FlxText;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import haxefmod.flixel.FmodFlxUtilities;
+
 import achievements.Achievements;
-import helpers.UiHelpers;
+import haxefmod.flixel.FmodFlxUtilities;
+import ui.MenuBuilder;
 
 using states.FlxStateExt;
 
@@ -38,7 +39,7 @@ class AchievementsState extends FlxTransitionableState {
 
 		addAchievementToasts();
 
-		_btnDone = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
+		_btnDone = MenuBuilder.createTextButton("Menu", clickMainMenu);
 		_btnDone.setPosition(FlxG.width / 2 - _btnDone.width / 2, FlxG.height - _btnDone.height - 40);
 		_btnDone.updateHitbox();
 		add(_btnDone);
