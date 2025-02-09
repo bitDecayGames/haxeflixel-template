@@ -5,7 +5,11 @@
 
 restoreDevCommands=()
 
-haxelib newrepo
+# check if we should be running locally
+if [[ ! -v INSTALL_GLOBAL ]]; then
+  echo "Initializing local haxelib"
+  haxelib newrepo
+fi
 
 while read -r line; do
   # trim line endings off of the line
@@ -90,21 +94,22 @@ while read -r line; do
   if [[ ${libVersionOrGit} == "git" ]]; then
     if [[ -z "${gitBranchOrTag}" ]]; then
       echo "Installing ${libName} git master"
-      haxelib git --always --quiet ${libName} ${gitLocation}
+      haxelib git --always ${libName} ${gitLocation}
     else
       echo "Installing ${libName} git branch ${gitBranchOrTag}"
       # commands that can hijack standard in will cause our file read loop to break per: https://stackoverflow.com/a/35208546
       # Adding this echo prevents that and allows our loop to continue
-      echo "" | haxelib git --always --quiet ${libName} ${gitLocation} ${gitBranchOrTag}
+      echo "" | haxelib git --always ${libName} ${gitLocation} ${gitBranchOrTag}
     fi
   else
     echo "Installing ${libName} version ${libVersionOrGit}"
     haxelib set ${libName} ${libVersionOrGit} --always --quiet
   fi
 
-  if [[ ${libName} == "lime" ]]; then
+  if [[ ${libName} == "lime" ]] && [[ ! -v INSTALL_GLOBAL ]]; then
     # this is a one-off just to make sure that lime is configured properly in our local repo
-    haxelib run lime setup
+    echo "Running lime setup"
+    haxelib run --always lime setup
   fi
 done <haxelib.deps
 
