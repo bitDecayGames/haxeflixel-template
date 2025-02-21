@@ -72,6 +72,10 @@ class Main extends Sprite {
 
 		DebugDraw.init(Type.allEnums(DebugLayers));
 
+		#if debug
+		FlxG.debugger.visible = true;
+		#end
+
 		configureLogging();
 
 		trace('Build Hash: ${Macros.getGitCommitShortHash()}');
