@@ -1,5 +1,7 @@
 package;
 
+import openfl.utils.Assets;
+import openfl.text.Font;
 import debug.DebugLayers;
 import flixel.system.debug.log.LogStyle;
 import haxe.Timer;
@@ -27,10 +29,10 @@ import states.CreditsState;
 #end
 
 class Main extends Sprite {
+
 	public function new() {
 		super();
 		Configure.initAnalytics(false);
-
 		Storage.load();
 		Achievements.initAchievements();
 
@@ -46,19 +48,23 @@ class Main extends Sprite {
 		#end
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
 
+		configureFlixel();
+		configureDebug();
+		configureLogging();
+
+		trace('Build Hash: ${Macros.getGitCommitShortHash()}');
+	}
+
+	private function configureFlixel() {
 		FlxG.fixedTimestep = false;
+
+		// FMOD will be all of our audio stuff
+		FlxG.plugins.addPlugin(new FmodPlugin());
 
 		// Disable flixel volume controls as we don't use them because of FMOD
 		FlxG.sound.muteKeys = null;
 		FlxG.sound.volumeUpKeys = null;
 		FlxG.sound.volumeDownKeys = null;
-
-		// Don't use the flixel cursor
-		FlxG.mouse.useSystemCursor = true;
-
-		#if debug
-		FlxG.autoPause = false;
-		#end
 
 		// Set up basic transitions. To override these see `transOut` and `transIn` on any FlxTransitionable states
 		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
@@ -67,18 +73,20 @@ class Main extends Sprite {
 		// Set any default font you want to be the default
 		// FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
 		FlxTextFactory.defaultSize = 24;
+	}
 
-		FlxG.plugins.addPlugin(new FmodPlugin());
-
+	private function configureDebug() {
 		DebugDraw.init(Type.allEnums(DebugLayers));
-
+		
 		#if debug
+		var fnt = Assets.getFont(AssetPaths.Brain_Slab_8__ttf);
+		Font.registerFont(fnt);
+		DebugDraw.ME.setDrawFont(fnt.fontName, 10);
 		FlxG.debugger.visible = true;
+
+		// When debugging, it's nice to have the game stay running when it loses focus
+		FlxG.autoPause = false;
 		#end
-
-		configureLogging();
-
-		trace('Build Hash: ${Macros.getGitCommitShortHash()}');
 	}
 
 	private function configureLogging() {
