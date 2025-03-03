@@ -26,7 +26,8 @@ This project is intended to leverage VSCode to make some of the features availab
 
 To run the project from command line (breakpoints will not be available):
 
-1. `lime test html5 -debug`
+1. `./bin/run_debug.sh`
+   * Any extra flags/arguments can be given to this script
 
 # Assets
 

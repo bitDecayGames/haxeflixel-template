@@ -8,7 +8,6 @@ import flixel.text.FlxText.FlxTextAlign;
 import flixel.text.FlxBitmapText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-
 import config.Configure;
 import haxefmod.flixel.FmodFlxUtilities;
 import misc.FlxTextFactory;

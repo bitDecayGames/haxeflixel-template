@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# for easier debug, uncomment the next line to echo commands as they are run
+# set -x
+
 #---------------------------------------------------------#
 # This pre-commit hook detects new/changed Aseprite files #
 # and runs the Aseprite CLI export tooling to regenerate  #
@@ -53,4 +56,16 @@ then
 	echo -e "${BLUE}running export script to ensure atlas art is up-to-date${GRAY}"
 	./bin/export_ase.sh
 	git add ./assets/aseprite/
+fi
+
+# Get all changed .hx files
+HX_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\.hx$' || true))
+
+if [[ -n "$HX_FILES" ]]
+then
+	echo "Checking .hx file format"
+	./bin/format.sh "${HX_FILES[@]}"
+
+	# Re-stage the .hx files after formatting
+	git add "${HX_FILES[@]}"
 fi

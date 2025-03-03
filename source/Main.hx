@@ -29,7 +29,6 @@ import states.CreditsState;
 #end
 
 class Main extends Sprite {
-
 	public function new() {
 		super();
 		Configure.initAnalytics(false);
@@ -47,6 +46,11 @@ class Main extends Sprite {
 		}
 		#end
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
+
+		#if html5
+		// Disable right-click menu on web
+		stage.showDefaultContextMenu = false;
+		#end
 
 		configureFlixel();
 		configureDebug();
@@ -77,7 +81,7 @@ class Main extends Sprite {
 
 	private function configureDebug() {
 		DebugDraw.init(Type.allEnums(DebugLayers));
-		
+
 		#if debug
 		var fnt = Assets.getFont(AssetPaths.Brain_Slab_8__ttf);
 		Font.registerFont(fnt);

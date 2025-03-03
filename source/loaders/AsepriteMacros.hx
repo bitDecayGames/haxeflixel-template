@@ -1,14 +1,24 @@
 package loaders;
 
 class AsepriteMacros {
+	// A macro to provide all tagNames from the given file. If no tags defined, this will
+	// return the frame names, instead.
 	public static macro function tagNames(path:String) {
 		return try {
 			var json = haxe.Json.parse(sys.io.File.getContent(path));
 			var tags:Array<loaders.AsepriteTypes.AseAtlasTag> = json.meta.frameTags;
 			var map:Dynamic = {};
+			if (tags.length == 0) {
+				var frames:Array<loaders.AsepriteTypes.AseAtlasFrame> = json.frames;
+				for (frame in frames) {
+					Reflect.setField(map, clean(frame.filename), frame.filename);
+				}
+			}
 			for (tag in tags) {
 				Reflect.setField(map, clean(tag.name), tag.name);
 			}
+			// This exists because we know we do it on the runtime loading of the sprite
+			Reflect.setField(map, "all_frames", "all_frames");
 			macro $v{map};
 		} catch (e) {
 			haxe.macro.Context.error('Failed to load json: $e', haxe.macro.Context.currentPos());
@@ -67,7 +77,8 @@ class AsepriteMacros {
 
 	private static function clean(input:String):String {
 		// Taken from how AssetPaths builds field names
-		input = input.split("-").join("_").split(" ").join("_").split(".").join("__");
+		var forbiddenCharRegex = ~/[-\(\) \.]/g;
+		input = forbiddenCharRegex.split(input).join('_');
 		return input;
 	}
 }

@@ -1,5 +1,6 @@
 package loaders;
 
+import loaders.AsepriteTypes.AseAtlasFrame;
 import haxe.io.Path;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -12,7 +13,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import loaders.AsepriteTypes.AseAtlas;
 
 class Aseprite {
-	// a cache to prevent us from reparsing json multiple times
+	// a cache to prevent us from re-parsing json multiple times
 	private static var atlasCache:Map<String, AseAtlas> = [];
 
 	// loads all animations from the atlas file onto the provided sprite
@@ -51,6 +52,19 @@ class Aseprite {
 		into.frames = atlasData;
 
 		var tags:Array<AsepriteTypes.AseAtlasTag> = atlas.meta.frameTags;
+		if (tags.length == 0) {
+			// if we have no tags, load frames as individual animations for ease-of-use
+			var frameData = atlas.frames;
+			if (frameData is Array) {
+				var frameDataArr:Array<AseAtlasFrame> = cast frameData;
+				for (i in 0...frameDataArr.length) {
+					into.animation.add(frameDataArr[i].filename, [i], false);
+				}
+			} else {
+				// TODO: we can't do Hash map, as we don't know which frame in the
+				// image is which frame in the metadata easily
+			}
+		}
 		for (tag in tags) {
 			var loop = tag.repeat != 1;
 			var frames = [for (i in tag.from...tag.to + 1) i];

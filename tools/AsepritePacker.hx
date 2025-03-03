@@ -2,13 +2,11 @@ package;
 
 #if sys
 import sys.FileSystem;
-import sys.FileStat;
 import sys.io.File;
 import haxe.io.Path;
 #end
 
 class AsepritePacker {
-
 	static inline var FLAG_INPUT_DIR = "--input-dir";
 	static inline var FLAG_OUTPUT_DIR = "--output-dir";
 	static inline var FLAG_CLEAN = "--clean";
@@ -27,11 +25,26 @@ class AsepritePacker {
 	static inline var RED = '\033[31m';
 	static inline var GREEN = '\033[32m';
 	static inline var GRAY = '\033[0;37m';
+
+	static var debug = false;
+	static var verbose = false;
 	#end
 
 	static public function main():Void {
 		#if sys
 		var args = parseArgs(Sys.args());
+
+		if (args.exists("--debug")) {
+			debug = true;
+		}
+
+		if (args.exists("--verbose")) {
+			verbose = true;
+		}
+
+		if (verbose) {
+			Sys.println('Running with args: ${args}');
+		}
 
 		inFileDir = args[FLAG_INPUT_DIR];
 		outputDir = args[FLAG_OUTPUT_DIR];
@@ -54,13 +67,13 @@ class AsepritePacker {
 
 		if (writtenFiles.length > 0) {
 			Sys.println('------------------------');
-			Sys.println('    ${BLUE}${writtenFiles.length/2} files exported${GRAY}');
+			Sys.println('    ${BLUE}${writtenFiles.length / 2} files exported${GRAY}');
 		} else {
 			Sys.println('${BLUE}no files found needing export${GRAY}');
 		}
-		#if verbose
-		Sys.println('    ${RED}${skippedFiles} files ignored${GRAY}');
-		#end
+		if (verbose) {
+			Sys.println('    ${RED}${skippedFiles} files ignored${GRAY}');
+		}
 		#else
 		throw 'Aseprite Packer can only be run against targets with sys access';
 		#end
@@ -103,19 +116,19 @@ class AsepritePacker {
 					exportAtlas(normal, imageOutputPath, jsonOutputPath);
 				}
 			}
-		  } else {
+		} else {
 			skippedFiles++;
-			#if verbose
-			Sys.println('- unknown file discovered: ${aseFilePath}');
-			#end
-		  }
+			if (verbose) {
+				Sys.println('- unknown file discovered: ${aseFilePath}');
+			}
+		}
 	}
 
 	static function search(directory:String = "path/to/", process:String->Void) {
 		if (sys.FileSystem.exists(directory)) {
-			#if verbose
-			Sys.println('${GREEN}→${GRAY} searching directory: ${YELLOW}$directory${GRAY}');
-			#end
+			if (verbose) {
+				Sys.println('${GREEN}→${GRAY} searching directory: ${YELLOW}$directory${GRAY}');
+			}
 
 			for (file in sys.FileSystem.readDirectory(directory)) {
 				var path = haxe.io.Path.join([directory, file]);
@@ -127,7 +140,7 @@ class AsepritePacker {
 				}
 			}
 		} else {
-		  Sys.println('"$directory" does not exists');
+			Sys.println('"$directory" does not exists');
 		}
 	}
 
@@ -140,25 +153,41 @@ class AsepritePacker {
 			throw 'Multiple files trying to write to ${jsonOutputPath}';
 		}
 
-		#if verbose
-		Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$imageOutputPath${GRAY}');
-		Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$jsonOutputPath${GRAY}');
-		#end
+		if (verbose) {
+			Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$imageOutputPath${GRAY}');
+			Sys.println('\t\t${GREEN}⤷${GRAY} writing: ${MAGENTA}$jsonOutputPath${GRAY}');
+		}
+
+		var opts = parseAseOptions(aseFilePath);
+
+		if (debug) {
+			Sys.println('${BLUE} Parsed opts: ${opts}');
+		}
 
 		var cmd = "aseprite";
-		var args = ["-b", '$aseFilePath',
-		"--sheet-pack",
-		"--list-tags",
-		"--list-layers",
-		"--list-slices",
-		"--format", "json-array",
-		"--data", '$jsonOutputPath',
-		"--sheet", '$imageOutputPath'];
+		var args = [
+			"-b",
+			opts.exists("split-layers") ? "--split-layers" : null,
+			'$aseFilePath',
+			"--sheet-pack",
+			"--list-tags",
+			"--list-layers",
+			"--list-slices",
+			"--format",
+			"json-array",
+			"--data",
+			'$jsonOutputPath',
+			"--sheet",
+			'$imageOutputPath'
+		];
 
-		#if debug
-		args.push("--debug");
-		Sys.println('running $cmd $args');
-		#end
+		// clear out any nulls from unused options
+		args = args.filter(e -> e != null);
+
+		if (debug) {
+			args.push("--debug");
+			Sys.println('running: $cmd ${args.join(" ")}');
+		}
 
 		var exit = Sys.command(cmd, args);
 
@@ -170,10 +199,37 @@ class AsepritePacker {
 		}
 	}
 
-	private static function deleteDirRecursively(path:String) : Void
-		{
-		  if (sys.FileSystem.exists(path) && sys.FileSystem.isDirectory(path))
-		  {
+	private static function parseAseOptions(asePath:String):Map<String, String> {
+		var raw = Path.withoutExtension(asePath);
+		var optsPath = Path.withExtension(raw, "opts");
+
+		if (!FileSystem.exists(optsPath)) {
+			if (debug) {
+				Sys.println('${BLUE}No opts file found for: ${asePath}');
+			}
+			return [];
+		}
+		var rawOptions = File.getContent(optsPath);
+		if (debug) {
+			Sys.println('${BLUE}Parsing options: ${rawOptions}');
+		}
+
+		var lines = ~/\r?\n/.split(rawOptions);
+
+		var allOpts:Map<String, String> = [];
+		for (o in lines) {
+			if (debug) {
+				Sys.println('${BLUE}splitting option: ${o}');
+			}
+			var keyVal = o.split("=");
+			allOpts.set(keyVal[0], keyVal.length > 1 ? keyVal[1] : "");
+		}
+
+		return allOpts;
+	}
+
+	private static function deleteDirRecursively(path:String):Void {
+		if (sys.FileSystem.exists(path) && sys.FileSystem.isDirectory(path)) {
 			var entries = sys.FileSystem.readDirectory(path);
 			for (entry in entries) {
 				var entryPath = haxe.io.Path.join([path, entry]);
@@ -184,7 +240,7 @@ class AsepritePacker {
 					sys.FileSystem.deleteFile(entryPath);
 				}
 			}
-		  }
 		}
+	}
 	#end
 }
