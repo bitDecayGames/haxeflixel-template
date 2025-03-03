@@ -1,5 +1,6 @@
 package;
 
+import sys.FileSystem;
 #if sys
 import sys.io.File;
 import haxe.Template;
@@ -7,6 +8,10 @@ import haxe.Template;
 // This is a simple helper to fill out some configuration needed when
 // first configuring a new repo. This modifies the files in-place
 class ProjectInit {
+	static inline var TOP_LEVEL_README_FILE:String = "../README.md";
+	static inline var GAME_README_TEMPLATE_FILE:String = "../docs/BASE_README.md";
+	static inline var PROJECT_SETUP_README_DEST_FILE:String = "../docs/PROJECT_SETUP.md";
+
 	static public function main():Void {
 		var pattern = "^[A-Z0-9_-]+$";
 		var regex = new EReg(pattern, "i");
@@ -34,7 +39,8 @@ class ProjectInit {
 			"../.github/workflows/auto-deploy.yml",
 			"../.github/workflows/prod-deploy.yml",
 			"../assets/data/config.json",
-			"../metrics/docker-compose.yml"
+			"../metrics/docker-compose.yml",
+			GAME_README_TEMPLATE_FILE
 		];
 
 		Sys.println("");
@@ -78,8 +84,28 @@ class ProjectInit {
 			var content = File.getContent(file);
 			var tpl = new Template(content);
 			var output = tpl.execute(responses);
-			File.write(file).writeString(output);
+			var fo = File.write(file);
+			fo.writeString(output);
+			fo.flush();
+			fo.close();
 		}
+
+		// Move our readme files around now that we are setup
+		if (FileSystem.exists(PROJECT_SETUP_README_DEST_FILE)) {
+			Sys.println("PROJECT_SETUP.md already exists. Has this script been run before?");
+			return;
+		}
+		FileSystem.rename(TOP_LEVEL_README_FILE, PROJECT_SETUP_README_DEST_FILE);
+
+		if (!FileSystem.exists(GAME_README_TEMPLATE_FILE)) {
+			Sys.println("BASE_README.md does not exist. Has this script been run before?");
+			return;
+		}
+		if (FileSystem.exists(TOP_LEVEL_README_FILE)) {
+			Sys.println("Root README.md already exists. Has this script been run before?");
+			return;
+		}
+		FileSystem.rename(GAME_README_TEMPLATE_FILE, TOP_LEVEL_README_FILE);
 	}
 }
 #else
