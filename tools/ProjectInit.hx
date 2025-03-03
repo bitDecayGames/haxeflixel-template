@@ -88,8 +88,25 @@ class ProjectInit {
 		}
 
 		// Move our readme files around now that we are setup
+		if (FileSystem.exists(PROJECT_SETUP_README_DEST_FILE)) {
+			Sys.println("PROJECT_SETUP.md already exists. Has this script been run before?");
+			return;
+		}
 		FileSystem.rename(TOP_LEVEL_README_FILE, PROJECT_SETUP_README_DEST_FILE);
-		FileSystem.rename(GAME_README_TEMPLATE_FILE, TOP_LEVEL_README_FILE);
+
+		Sys.sleep(2);
+
+		if (!FileSystem.exists(GAME_README_TEMPLATE_FILE)) {
+			Sys.println("BASE_README.md does not exist. Has this script been run before?");
+			return;
+		}
+		if (FileSystem.exists(TOP_LEVEL_README_FILE)) {
+			Sys.println("Root README.md already exists. Has this script been run before?");
+			return;
+		}
+		
+		File.saveContent(TOP_LEVEL_README_FILE, File.getContent(GAME_README_TEMPLATE_FILE));
+		FileSystem.deleteFile(GAME_README_TEMPLATE_FILE);
 	}
 }
 #else
