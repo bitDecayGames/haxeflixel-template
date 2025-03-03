@@ -36,7 +36,8 @@ class CreditsState extends FlxTransitionableState {
 		AssetPaths.FLStudioLogo__png,
 		AssetPaths.FmodLogoWhite__png,
 		AssetPaths.HaxeFlixelLogo__png,
-		AssetPaths.pyxel_edit__png
+		AssetPaths.pyxel_edit__png,
+		AssetPaths.aseprite__png
 	];
 
 	override public function create():Void {
