@@ -78,6 +78,10 @@ class CreditsState extends FlxTransitionableState {
 
 		creditsVerticalOffset = FlxG.height;
 
+		// placeholders to get credits to align properly
+		creditsVerticalOffset += entryVerticalSpacing;
+		creditsVerticalOffset += entryVerticalSpacing;
+
 		for (flxText in _txtCreator) {
 			flxText.setPosition(FlxG.width - flxText.width - entryRightMargin, creditsVerticalOffset);
 			creditsVerticalOffset += entryVerticalSpacing;
@@ -113,9 +117,12 @@ class CreditsState extends FlxTransitionableState {
 		var roleText = FlxTextFactory.make(role, 0, 0, 24);
 		add(roleText);
 		finalRoleArray.push(roleText);
+		finalRoleArray.push(roleText);
 		_allCreditElements.push(roleText);
 
 		if (finalCreatorsArray.length != 0) {
+			// placeholders to get credits to align properly
+			finalCreatorsArray.push(new FlxBitmapText());
 			finalCreatorsArray.push(new FlxBitmapText());
 		}
 
