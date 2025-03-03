@@ -1,3 +1,7 @@
 # ::game_name::
 
-First time contributors, please see [CONTRIBUTING.md](./docs/CONTRIBUTING.md)
+### Playing the game
+
+Run `lime run html5`
+
+Contributors, please see [CONTRIBUTING.md](./docs/CONTRIBUTING.md)
