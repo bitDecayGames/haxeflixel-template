@@ -84,7 +84,10 @@ class ProjectInit {
 			var content = File.getContent(file);
 			var tpl = new Template(content);
 			var output = tpl.execute(responses);
-			File.write(file).writeString(output);
+			var fo = File.write(file);
+			fo.writeString(output);
+			fo.flush();
+			fo.close();
 		}
 
 		// Move our readme files around now that we are setup
@@ -94,8 +97,6 @@ class ProjectInit {
 		}
 		FileSystem.rename(TOP_LEVEL_README_FILE, PROJECT_SETUP_README_DEST_FILE);
 
-		Sys.sleep(2);
-
 		if (!FileSystem.exists(GAME_README_TEMPLATE_FILE)) {
 			Sys.println("BASE_README.md does not exist. Has this script been run before?");
 			return;
@@ -104,9 +105,7 @@ class ProjectInit {
 			Sys.println("Root README.md already exists. Has this script been run before?");
 			return;
 		}
-		
-		File.saveContent(TOP_LEVEL_README_FILE, File.getContent(GAME_README_TEMPLATE_FILE));
-		FileSystem.deleteFile(GAME_README_TEMPLATE_FILE);
+		FileSystem.rename(GAME_README_TEMPLATE_FILE, TOP_LEVEL_README_FILE);
 	}
 }
 #else
