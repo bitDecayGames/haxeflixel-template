@@ -1,9 +1,5 @@
 # Template Project for HaxeFlixel games
 
-## Debugging
-
-To develop on the game, run `lime test html5`
-
 ### Template features:
 - Pre-configured libraries
   - FMOD Studio project with menu sound effects and a random song I wrote
@@ -29,41 +25,3 @@ To develop on the game, run `lime test html5`
     - `ANALYTICS_TOKEN`: The InfluxDB access token from influxdata.com
         - API token can be generated from `influxdata.com` -> `Load Data` -> `API Tokens` -> `Generate API Token`
 2. Run the `./bin/setup_repo.sh` script to update github workflow files and project configuration json
-
-### User Configuration (new contributor setup)
-
-1. `./bin/setup_hooks.sh` - Run to copy git hooks over
-2. `./bin/init_deps.sh` - Run to get dependencies at the proper versions. See [haxelib.deps](#haxelibdeps) for more info.
-
-### Metrics & Analytics
-- Some basic analytics are already configured to be reported after the proper project configuration has been done.
-- To view game metrics, run `./bin/view_metrics.sh` and a grafana instance will be created locally that connects to the cloud metrics. Graphs will be available at `http://localhost:3000` if the browser doesn't automatically open.
-  - This script will prompt for a read token the first time it is run for access to the data. Consult whoever controls your cloud data for a token.
-- Holding `D` and pressing `M` at the main menu will allow playing the release game without sending metrics. This is indicated by a sound effect and a log message once pressed.
-
-### Dependencies
-
-#### **haxelib.deps**
-
-* `haxelib.deps` - Contains all dependencies needed by the project other than haxe itself
-  * It supports two dep styles
-    * standard haxelib dependencies
-      * Formatted as: `<libName> <libVersion>`
-    * git dependencies
-      * Formatted as: `<libName> git <gitRepoLocation> <OPTIONAL: gitBranchOrTag>`
-* `./bin/init_deps.sh` - Script that reads `haxelib.deps` file and configures `haxelib`
-  * This script will need to be run any time the dependencies change
-  * This script is run by the github actions as part of the build so local and github builds are equivalent
-
-### Aseprite
-
-All Aseprite files within the `art/` directory are automatically exported as Atlases as part of a pre-commit hook. The details of this process can be found in the `pre-commit` hook file, as well as the `AsepritePacker` tool code.
-
-There is an accompanying set of code in the `source/loaders/` directory to aid with loading these files into game objects that allow frames and durations to be driven entirely via the Aseprite files.
-
-### Maintenance
-
-#### **Formatting**
-
-* This projects uses the [haxe-formatter](https://github.com/HaxeCheckstyle/haxe-formatter) package for formatting using default settings
-  * `./bin/format.sh` is a convenience script will perform the formatting

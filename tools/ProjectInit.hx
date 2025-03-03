@@ -1,5 +1,6 @@
 package;
 
+import sys.FileSystem;
 #if sys
 import sys.io.File;
 import haxe.Template;
@@ -7,6 +8,10 @@ import haxe.Template;
 // This is a simple helper to fill out some configuration needed when
 // first configuring a new repo. This modifies the files in-place
 class ProjectInit {
+	static inline var TOP_LEVEL_README_FILE:String = "../README.md";
+	static inline var GAME_README_TEMPLATE_FILE:String = "../docs/BASE_README.md";
+	static inline var PROJECT_SETUP_README_DEST_FILE:String = "../docs/PROJECT_SETUP.md";
+
 	static public function main():Void {
 		var pattern = "^[A-Z0-9_-]+$";
 		var regex = new EReg(pattern, "i");
@@ -34,7 +39,8 @@ class ProjectInit {
 			"../.github/workflows/auto-deploy.yml",
 			"../.github/workflows/prod-deploy.yml",
 			"../assets/data/config.json",
-			"../metrics/docker-compose.yml"
+			"../metrics/docker-compose.yml",
+			GAME_README_TEMPLATE_FILE
 		];
 
 		Sys.println("");
@@ -80,6 +86,10 @@ class ProjectInit {
 			var output = tpl.execute(responses);
 			File.write(file).writeString(output);
 		}
+
+		// Move our readme files around now that we are setup
+		FileSystem.rename(TOP_LEVEL_README_FILE, PROJECT_SETUP_README_DEST_FILE);
+		FileSystem.rename(GAME_README_TEMPLATE_FILE, TOP_LEVEL_README_FILE);
 	}
 }
 #else
