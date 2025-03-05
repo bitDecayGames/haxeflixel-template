@@ -14,6 +14,7 @@ set -eo pipefail
 
 ASEPRITE_CMD='aseprite'
 
+# Colors to make output more readable
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 GRAY='\033[0;37m'

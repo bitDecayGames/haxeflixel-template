@@ -3,6 +3,12 @@
 # for easier debug, uncomment the next line to echo commands as they are run
 # set -x
 
+# Colors to make output more readable
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
 restoreDevCommands=()
 
 # check if we should be running locally
@@ -25,8 +31,6 @@ while read -r line; do
     continue
   fi
 
-  echo ""
-  echo "Processing '${line}'"
   # this syntax interprets the line as an array
   splits=(${line})
 
@@ -58,7 +62,7 @@ while read -r line; do
     # path again is potentially annoying.                         #
     ###############################################################
 
-    echo "${libName} is on a dev version"
+    echo -e "${YELLOW}${libName} is on a dev version${NC}"
 
     # Disable the dev lib
     haxelib dev ${libName}
@@ -93,16 +97,16 @@ while read -r line; do
   # Now we can handle actually installing the needed version
   if [[ ${libVersionOrGit} == "git" ]]; then
     if [[ -z "${gitBranchOrTag}" ]]; then
-      echo "Installing ${libName} git master"
+      echo -e "${GREEN}Installing ${libName} git master${NC}"
       haxelib git --always ${libName} ${gitLocation}
     else
-      echo "Installing ${libName} git branch ${gitBranchOrTag}"
+      echo -e "${GREEN}Installing ${libName} git branch ${gitBranchOrTag}${NC}"
       # commands that can hijack standard in will cause our file read loop to break per: https://stackoverflow.com/a/35208546
       # Adding this echo prevents that and allows our loop to continue
       echo "" | haxelib git --always ${libName} ${gitLocation} ${gitBranchOrTag}
     fi
   else
-    echo "Installing ${libName} version ${libVersionOrGit}"
+    echo -e "${GREEN}Installing ${libName} version ${libVersionOrGit}${NC}"
     haxelib set ${libName} ${libVersionOrGit} --always --quiet
   fi
 
@@ -115,12 +119,13 @@ done <haxelib.deps
 
 
 if [ ${#restoreDevCommands[@]} -ne 0 ]; then
-    echo ""
-    echo "Some dev dependencies were disabled."
+    # echo ""
+    echo -e "${YELLOW}Some dev dependencies were disabled."
     echo "To restore them, run:"
 
     for value in "${restoreDevCommands[@]}"
     do
         echo "${value}"
     done
+    echo -e "${NC}"
 fi

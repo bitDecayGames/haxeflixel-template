@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# for easier debug, uncomment the next line to echo commands as they are run
+# set -x
+
+# Colors to make output more readable
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+MERGED_FILES=$(git diff --name-only HEAD@{1} HEAD)
+
+DEP_FILE="haxelib.deps"
+INIT_DEP_SCRIPT="./bin/init_deps.sh"
+
+# Check if the dependencies have changed
+if echo "$MERGED_FILES" | grep -q "$DEP_FILE"; then
+    echo -e "${YELLOW}"
+    echo "$DEP_FILE has changed"
+    echo -e "${NC}"
+    echo "Running ${INIT_DEP_SCRIPT}..."
+    bash "$INIT_DEP_SCRIPT"
+fi
+
+REPO_HOOKS_DIR="bin/hooks"
+SETUP_HOOKS_SCRIPT="./bin/setup_hooks.sh"
+
+# Check if any of our hooks have changed
+if echo "$MERGED_FILES" | grep -q "^$REPO_HOOKS_DIR/"; then
+    echo -e "${YELLOW}"
+    echo "Files in $REPO_HOOKS_DIR have changed"
+    echo -e "${NC}"
+    echo "Running ${SETUP_HOOKS_SCRIPT}..."
+    bash "$SETUP_HOOKS_SCRIPT"
+fi
