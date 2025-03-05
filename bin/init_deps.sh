@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # for easier debug, uncomment the next line to echo commands as they are run
-# set -x 
+# set -x
 
 restoreDevCommands=()
 
 # check if we should be running locally
-if [[ ! -v INSTALL_GLOBAL ]]; then
+if [[ -z "$INSTALL_GLOBAL" ]]; then
   echo "Initializing local haxelib"
   haxelib newrepo
 fi
@@ -106,10 +106,10 @@ while read -r line; do
     haxelib set ${libName} ${libVersionOrGit} --always --quiet
   fi
 
-  if [[ ${libName} == "lime" ]] && [[ ! -v INSTALL_GLOBAL ]]; then
+  if [[ ${libName} == "lime" ]] && [[ -z "$INSTALL_GLOBAL" ]]; then
     # this is a one-off just to make sure that lime is configured properly in our local repo
     echo "Running lime setup"
-    haxelib run --always lime setup
+    haxelib --always run lime setup
   fi
 done <haxelib.deps
 
