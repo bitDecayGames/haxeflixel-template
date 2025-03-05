@@ -3,6 +3,10 @@ on:
   release:
     types:
       - published
+
+env:
+  INSTALL_GLOBAL: true
+
 jobs:
   publish-html5-build:
     runs-on: ubuntu-latest
