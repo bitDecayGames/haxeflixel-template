@@ -13,6 +13,9 @@ newgrounds 2.0.0
 # full physics
 # nape-haxe4 2.0.22
 
+# ldtk level editor
+# ldtk-haxe-api 1.5.3-rc.1
+
 # bitDecayGames deps
 bitdecaybtree git https://github.com/bitDecayGames/BehaviorTree.git
 bitlytics git https://github.com/bitDecayGames/Bitlytics.git
