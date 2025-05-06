@@ -1,6 +1,6 @@
 # Main build deps
-flixel 5.8.0
-flixel-addons 3.2.2
+flixel 6.0.0
+flixel-addons 3.3.2
 openfl 9.3.3
 lime 8.2.2
 

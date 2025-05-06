@@ -78,9 +78,9 @@ class SplashScreenState extends FlxState {
 		};
 		if (splash.animation.getByName(PLAY_ANIMATION) != null) {
 			fadeInTween.onComplete = (t) -> splash.animation.play(PLAY_ANIMATION);
-			splash.animation.callback = (name, frameNumber, frameIndex) -> {
+			splash.animation.onFrameChange.add((name, frameNumber, frameIndex) -> {
 				// Can add sfx or other things here
-			};
+			});
 		}
 		return fadeInTween;
 	}

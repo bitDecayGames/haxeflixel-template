@@ -1,26 +1,30 @@
 package;
 
+import haxe.Timer;
+import openfl.ui.Keyboard;
+import openfl.events.KeyboardEvent;
 import openfl.utils.Assets;
 import openfl.text.Font;
-import debug.DebugLayers;
-import flixel.system.debug.log.LogStyle;
-import haxe.Timer;
-import audio.FmodPlugin;
-import achievements.Achievements;
-import helpers.Storage;
-import states.SplashScreenState;
-import misc.Macros;
-import states.MainMenuState;
-import flixel.FlxState;
-import config.Configure;
+import openfl.display.Sprite;
+import bitdecay.flixel.debug.tools.btree.BTreeInspector;
+import bitdecay.flixel.debug.tools.draw.DebugDraw;
+import bitdecay.flixel.debug.DebugSuite;
 import flixel.FlxG;
 import flixel.FlxGame;
+import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
+import flixel.system.debug.log.LogStyle;
 import flixel.util.FlxColor;
+import audio.FmodPlugin;
+import achievements.Achievements;
+import config.Configure;
+import debug.DebugLayers;
+import helpers.Storage;
+import states.SplashScreenState;
 import misc.FlxTextFactory;
-import openfl.display.Sprite;
-import bitdecay.flixel.debug.DebugDraw;
+import misc.Macros;
+import states.MainMenuState;
 #if play
 import states.PlayState;
 #end
@@ -45,22 +49,26 @@ class Main extends Sprite {
 			startingState = MainMenuState;
 		}
 		#end
+		FlxG.signals.preGameStart.add(() -> {
+			configureFlixel();
+			configureDebug();
+			configureLogging();
+			#if debug
+			// DebugSuite.init(new BTreeInspector(), new DebugDraw());
+			#end
+		});
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
-
-		#if html5
-		// Disable right-click menu on web
-		stage.showDefaultContextMenu = false;
-		#end
-
-		configureFlixel();
-		configureDebug();
-		configureLogging();
 
 		trace('Build Hash: ${Macros.getGitCommitShortHash()}');
 	}
 
 	private function configureFlixel() {
 		FlxG.fixedTimestep = false;
+
+		#if html5
+		// Disable right-click menu on web
+		stage.showDefaultContextMenu = false;
+		#end
 
 		// FMOD will be all of our audio stuff
 		FlxG.plugins.addPlugin(new FmodPlugin());
@@ -80,33 +88,43 @@ class Main extends Sprite {
 	}
 
 	private function configureDebug() {
-		DebugDraw.init(Type.allEnums(DebugLayers));
-
 		#if debug
+		DebugSuite.init(new DebugDraw(Type.allEnums(DebugLayers)), new BTreeInspector());
+
 		var fnt = Assets.getFont(AssetPaths.Brain_Slab_8__ttf);
 		Font.registerFont(fnt);
-		DebugDraw.ME.setDrawFont(fnt.fontName, 10);
+		DebugSuite.tool(DebugDraw, (t) -> {
+			t.setDrawFont(fnt.fontName, 10);
+		});
 		FlxG.debugger.visible = true;
 
 		// When debugging, it's nice to have the game stay running when it loses focus
 		FlxG.autoPause = false;
+
+		// This lets the slash key auto-focus the input console in the debugger when pressed
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent) {
+			if (FlxG.debugger.visible && FlxG.game.debugger.console.visible && e.keyCode == Keyboard.SLASH) {
+				@:privateAccess
+				FlxG.stage.focus = FlxG.game.debugger.console.input;
+			}
+		});
 		#end
 	}
 
 	private function configureLogging() {
 		#if FLX_DEBUG
 		LogStyle.WARNING.openConsole = true;
-		LogStyle.WARNING.callbackFunction = () -> {
+		LogStyle.WARNING.onLog.add((data, ?pos) -> {
 			// Make sure we open the logger if a log triggered
 			FlxG.game.debugger.log.visible = true;
-		};
+		});
 
 		LogStyle.ERROR.openConsole = true;
-		LogStyle.ERROR.callbackFunction = () -> {
+		LogStyle.ERROR.onLog.add((data, ?pos) -> {
 			// Make sure we open the logger if a log triggered
 			FlxG.vcr.pause();
 			FlxG.game.debugger.log.visible = true;
-		};
+		});
 		#end
 	}
 }

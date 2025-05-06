@@ -1,5 +1,7 @@
 package states;
 
+import bitdecay.flixel.debug.tools.draw.DebugDraw;
+import bitdecay.flixel.debug.DebugSuite;
 import entities.Item;
 import flixel.util.FlxColor;
 import debug.DebugLayers;
@@ -9,7 +11,6 @@ import signals.Lifecycle;
 import entities.Player;
 import flixel.FlxSprite;
 import flixel.FlxG;
-import bitdecay.flixel.debug.DebugDraw;
 
 using states.FlxStateExt;
 
@@ -38,7 +39,9 @@ class PlayState extends FlxTransitionableState {
 		super.update(elapsed);
 
 		var cam = FlxG.camera;
-		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
+		DebugSuite.tool(DebugDraw, (t) -> {
+			t.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
+		});
 	}
 
 	override public function onFocusLost() {

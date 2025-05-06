@@ -20,11 +20,11 @@ class Player extends FlxSprite {
 		// FlxAsepriteUtil.loadAseAtlasAndTags(this, AssetPaths.player__png, AssetPaths.player__json);
 		Aseprite.loadAllAnimations(this, AssetPaths.player__json);
 		animation.play(anims.right);
-		animation.callback = (anim, frame, index) -> {
+		animation.onFrameChange.add((anim, frame, index) -> {
 			if (eventData.exists(index)) {
 				trace('frame $index has data ${eventData.get(index)}');
 			}
-		};
+		});
 	}
 
 	override public function update(delta:Float) {
