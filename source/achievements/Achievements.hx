@@ -1,5 +1,6 @@
 package achievements;
 
+import flixel.util.FlxSignal.FlxTypedSignal;
 import achievements.AchievementToast;
 import helpers.Analytics;
 import helpers.Storage;
@@ -12,9 +13,11 @@ class Achievements {
 	public static var ALL:Map<AchievementID, AchievementDef>;
 	public static var ACHIEVEMENTS_DISPLAYED:Int = 0;
 
+	public static var onEvent = new FlxTypedSignal<(String, Int) -> Void>();
+
 	public static function initAchievements() {
-		ACHIEVEMENT_NAME_HERE = new AchievementDef("achievement_unique_key", "Achievement Title", "Sub-title", /* achievements_icon.png index */
-			0, /* dynamic count: ie: get 10 items */ 0);
+		ACHIEVEMENT_NAME_HERE = new AchievementDef("achievement_unique_key", "Achievement Title", "Sub-title", /* achievements_icon.png index */ 0,
+			COUNT_AT_LEAST('test metric', 5));
 
 		// @formatter:off
 		ALL = [
@@ -35,18 +38,17 @@ class AchievementDef {
 	public var title:String;
 	public var description:String;
 	public var iconIndex:Int;
-	public var count:Int;
+	public var condition:AchieveCondition;
 	public var achieved:Bool;
 	public var secret:Bool;
 
-	private var soundPlaying = false;
-
-	public function new(key:String, title:String, description:String, iconIndex:Int, count:Int = 0) {
+	public function new(key:String, title:String, description:String, iconIndex:Int, condition:AchieveCondition, ?secret:Bool = false) {
 		this.key = key;
 		this.title = title;
 		this.description = description;
 		this.iconIndex = iconIndex;
-		this.count = count;
+		this.condition = condition;
+		this.secret = secret;
 
 		// check local storage to see if they have already achieved this achievement
 		achieved = Storage.hasAchievement(key);
@@ -76,4 +78,16 @@ class AchievementDef {
 		}
 		return a;
 	}
+}
+
+enum AchieveCondition {
+	/**
+	 * Met once metric is equal to val (or greater)
+	**/
+	COUNT_AT_LEAST(metric:String, val:Int);
+
+	/**
+	 * Met once the event occurs, regardless of value
+	**/
+	EVENT_OCCURRED(metric:String);
 }

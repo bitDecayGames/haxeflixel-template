@@ -85,5 +85,8 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
+	<!-- Run the macro at compile time -->
+	<haxeflag name="--macro" value="events.macros.EventTypesGenerator.buildAll()" />
+	<!-- <haxeflag name="--macro" value="include('events.gen')" /> -->
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 </project>
