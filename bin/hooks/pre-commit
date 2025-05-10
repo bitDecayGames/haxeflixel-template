@@ -70,3 +70,15 @@ then
 	# Re-stage the .hx files after formatting
 	git add "${HX_FILES[@]}"
 fi
+
+# Get all changed .hx files
+EVENT_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\assets/data/events/.*\.hx$' || true))
+
+if [[ -n "$EVENT_FILES" ]]
+then
+	echo "Checking .hx file format"
+	./bin/generate_events.sh
+
+	# Re-stage the event files after formatting
+	git add ./source/events/gen/
+fi

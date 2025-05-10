@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# cd into our tooling directory and run our aseprite packer
+(cd tools && haxe --run EventGenerator)

@@ -5,19 +5,25 @@ import events.IEvent;
 class GameEvents {
 	private static var nextID = 1;
 
-	private static var newListeners:Map<String, Array<(IEvent) -> Void>> = [];
+	private static var subAllListeners:Array<(IEvent) -> Void> = [];
+	private static var listeners:Map<String, Array<(IEvent) -> Void>> = [];
 
 	public static function init() {
 		trace('hi');
 		// TODO: Any initialization? Such as loading storage data
 	}
 
+	public static function subscribeAll(cb:(IEvent) -> Void) {
+		subAllListeners.push(cb);
+	}
+
 	public static function subscribe<T:IEvent>(type:Class<T>, cb:(T) -> Void) {
 		var key = Type.getClassName(type);
-		if (!newListeners.exists(key)) {
-			newListeners.set(key, []);
+		if (!listeners.exists(key)) {
+			listeners.set(key, []);
 		}
-		newListeners.get(key).push((e) -> {
+
+		listeners.get(key).push((e) -> {
 			var te:T = cast e;
 			cb(te);
 		});
@@ -25,16 +31,23 @@ class GameEvents {
 
 	public static function fire(e:IEvent) {
 		e.id = nextID++;
+
+		// Tell general listeners
+		for (l in subAllListeners) {
+			l(e);
+		}
+
+		// Then check for any listening for this specific event type
 		var key = Type.getClassName(Type.getClass(e));
-		if (!newListeners.exists(key)) {
+		if (!listeners.exists(key)) {
 			return;
 		}
 
-		if (!newListeners.exists(key)) {
+		if (!listeners.exists(key)) {
 			return;
 		}
 
-		for (l in newListeners.get(key)) {
+		for (l in listeners.get(key)) {
 			l(e);
 		}
 	}

@@ -1,16 +1,11 @@
 package;
 
-import debug.TestTool;
-import achievements.GameEvents;
-import haxe.Timer;
-import openfl.ui.Keyboard;
-import openfl.events.KeyboardEvent;
-import openfl.utils.Assets;
-import openfl.text.Font;
+import debug.events.EventLog;
 import openfl.display.Sprite;
-import bitdecay.flixel.debug.tools.btree.BTreeInspector;
-import bitdecay.flixel.debug.tools.draw.DebugDraw;
-import bitdecay.flixel.debug.DebugSuite;
+import openfl.events.KeyboardEvent;
+import openfl.text.Font;
+import openfl.ui.Keyboard;
+import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -18,15 +13,21 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import flixel.system.debug.log.LogStyle;
 import flixel.util.FlxColor;
-import audio.FmodPlugin;
+import bitdecay.flixel.debug.DebugSuite;
+import bitdecay.flixel.debug.tools.btree.BTreeInspector;
+import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import achievements.Achievements;
+import achievements.GameEvents;
+import audio.FmodPlugin;
 import config.Configure;
 import debug.DebugLayers;
+import debug.TestTool;
+import events.gen.Event;
 import helpers.Storage;
-import states.SplashScreenState;
 import misc.FlxTextFactory;
 import misc.Macros;
 import states.MainMenuState;
+import states.SplashScreenState;
 #if play
 import states.PlayState;
 #end
@@ -39,8 +40,6 @@ class Main extends Sprite {
 		super();
 		Configure.initAnalytics(false);
 		Storage.load();
-		GameEvents.init();
-		Achievements.initAchievements();
 
 		var startingState:Class<FlxState> = SplashScreenState;
 		#if play
@@ -57,43 +56,8 @@ class Main extends Sprite {
 			configureDebug();
 			configureLogging();
 
-			// GameEvents.listen(START_LEVEL(null), (e) -> {
-			// 	trace('player started level ${e}');
-			// });
-
-			// GameEvents.listen(PLAYER_DIED(null), (e) -> {
-			// 	switch e {
-			// 		case PLAYER_DIED(cause):
-			// 			switch cause {
-			// 				case ENEMY(name):
-			// 					trace('idiot killed by a ${name}');
-			// 				case FALL:
-			// 					trace('idiot fell to their death');
-			// 				case TRAP(name):
-			// 					trace('idiot stepped in a ${name} trap');
-			// 			}
-			// 		default:
-			// 	}
-			// });
-
-			// var fallStart:Float = -1.0;
-			// GameEvents.listen(PLAYER_MOVE(null), (e) -> {
-			// 	switch e {
-			// 		case PLAYER_MOVE(type):
-			// 			switch type {
-			// 				case START_FALL(y):
-			// 					fallStart = y;
-			// 				case LAND(y):
-			// 					var dist = y - fallStart;
-			// 					trace('idiot fell ${dist} pixels');
-			// 			}
-			// 		default:
-			// 	}
-			// });
-			// GameEvents.subscribe(events.gen.PlayerSpawn, (ps) -> {
-			// 	trace(ps.posX);
-			// 	trace(ps.posY);
-			// });
+			GameEvents.init();
+			Achievements.initAchievements();
 		});
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
 
@@ -127,7 +91,7 @@ class Main extends Sprite {
 
 	private function configureDebug() {
 		#if debug
-		DebugSuite.init(new DebugDraw(Type.allEnums(DebugLayers)), new BTreeInspector(), new TestTool());
+		DebugSuite.init(new DebugDraw(Type.allEnums(DebugLayers)), new BTreeInspector(), new EventLog());
 
 		var fnt = Assets.getFont(AssetPaths.Brain_Slab_8__ttf);
 		Font.registerFont(fnt);

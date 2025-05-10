@@ -1,0 +1,10 @@
+class ::className:: implements events.IEvent {
+	public var id:Int;
+	public var type:String;::foreach fields::
+	public var ::name:::::type::;::end::
+
+	public function new(::ctorArgs::) {
+		type = "::name::";::foreach fields::
+		this.::name:: = ::name::;::end::
+	}
+}

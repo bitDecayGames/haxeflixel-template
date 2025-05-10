@@ -1,5 +1,6 @@
 package states;
 
+import events.gen.Event;
 import achievements.GameEvents;
 import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import bitdecay.flixel.debug.DebugSuite;
@@ -27,6 +28,7 @@ class PlayState extends FlxTransitionableState {
 
 		player = new Player();
 		add(player);
+		GameEvents.fire(new PlayerSpawn(player.x, player.y));
 
 		var item = new Item();
 		item.y = 50;
@@ -34,35 +36,11 @@ class PlayState extends FlxTransitionableState {
 
 		add(Achievements.ACHIEVEMENT_NAME_HERE.toToast(true, true));
 
-		// GameEvents.fire(new PlayerSpawn(515.2, 123.4));
-
 		QuickLog.error('Example error');
 	}
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-
-		// if (FlxG.keys.justPressed.J) {
-		// 	GameEvents.fire(PLAYER_MOVE(START_FALL(FlxG.mouse.y)));
-		// }
-		// if (FlxG.keys.justPressed.L) {
-		// 	GameEvents.fire(PLAYER_MOVE(LAND(FlxG.mouse.y)));
-		// }
-		// if (FlxG.keys.justPressed.E) {
-		// 	GameEvents.fire(PLAYER_DIED(ENEMY('grungus')));
-		// }
-		// if (FlxG.keys.justPressed.T) {
-		// 	GameEvents.fire(PLAYER_DIED(TRAP('booby')));
-		// }
-
-		// GameEvents.fire(new events)
-
-		// var cam = FlxG.camera;
-		// DebugSuite.tool(DebugDraw, (t) -> {
-		// 	t.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
-		// });
-
-		// GameEvents.fire(new TestHello());
 	}
 
 	override public function onFocusLost() {

@@ -30,6 +30,7 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
+	<classpath name="tools" />
 	<assets path="assets" />
 
 	<!-- _______________________________ Libraries _______________________________ -->
@@ -44,6 +45,7 @@
 	<haxelib name="flixelutils" />
 	<haxelib name="haxefmod" />
 	<haxelib name="newgrounds" />
+	<haxelib name="hscript" />
 
 	<!-- for echo physics -->
 	<!-- <haxelib name="echo-flixel" /> -->
@@ -85,8 +87,5 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<!-- Run the macro at compile time -->
-	<haxeflag name="--macro" value="events.macros.EventTypesGenerator.buildAll()" />
-	<!-- <haxeflag name="--macro" value="include('events.gen')" /> -->
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 </project>
