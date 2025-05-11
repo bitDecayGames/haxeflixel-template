@@ -10,9 +10,10 @@ import sys.io.File;
 class EventGenerator {
 	static inline var FLAG_INPUT_FILE = "--file";
 	static inline var FLAG_OUTPUT_HX_FILE = "--out";
+	static inline var FLAG_PACKAGE = "--package";
 
-	static inline var EVENT_TEMPLATE_FILE:String = "../assets/data/events/eventTemplate.hxt";
-	static inline var ALL_EVENT_TEMPLATE_FILE:String = "../assets/data/events/allEventsTemplate.hxt";
+	static inline var EVENT_TEMPLATE_FILE:String = "./files/eventTemplate.hxt";
+	static inline var ALL_EVENT_TEMPLATE_FILE:String = "./files/allEventsTemplate.hxt";
 
 	static public function main():Void {
 		var args = parseArgs(Sys.args());
@@ -21,11 +22,16 @@ class EventGenerator {
 			throw '${FLAG_INPUT_FILE} is required';
 		}
 
-		if (!args.exists(FLAG_OUTPUT_HX_FILE) || args.get(FLAG_OUTPUT_HX_FILE).length == 0) {
+		if (!args.exists(FLAG_OUTPUT_HX_FILE)) {
 			throw '${FLAG_OUTPUT_HX_FILE} is required';
 		}
 
+		if (!args.exists(FLAG_PACKAGE)) {
+			throw '${FLAG_PACKAGE} is required';
+		}
+
 		var outputFile = args.get(FLAG_OUTPUT_HX_FILE)[0];
+		var outputPackage = args.get(FLAG_PACKAGE)[0];
 
 		var renderedEvents:Array<String> = [];
 		var originFiles:Array<String> = [];
@@ -37,6 +43,7 @@ class EventGenerator {
 		}
 
 		var finalData:Dynamic = {
+			pack: outputPackage,
 			events: renderedEvents,
 			origin: Type.getClassName(EventGenerator),
 			inputs: originFiles

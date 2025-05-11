@@ -1,7 +1,10 @@
-package achievements;
+package events;
 
-import events.IEvent;
-
+/**
+ * A basic event bus. Can be used to fire game events.
+ * Clients can subscribe to any kind of event and receive
+ * a callback when a matching event is fired.
+**/
 class GameEvents {
 	private static var nextID = 1;
 
@@ -9,8 +12,7 @@ class GameEvents {
 	private static var listeners:Map<String, Array<(IEvent) -> Void>> = [];
 
 	public static function init() {
-		trace('hi');
-		// TODO: Any initialization? Such as loading storage data
+		// TODO: Any initialization needed? Such as loading storage data
 	}
 
 	public static function subscribeAll(cb:(IEvent) -> Void) {
