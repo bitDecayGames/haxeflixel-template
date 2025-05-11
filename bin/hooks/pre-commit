@@ -59,6 +59,18 @@ then
 	git add ./assets/aseprite/
 fi
 
+# Get for changed event files
+EVENT_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\assets/data/events/.*\.json$' || true))
+
+if [[ -n "$EVENT_FILES" ]]
+then
+	echo "regenerating event types"
+	./bin/generate_events.sh
+
+	# Re-stage the event files after formatting
+	git add ./source/events/gen/
+fi
+
 # Get all changed .hx files
 HX_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\.hx$' || true))
 
@@ -69,19 +81,4 @@ then
 
 	# Re-stage the .hx files after formatting
 	git add "${HX_FILES[@]}"
-fi
-
-# TODO: Check proper file format
-# Get all changed .hx files
-EVENT_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\assets/data/events/.*\.json$' || true))
-
-echo $EVENT_FILES
-
-if [[ -n "$EVENT_FILES" ]]
-then
-	echo "regenerating event types"
-	./bin/generate_events.sh
-
-	# Re-stage the event files after formatting
-	git add ./source/events/gen/
 fi
