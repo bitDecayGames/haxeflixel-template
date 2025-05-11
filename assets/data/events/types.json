@@ -1,7 +1,12 @@
 [
 	{
-		"name": "bugfood_deluxe",
-		"fields": []
+		"name": "player_died",
+		"fields": [
+			{
+				"name": "cause",
+				"type": "String"
+			}
+		]
 	},{
 		"name": "player_spawn",
 		"fields": [

@@ -73,11 +73,13 @@ fi
 
 # TODO: Check proper file format
 # Get all changed .hx files
-EVENT_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\assets/data/events/.*\.hx$' || true))
+EVENT_FILES=($(git diff --cached --name-only --diff-filter=d | grep '\assets/data/events/.*\.json$' || true))
+
+echo $EVENT_FILES
 
 if [[ -n "$EVENT_FILES" ]]
 then
-	echo "regenerating event code"
+	echo "regenerating event types"
 	./bin/generate_events.sh
 
 	# Re-stage the event files after formatting

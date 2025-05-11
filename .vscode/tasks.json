@@ -11,9 +11,9 @@
 			}
 		},
 		{
-			"label": "Export Aseprite",
+			"label": "Precompile Steps",
 			"type": "shell",
-			"command": "bash ./bin/export_ase.sh",
+			"command": "bash ./bin/precompile.sh",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -27,7 +27,7 @@
 			"label": "Art + html5 debug",
 			"dependsOrder": "sequence",
 			"dependsOn": [
-				"Export Aseprite",
+				"Precompile Steps",
 				"lime: build html5 -debug"
 			]
 		},
