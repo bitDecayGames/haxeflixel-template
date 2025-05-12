@@ -17,7 +17,7 @@ import bitdecay.flixel.debug.DebugSuite;
 import bitdecay.flixel.debug.tools.btree.BTreeInspector;
 import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import achievements.Achievements;
-import achievements.GameEvents;
+import events.GameEvents;
 import audio.FmodPlugin;
 import config.Configure;
 import debug.DebugLayers;

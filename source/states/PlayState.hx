@@ -1,7 +1,7 @@
 package states;
 
 import events.gen.Event;
-import achievements.GameEvents;
+import events.GameEvents;
 import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import bitdecay.flixel.debug.DebugSuite;
 import entities.Item;

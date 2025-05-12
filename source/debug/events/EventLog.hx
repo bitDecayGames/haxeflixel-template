@@ -3,7 +3,7 @@ package debug.events;
 import bitdecay.flixel.debug.DebugUI;
 import openfl.display.BitmapData;
 import events.IEvent;
-import achievements.GameEvents;
+import events.GameEvents;
 import bitdecay.flixel.debug.DebugTool;
 
 class EventLog extends DebugTool<EventLogWindow> {
