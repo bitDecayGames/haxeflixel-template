@@ -36,11 +36,15 @@ class PlayState extends FlxTransitionableState {
 
 		add(Achievements.ACHIEVEMENT_NAME_HERE.toToast(true, true));
 
-		QuickLog.error('Example error');
+		QLog.error('Example error');
 	}
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		if (FlxG.mouse.justPressed) {
+			GameEvents.fire(new Click(FlxG.mouse.x, FlxG.mouse.y));
+		}
 	}
 
 	override public function onFocusLost() {

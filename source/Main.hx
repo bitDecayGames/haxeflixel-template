@@ -1,5 +1,7 @@
 package;
 
+import events.DistanceClickDeriver;
+import events.SpeedClickDeriver;
 import debug.events.EventLog;
 import openfl.display.Sprite;
 import openfl.events.KeyboardEvent;
@@ -21,7 +23,6 @@ import events.GameEvents;
 import audio.FmodPlugin;
 import config.Configure;
 import debug.DebugLayers;
-import debug.TestTool;
 import events.gen.Event;
 import helpers.Storage;
 import misc.FlxTextFactory;
@@ -57,6 +58,8 @@ class Main extends Sprite {
 			configureLogging();
 
 			GameEvents.init();
+			GameEvents.registerDeriver(new SpeedClickDeriver(2000));
+			GameEvents.registerDeriver(new DistanceClickDeriver(100));
 			Achievements.initAchievements();
 		});
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
@@ -90,14 +93,16 @@ class Main extends Sprite {
 	}
 
 	private function configureDebug() {
-		#if debug
 		DebugSuite.init(new DebugDraw(Type.allEnums(DebugLayers)), new BTreeInspector(), new EventLog());
 
+		#if debug
 		var fnt = Assets.getFont(AssetPaths.Brain_Slab_8__ttf);
 		Font.registerFont(fnt);
-		DebugSuite.tool(DebugDraw, (t) -> {
-			t.setDrawFont(fnt.fontName, 10);
-		});
+		DS.get(DebugDraw).setDrawFont(fnt.fontName, 10);
+
+		fnt = Assets.getFont(AssetPaths.NeomatrixCode__ttf);
+		Font.registerFont(fnt);
+
 		FlxG.debugger.visible = true;
 
 		// When debugging, it's nice to have the game stay running when it loses focus

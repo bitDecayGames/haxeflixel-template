@@ -4,8 +4,9 @@
 import haxefmod.FmodManager;
 import FmodConstants.FmodSFX;
 import FmodConstants.FmodSongs;
-// Give easy access to logging
-import bitdecay.flixel.system.QuickLog;
+// Give easy access to logging and debug
+import bitdecay.flixel.system.QuickLog as QLog;
+import bitdecay.flixel.debug.DebugSuite as DS;
 
 // Various extensions
 using bitdecay.flixel.extensions.FlxCameraExt;

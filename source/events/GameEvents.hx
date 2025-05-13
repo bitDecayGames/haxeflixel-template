@@ -8,14 +8,21 @@ package events;
 class GameEvents {
 	private static var nextID = 1;
 
-	private static var subAllListeners:Array<(IEvent) -> Void> = [];
-	private static var listeners:Map<String, Array<(IEvent) -> Void>> = [];
+	private static var subAllListeners:Array<EventHandler> = [];
+	private static var listeners:Map<String, Array<EventHandler>> = [];
+
+	private static var derivers:Array<EventDeriver> = [];
 
 	public static function init() {
 		// TODO: Any initialization needed? Such as loading storage data
 	}
 
-	public static function subscribeAll(cb:(IEvent) -> Void) {
+	public static function registerDeriver(ed:EventDeriver) {
+		ed.init();
+		derivers.push(ed);
+	}
+
+	public static function subscribeAll(cb:EventHandler) {
 		subAllListeners.push(cb);
 	}
 
@@ -29,6 +36,11 @@ class GameEvents {
 			var te:T = cast e;
 			cb(te);
 		});
+	}
+
+	public static function unsubscribe<T:IEvent>(type:Class<T>, cb:(T) -> Void) {
+		// TODO: This is a little tricky to a) track our functions due to being in a map
+		// and b) handle the fact that we are are wrapping our functions in a cast helper
 	}
 
 	public static function fire(e:IEvent) {
@@ -54,3 +66,5 @@ class GameEvents {
 		}
 	}
 }
+
+typedef EventHandler = (IEvent) -> Void;

@@ -19,5 +19,33 @@
 				"type": "Float"
 			}
 		]
+	},{
+		"name": "click",
+		"fields": [
+			{
+				"name": "posX",
+				"type": "Float"
+			},
+			{
+				"name": "posY",
+				"type": "Float"
+			}
+		]
+	},{
+		"name": "speed_click",
+		"fields": [
+			{
+				"name": "time",
+				"type": "Float"
+			}
+		]
+	},{
+		"name": "distance_click",
+		"fields": [
+			{
+				"name": "distance",
+				"type": "Float"
+			}
+		]
 	}
 ]

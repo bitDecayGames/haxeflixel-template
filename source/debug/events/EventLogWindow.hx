@@ -1,20 +1,23 @@
 package debug.events;
 
-import events.IEvent;
+import openfl.Assets;
+import bitdecay.flixel.debug.DebugToolWindow;
 #if FLX_DEBUG
+import events.IEvent;
 import flixel.math.FlxMath;
 import openfl.events.MouseEvent;
-import bitdecay.flixel.debug.DebugToolWindow;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.display.BitmapData;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.FlxAssets;
+#end
 
 /**
  * A simple trace output window for use in the debugger overlay.
  */
 class EventLogWindow extends DebugToolWindow {
+	#if FLX_DEBUG
 	public static inline var MAX_LOG_LINES:Int = 200;
 	static inline var LINE_BREAK:String = #if js "\n" #else "<br>" #end;
 
@@ -39,7 +42,10 @@ class EventLogWindow extends DebugToolWindow {
 		_text.wordWrap = true;
 		_text.selectable = true;
 		_text.embedFonts = true;
-		_text.defaultTextFormat = new TextFormat(FlxAssets.FONT_DEBUGGER, 10, 0xffffff);
+		var fnt = Assets.getFont(AssetPaths.NeomatrixCode__ttf);
+		var textFormat = new TextFormat(fnt.fontName, 10, 0xffffff);
+		// textFormat.kerning = true;
+		_text.defaultTextFormat = textFormat;
 		addChild(_text);
 
 		_lines = new Array<String>();
@@ -63,10 +69,33 @@ class EventLogWindow extends DebugToolWindow {
 		add([formatEvent(event)]);
 	}
 
-	function formatEvent(e:IEvent):String {
-		// TODO: Have a way to format events compactly
-		var eStr = '${e}';
-		return '${StringTools.lpad(Std.string(++eventNum), "0", 4)}: ${eStr}';
+	// function formatEvent(e:IEvent):String {
+	// 	// TODO: Have a way to format events compactly
+	// 	var eStr = '${e}';
+	// 	return '${StringTools.lpad(Std.string(++eventNum), "0", 4)}: ${eStr}';
+	// }
+
+	public function formatEvent(e:IEvent):String {
+		var id = e.id;
+		var type = e.type;
+
+		var fieldPairs = [];
+		var fields = Reflect.fields(e);
+		for (field in fields) {
+			if (field != "id" && field != "type") {
+				var fieldStr = StringTools.lpad(field, " ", 10)
+				var value = Reflect.field(e, field);
+				// Format Float to 3 decimal places
+				if (Std.isOfType(value, Float)) {
+					var formatted = Std.string(Math.round(value * 1000) / 1000);
+					fieldPairs.push('$fieldStr: $formatted');
+				} else {
+					fieldPairs.push('$fieldStr: $value');
+				}
+			}
+		}
+
+		return StringTools.lpad(Std.string(id), "0", 4) + ": " + StringTools.rpad(type, " ", 15) + " - " + fieldPairs.join(", ");
 	}
 
 	/**
@@ -150,5 +179,5 @@ class EventLogWindow extends DebugToolWindow {
 		_text.width = _width - 10;
 		_text.height = _height - 15;
 	}
+	#end
 }
-#end
