@@ -24,5 +24,8 @@ bitdecaybtree git https://github.com/bitDecayGames/BehaviorTree.git
 bitlytics git https://github.com/bitDecayGames/Bitlytics.git
 flixelutils git https://github.com/bitDecayGames/flixel-utils.git
 
+# for our generation scripting
+json2object 3.11.0
+
 # misc deps
 haxefmod git https://github.com/Tanz0rz/haxe-fmod.git

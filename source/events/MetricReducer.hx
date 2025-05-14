@@ -1,5 +1,6 @@
 package events;
 
+import flixel.math.FlxMath;
 import events.gen.Event.MetaRegistry;
 
 /**
@@ -28,31 +29,84 @@ class MetricReducer {
 			case NONE:
 				return;
 			case COUNT:
-				var metricName = '${e.type}_count';
-				var newValue = 1;
-				if (currentIntTrackers.exists(metricName)) {
-					newValue = currentIntTrackers.get(metricName) + 1;
-				}
-				currentIntTrackers.set(metricName, newValue);
-				if (MetaRegistry.countEvents.exists(metricName)) {
-					GameEvents.fire(MetaRegistry.countEvents.get(metricName)(newValue));
-				}
+				handleCount(e);
 			case MIN(field):
+				handleMin(e, field);
 			case MAX(field):
-				var metricName = '${e.type}_max';
-				// TODO: Still need to figure out how to handle Int vs Float
-				var eVal:Float = cast Reflect.getProperty(e, field);
-				var newValue = eVal;
-				if (currentFloatTrackers.exists(metricName)) {
-					newValue = Math.max(newValue, currentFloatTrackers.get(metricName));
-					if (newValue != eVal) {
-						return;
-					}
+				handleMax(e, field);
+		}
+	}
+
+	private static function handleCount(e:IEvent) {
+		var metricName = '${e.type}_count';
+		var newValue = 1;
+		if (currentIntTrackers.exists(metricName)) {
+			newValue = currentIntTrackers.get(metricName) + 1;
+		}
+		currentIntTrackers.set(metricName, newValue);
+		if (MetaRegistry.countEvents.exists(metricName)) {
+			GameEvents.fire(MetaRegistry.countEvents.get(metricName)(newValue));
+		}
+	}
+
+	private static function handleMin(e:IEvent, field:String) {
+		var metricName = '${e.type}_min';
+		var eVal:Dynamic = Reflect.getProperty(e, field);
+		if (Std.isOfType(eVal, Int)) {
+			var newValue:Int = eVal;
+			if (currentIntTrackers.exists(metricName)) {
+				newValue = FlxMath.minInt(newValue, currentIntTrackers.get(metricName));
+				if (newValue != eVal) {
+					return;
 				}
-				currentFloatTrackers.set(metricName, newValue);
-				if (MetaRegistry.maxEvents.exists(metricName)) {
-					GameEvents.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+			}
+			currentIntTrackers.set(metricName, newValue);
+			if (MetaRegistry.minEvents.exists(metricName)) {
+				GameEvents.fire(MetaRegistry.minEvents.get(metricName)(newValue));
+			}
+		} else if (Std.isOfType(eVal, Float)) {
+			var newValue:Float = eVal;
+			if (currentFloatTrackers.exists(metricName)) {
+				newValue = Math.min(newValue, currentFloatTrackers.get(metricName));
+				if (newValue != eVal) {
+					return;
 				}
+			}
+			currentFloatTrackers.set(metricName, newValue);
+			if (MetaRegistry.minEvents.exists(metricName)) {
+				GameEvents.fire(MetaRegistry.minEvents.get(metricName)(newValue));
+			}
+		}
+	}
+
+	private static function handleMax(e:IEvent, field:String) {
+		var metricName = '${e.type}_max';
+		// TODO: Still need to figure out how to handle Int vs Float
+		var eVal:Dynamic = Reflect.getProperty(e, field);
+		if (Std.isOfType(eVal, Int)) {
+			var newValue:Int = eVal;
+			if (currentIntTrackers.exists(metricName)) {
+				newValue = FlxMath.maxInt(newValue, currentIntTrackers.get(metricName));
+				if (newValue != eVal) {
+					return;
+				}
+			}
+			currentIntTrackers.set(metricName, newValue);
+			if (MetaRegistry.maxEvents.exists(metricName)) {
+				GameEvents.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+			}
+		} else if (Std.isOfType(eVal, Float)) {
+			var newValue:Float = eVal;
+			if (currentFloatTrackers.exists(metricName)) {
+				newValue = Math.max(newValue, currentFloatTrackers.get(metricName));
+				if (newValue != eVal) {
+					return;
+				}
+			}
+			currentFloatTrackers.set(metricName, newValue);
+			if (MetaRegistry.maxEvents.exists(metricName)) {
+				GameEvents.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+			}
 		}
 	}
 }

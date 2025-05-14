@@ -1,6 +1,7 @@
 package;
 
 #if sys
+import json2object.JsonParser;
 import haxe.Json;
 import haxe.Template;
 import haxe.io.Path;
@@ -68,8 +69,12 @@ class EventGenerator {
 
 	static function getRenderedEventTypes(path:String):Array<ParsedEvent> {
 		var eventTypes:Array<ParsedEvent> = [];
+		var parser = new JsonParser<Array<EventDefinition>>();
 		final fileContent = File.getContent(path);
-		final parsed:Array<Dynamic> = Json.parse(fileContent);
+		final parsed:Array<EventDefinition> = parser.fromJson(fileContent);
+		if (parser.errors.length > 0) {
+			throw(json2object.ErrorUtils.convertErrorArray(parser.errors));
+		}
 
 		for (eventData in parsed) {
 			trace('parsing event: ${eventData.name}');
@@ -106,6 +111,25 @@ class EventGenerator {
 					className: className,
 					rendered: renderedEvent,
 					reducerList: "COUNT"
+				});
+			}
+
+			if (eventData.meta != null && StringTools.startsWith(eventData.meta.reducer, "MIN(")) {
+				var countData:Dynamic = {};
+				countData.name = '${eventData.name}_min';
+				trace('creating meta event: ${countData.name}');
+				className = toPascalCase(countData.name);
+				countData.className = className;
+				countData.meta = null;
+				countData.fields = [{"name": "min", "type": "Float"}]; // Stand-in
+				ctorArgsOutput = ctorTpl.execute(countData);
+				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+				renderedEvent = tpl.execute(countData);
+				eventTypes.push({
+					classKey: countData.name,
+					className: className,
+					rendered: renderedEvent,
+					reducerList: "MIN"
 				});
 			}
 
@@ -158,5 +182,30 @@ typedef ParsedEvent = {
 	var className:String;
 	var rendered:String;
 	var reducerList:String;
+}
+
+typedef EventDefinition = {
+	var name:String;
+	var ?meta:EventDefMetadata;
+	var fields:Array<FieldDefinition>;
+
+	// Used by the generation code
+	var ?className:String;
+	var ?ctorArgs:String;
+}
+
+typedef EventDefMetadata = {
+	var ?reducer:String;
+}
+
+typedef FieldDefinition = {
+	var name:String;
+	var type:SupportedType;
+}
+
+enum SupportedType {
+	String;
+	Float;
+	Int;
 }
 #end

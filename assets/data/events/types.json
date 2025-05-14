@@ -36,6 +36,9 @@
 		]
 	},{
 		"name": "speed_click",
+		"meta": {
+			"reducer": "MIN('time')"
+		},
 		"fields": [
 			{
 				"name": "time",
