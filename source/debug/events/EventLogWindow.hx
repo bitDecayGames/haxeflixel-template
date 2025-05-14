@@ -74,15 +74,20 @@ class EventLogWindow extends DebugToolWindow {
 	// 	var eStr = '${e}';
 	// 	return '${StringTools.lpad(Std.string(++eventNum), "0", 4)}: ${eStr}';
 	// }
+	var skipFields = ['id', 'type', 'reducer'];
+
+	var longestEventName = 10;
 
 	public function formatEvent(e:IEvent):String {
 		var id = e.id;
 		var type = e.type;
 
+		longestEventName = FlxMath.maxInt(longestEventName, type.length);
+
 		var fieldPairs = [];
 		var fields = Reflect.fields(e);
 		for (field in fields) {
-			if (field != "id" && field != "type") {
+			if (!skipFields.contains(field)) {
 				// var fieldStr = StringTools.lpad(field, " ", 10);
 				var fieldStr = field;
 				var value = Reflect.field(e, field);
@@ -96,7 +101,11 @@ class EventLogWindow extends DebugToolWindow {
 			}
 		}
 
-		return StringTools.lpad(Std.string(id), "0", 4) + ": " + StringTools.rpad(type, " ", 15) + " - " + fieldPairs.join("| ");
+		return StringTools.lpad(Std.string(id), "0", 4)
+			+ ": "
+			+ StringTools.rpad(type, " ", longestEventName)
+			+ " - "
+			+ fieldPairs.join("| ");
 	}
 
 	/**

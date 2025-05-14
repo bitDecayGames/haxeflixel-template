@@ -21,6 +21,9 @@
 		]
 	},{
 		"name": "click",
+		"meta": {
+			"reducer": "COUNT"
+		},
 		"fields": [
 			{
 				"name": "posX",
@@ -41,10 +44,21 @@
 		]
 	},{
 		"name": "distance_click",
+		"meta": {
+			"reducer": "MAX('distance')"
+		},
 		"fields": [
 			{
 				"name": "distance",
 				"type": "Float"
+			}
+		]
+	},{
+		"name": "achieve",
+		"fields": [
+			{
+				"name": "name",
+				"type": "String"
 			}
 		]
 	}

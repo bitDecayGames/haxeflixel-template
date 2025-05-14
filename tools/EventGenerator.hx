@@ -33,7 +33,7 @@ class EventGenerator {
 		var outputFile = args.get(FLAG_OUTPUT_HX_FILE)[0];
 		var outputPackage = args.get(FLAG_PACKAGE)[0];
 
-		var renderedEvents:Array<String> = [];
+		var renderedEvents:Array<ParsedEvent> = [];
 		var originFiles:Array<String> = [];
 
 		for (filePath in args.get(FLAG_INPUT_FILE)) {
@@ -66,14 +66,14 @@ class EventGenerator {
 		fo.close();
 	}
 
-	static function getRenderedEventTypes(path:String):Array<String> {
-		var eventTypes:Array<String> = [];
+	static function getRenderedEventTypes(path:String):Array<ParsedEvent> {
+		var eventTypes:Array<ParsedEvent> = [];
 		final fileContent = File.getContent(path);
 		final parsed:Array<Dynamic> = Json.parse(fileContent);
 
 		for (eventData in parsed) {
 			trace('parsing event: ${eventData.name}');
-			final className = toPascalCase(eventData.name);
+			var className = toPascalCase(eventData.name);
 			var ctorTemplate = '::foreach fields::::name:::::type::, ::end::';
 			var ctorTpl = new Template(ctorTemplate);
 			var ctorArgsOutput = ctorTpl.execute(eventData);
@@ -82,7 +82,51 @@ class EventGenerator {
 
 			var hxtContent = File.getContent(EVENT_TEMPLATE_FILE);
 			var tpl = new Template(hxtContent);
-			eventTypes.push(tpl.execute(eventData));
+			var renderedEvent = tpl.execute(eventData);
+			eventTypes.push({
+				classKey: eventData.name,
+				className: className,
+				rendered: renderedEvent,
+				reducerList: "NONE"
+			});
+
+			if (eventData.meta != null && eventData.meta.reducer == "COUNT") {
+				var countData:Dynamic = {};
+				countData.name = '${eventData.name}_count';
+				trace('creating meta event: ${countData.name}');
+				className = toPascalCase(countData.name);
+				countData.className = className;
+				countData.meta = null;
+				countData.fields = [{"name": "count", "type": "Int"}];
+				ctorArgsOutput = ctorTpl.execute(countData);
+				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+				renderedEvent = tpl.execute(countData);
+				eventTypes.push({
+					classKey: countData.name,
+					className: className,
+					rendered: renderedEvent,
+					reducerList: "COUNT"
+				});
+			}
+
+			if (eventData.meta != null && StringTools.startsWith(eventData.meta.reducer, "MAX(")) {
+				var countData:Dynamic = {};
+				countData.name = '${eventData.name}_max';
+				trace('creating meta event: ${countData.name}');
+				className = toPascalCase(countData.name);
+				countData.className = className;
+				countData.meta = null;
+				countData.fields = [{"name": "max", "type": "Float"}]; // Stand-in
+				ctorArgsOutput = ctorTpl.execute(countData);
+				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+				renderedEvent = tpl.execute(countData);
+				eventTypes.push({
+					classKey: countData.name,
+					className: className,
+					rendered: renderedEvent,
+					reducerList: "MAX"
+				});
+			}
 		}
 
 		return eventTypes;
@@ -107,5 +151,12 @@ class EventGenerator {
 		}
 		return result;
 	}
+}
+
+typedef ParsedEvent = {
+	var classKey:String;
+	var className:String;
+	var rendered:String;
+	var reducerList:String;
 }
 #end

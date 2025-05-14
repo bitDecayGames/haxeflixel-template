@@ -26,6 +26,10 @@ class PlayState extends FlxTransitionableState {
 
 		FlxG.camera.pixelPerfectRender = true;
 
+		GameEvents.subscribe(ClickCount, (c) -> {
+			QLog.notice('I got me an event about ${c.count} clicks having happened.');
+		});
+
 		player = new Player();
 		add(player);
 		GameEvents.fire(new PlayerSpawn(player.x, player.y));

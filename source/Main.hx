@@ -1,5 +1,6 @@
 package;
 
+import events.MetricReducer;
 import events.DistanceClickDeriver;
 import events.SpeedClickDeriver;
 import debug.events.EventLog;
@@ -60,6 +61,9 @@ class Main extends Sprite {
 			GameEvents.init();
 			GameEvents.registerDeriver(new SpeedClickDeriver(2000));
 			GameEvents.registerDeriver(new DistanceClickDeriver(100));
+
+			MetricReducer.init();
+
 			Achievements.initAchievements();
 		});
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));

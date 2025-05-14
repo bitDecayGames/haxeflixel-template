@@ -57,10 +57,6 @@ class GameEvents {
 			return;
 		}
 
-		if (!listeners.exists(key)) {
-			return;
-		}
-
 		for (l in listeners.get(key)) {
 			l(e);
 		}
