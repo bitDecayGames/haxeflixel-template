@@ -1,5 +1,7 @@
 package events;
 
+import flixel.util.FlxTimer;
+import helpers.Storage;
 import flixel.math.FlxMath;
 import events.gen.Event.MetaRegistry;
 
@@ -13,15 +15,59 @@ import events.gen.Event.MetaRegistry;
  * - `*_min`   - firing an event if a new minimum value occurs
 **/
 class MetricReducer {
+	private static inline var STORAGE_KEY = 'metrics';
 	private static var currentIntTrackers:Map<String, Int> = [];
 	private static var currentFloatTrackers:Map<String, Float> = [];
 
+	private static var flushTimer:FlxTimer = null;
+
 	public static function init() {
+		loadFromStorage();
 		EventBus.subscribeAll(handleEvent);
 	}
 
 	public static function loadFromStorage() {
-		// TODO: pull existing values out of whatever storage mechanism is in place
+		var all:StoredMetrics = Storage.get(STORAGE_KEY);
+		if (all == null) {
+			return;
+		}
+		for (im in all.intMetrics) {
+			currentIntTrackers.set(im.k, im.v);
+		}
+		for (fm in all.floatMetrics) {
+			currentFloatTrackers.set(fm.k, fm.v);
+		}
+	}
+
+	/**
+	 * flushes current in-memory metrics to storage. May incur a performance
+	 * hit. Use sparingly.
+	**/
+	public static function flush() {
+		var forStorage:StoredMetrics = {
+			intMetrics: [],
+			floatMetrics: []
+		};
+
+		var ints = currentIntTrackers.keyValueIterator();
+		while (ints.hasNext()) {
+			var kv = ints.next();
+			forStorage.intMetrics.push({
+				k: kv.key,
+				v: kv.value
+			});
+		}
+
+		var floats = currentFloatTrackers.keyValueIterator();
+		while (floats.hasNext()) {
+			var kv = floats.next();
+			forStorage.floatMetrics.push({
+				k: kv.key,
+				v: kv.value
+			});
+		}
+
+		Storage.set(STORAGE_KEY, forStorage, true);
 	}
 
 	static function handleEvent(e:IEvent):Void {
@@ -35,6 +81,9 @@ class MetricReducer {
 			case MAX(field):
 				handleMax(e, field);
 		}
+
+		// TODO: we want this to trigger an _eventual_ flush, not an immediate one
+		flush();
 	}
 
 	private static function handleCount(e:IEvent) {
@@ -109,4 +158,19 @@ class MetricReducer {
 			}
 		}
 	}
+}
+
+typedef StoredMetrics = {
+	var intMetrics:Array<IntMetric>;
+	var floatMetrics:Array<FloatMetric>;
+}
+
+typedef IntMetric = {
+	var k:String;
+	var v:Int;
+}
+
+typedef FloatMetric = {
+	var k:String;
+	var v:Float;
 }

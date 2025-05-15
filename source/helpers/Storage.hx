@@ -35,6 +35,27 @@ class Storage {
 		achievements = gameSave.data.achievements;
 	}
 
+	/**
+	 * Loads a given key from storage, returning whatever is stored.
+	 * Returns null if the key is not present.
+	**/
+	public static function get(key:String):Dynamic {
+		var d:haxe.DynamicAccess<Dynamic> = gameSave.data;
+		return d.get(key);
+	}
+
+	/**
+	 * Sets a storage key to the provided value. Optionally flushes
+	 * to storage immediately
+	**/
+	public static function set(key:String, value:Dynamic, flush:Bool = false):Void {
+		var d:haxe.DynamicAccess<Dynamic> = gameSave.data;
+		d.set(key, value);
+		if (flush) {
+			gameSave.flush();
+		}
+	}
+
 	public static function delete():Void {
 		gameSave.erase();
 		achievements = [];
