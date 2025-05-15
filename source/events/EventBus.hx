@@ -11,6 +11,13 @@ class EventBus {
 	private static var subAllListeners:Array<HandlerPair> = [];
 	private static var listeners:Map<String, Array<HandlerPair>> = [];
 
+	// A map to hold pending removals so we don't modify our lists while iterating
+	// them during event propagation.
+	private static var pendingRemoves:Map<String, Array<HandlerPair>> = [];
+
+	// An event we can use to keep track of where we started our propagation
+	private static var originalFireEvent:IEvent = null;
+
 	private static var derivers:Array<EventDeriver> = [];
 
 	public static function init() {
@@ -43,7 +50,16 @@ class EventBus {
 	public static function unsubscribeAll(cb:EventHandler) {
 		for (l in subAllListeners) {
 			if (l.original = cb) {
-				subAllListeners.remove(l);
+				l.active = false;
+				if (originalFireEvent == null) {
+					subAllListeners.remove(l);
+					return;
+				}
+
+				if (!pendingRemoves.exists("")) {
+					pendingRemoves.set("", []);
+				}
+				pendingRemoves.get("").push(l);
 				return;
 			}
 		}
@@ -59,28 +75,68 @@ class EventBus {
 
 		for (l in listeners.get(key)) {
 			if (l.original = cb) {
-				listeners.get(key).remove(l);
+				l.active = false;
+				if (originalFireEvent == null) {
+					if (listeners.exists(key)) {
+						listeners.get(key).remove(l);
+					}
+					return;
+				}
+
+				if (!pendingRemoves.exists(key)) {
+					pendingRemoves.set(key, []);
+				}
+				pendingRemoves.get(key).push(l);
 				return;
 			}
 		}
 	}
 
 	public static function fire(e:IEvent) {
+		if (originalFireEvent == null) {
+			originalFireEvent = e;
+		}
+
 		e.id = nextID++;
 
 		// Tell general listeners
 		for (l in subAllListeners) {
+			if (!l.active) {
+				continue;
+			}
 			l.autoCaster(e);
 		}
 
 		// Then check for any listening for this specific event type
 		var key = Type.getClassName(Type.getClass(e));
-		if (!listeners.exists(key)) {
-			return;
+		if (listeners.exists(key)) {
+			for (l in listeners.get(key)) {
+				if (!l.active) {
+					continue;
+				}
+				l.autoCaster(e);
+			}
 		}
 
-		for (l in listeners.get(key)) {
-			l.autoCaster(e);
+		// This function can be in a recursive loop from derived events firing
+		// so only perform cleanup once we are done processing the original event
+		if (e == originalFireEvent) {
+			originalFireEvent = null;
+			cleanup();
+		}
+	}
+
+	private static function cleanup() {
+		for (key => handlerList in pendingRemoves) {
+			if (key == "") {
+				for (h in handlerList) {
+					subAllListeners.remove(h);
+				}
+			} else {
+				for (h in handlerList) {
+					listeners.get(key).remove(h);
+				}
+			}
 		}
 	}
 }
@@ -88,6 +144,7 @@ class EventBus {
 class HandlerPair {
 	public var autoCaster:EventHandler;
 	public var original:Dynamic;
+	public var active = true;
 
 	public function new(originalCb:Dynamic, autoCaster:EventHandler) {
 		this.original = originalCb;

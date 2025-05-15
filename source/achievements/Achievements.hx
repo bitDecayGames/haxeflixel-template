@@ -18,12 +18,14 @@ class Achievements {
 	public static var onAchieve = new FlxTypedSignal<(AchievementDef) -> Void>();
 
 	public static function initAchievements() {
-		add(new AchievementDef(1, "quick_clicker", "Quick Clicker", "Click twice in less than .2 seconds", 0, null).withMetricCondition(SpeedClickMin, (e) -> {
+		// @formatter:off
+		add(new AchievementDef(1, "quick_clicker", "Quick Clicker", "Click twice in less than .2 seconds", 0, null).withEventCondition(SpeedClickMin, (e) -> {
 			return e.min < 200;
 		}));
-		add(new AchievementDef(2, "mad_clicker", "Mad Clicker", "Click a total of 10 times", 0, null).withMetricCondition(ClickCount, (e) -> {
+		add(new AchievementDef(2, "mad_clicker", "Mad Clicker", "Click a total of 10 times", 0, null).withEventCondition(ClickCount, (e) -> {
 			return e.count >= 10;
 		}));
+		// @formatter:on
 	}
 
 	static function add(def:AchievementDef) {
@@ -47,32 +49,20 @@ class AchievementDef {
 	public var title:String;
 	public var description:String;
 	public var iconIndex:Int;
-	public var condition:AchieveCondition;
 	public var achieved:Bool = false;
 	public var secret:Bool;
 
-	public function new(id:Int, key:String, title:String, description:String, iconIndex:Int, condition:AchieveCondition, ?secret:Bool = false) {
+	public function new(id:Int, key:String, title:String, description:String, iconIndex:Int, ?secret:Bool = false) {
 		this.ID = id;
 		this.key = key;
 		this.title = title;
 		this.description = description;
 		this.iconIndex = iconIndex;
-		this.condition = condition;
 		this.secret = secret;
 	}
 
 	public function init() {
 		achieved = Storage.hasAchievement(key);
-	}
-
-	private function handleEvent(e:IEvent) {
-		// switch (condition) {
-		// 	case METRIC_INT_AT_LEAST(metric, val):
-		// 	case METRIC_FLOAT_AT_LEAST(metric, val):
-		// 		EventBus.subscribe(metric, handleEvent);
-		// 	case EVENT_OCCURRED(metric):
-		// 		EventBus.subscribe(metric, handleEvent);
-		// }
 	}
 
 	public function toToast(show:Bool, force:Bool = false):AchievementToast {
@@ -100,7 +90,7 @@ class AchievementDef {
 		return a;
 	}
 
-	public function withMetricCondition<T:IEvent>(eventType:Class<T>, cb:(T) -> Bool):AchievementDef {
+	public function withEventCondition<T:IEvent>(eventType:Class<T>, cb:(T) -> Bool):AchievementDef {
 		var wrapped:(IEvent) -> Void;
 		wrapped = (e) -> {
 			var result = cb(cast e);
@@ -113,5 +103,3 @@ class AchievementDef {
 		return this;
 	}
 }
-
-typedef AchieveCondition = (Any) -> Bool;
