@@ -1,4 +1,4 @@
-package events;
+package events.derivers;
 
 import events.gen.Event.DistanceClick;
 import flixel.math.FlxPoint;
@@ -18,17 +18,17 @@ class DistanceClickDeriver implements EventDeriver {
 		tmp.set(e.posX, e.posY);
 		var dist = tmp.dist(lastClick);
 		if (tmp.dist(lastClick) >= threshold) {
-			GameEvents.fire(new DistanceClick(dist));
+			EventBus.fire(new DistanceClick(dist));
 		}
 
 		lastClick.copyFrom(tmp);
 	}
 
 	public function init() {
-		GameEvents.subscribe(Click, handleClick);
+		EventBus.subscribe(Click, handleClick);
 	}
 
 	public function destroy() {
-		GameEvents.unsubscribe(Click, handleClick);
+		EventBus.unsubscribe(Click, handleClick);
 	}
 }

@@ -1,12 +1,8 @@
 package states;
 
 import events.gen.Event;
-import events.GameEvents;
-import bitdecay.flixel.debug.tools.draw.DebugDraw;
-import bitdecay.flixel.debug.DebugSuite;
+import events.EventBus;
 import entities.Item;
-import flixel.util.FlxColor;
-import debug.DebugLayers;
 import achievements.Achievements;
 import flixel.addons.transition.FlxTransitionableState;
 import entities.Player;
@@ -26,13 +22,13 @@ class PlayState extends FlxTransitionableState {
 
 		FlxG.camera.pixelPerfectRender = true;
 
-		GameEvents.subscribe(ClickCount, (c) -> {
+		EventBus.subscribe(ClickCount, (c) -> {
 			QLog.notice('I got me an event about ${c.count} clicks having happened.');
 		});
 
 		player = new Player();
 		add(player);
-		GameEvents.fire(new PlayerSpawn(player.x, player.y));
+		EventBus.fire(new PlayerSpawn(player.x, player.y));
 
 		var item = new Item();
 		item.y = 50;
@@ -47,7 +43,7 @@ class PlayState extends FlxTransitionableState {
 		super.update(elapsed);
 
 		if (FlxG.mouse.justPressed) {
-			GameEvents.fire(new Click(FlxG.mouse.x, FlxG.mouse.y));
+			EventBus.fire(new Click(FlxG.mouse.x, FlxG.mouse.y));
 		}
 	}
 

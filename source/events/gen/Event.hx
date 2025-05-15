@@ -1,5 +1,6 @@
 package events.gen;
 
+// @formatter:off
 import events.IEvent.EventReducer;
 
 /*
@@ -7,10 +8,17 @@ import events.IEvent.EventReducer;
  * Files used to generate these types:
  * ../assets/data/events/types.json
  */
+
 class MetaRegistry {
-	public static var countEvents:Map<String, (Int) -> IEvent> = ["click_count" => ClickCount.new,];
-	public static var maxEvents:Map<String, (Float) -> IEvent> = ["distance_click_max" => DistanceClickMax.new,];
-	public static var minEvents:Map<String, (Float) -> IEvent> = ["speed_click_min" => SpeedClickMin.new,];
+	public static var countEvents:Map<String, (Int) -> IEvent> = [
+		"click_count" => ClickCount.new,
+	];
+	public static var maxEvents:Map<String, (Float) -> IEvent> = [
+		"distance_click_max" => DistanceClickMax.new,
+	];
+	public static var minEvents:Map<String, (Float) -> IEvent> = [
+		"speed_click_min" => SpeedClickMin.new,
+	];
 }
 
 class PlayerDied implements events.IEvent {

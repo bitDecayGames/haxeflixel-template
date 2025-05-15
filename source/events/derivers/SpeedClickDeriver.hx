@@ -1,4 +1,4 @@
-package events;
+package events.derivers;
 
 import events.gen.Event.SpeedClick;
 import flixel.FlxG;
@@ -15,17 +15,17 @@ class SpeedClickDeriver implements EventDeriver {
 	function handleClick(e:Click) {
 		var timing = FlxG.game.ticks - lastClick;
 		if (timing <= threshold) {
-			GameEvents.fire(new SpeedClick(timing));
+			EventBus.fire(new SpeedClick(timing));
 		}
 
 		lastClick = FlxG.game.ticks;
 	}
 
 	public function init() {
-		GameEvents.subscribe(Click, handleClick);
+		EventBus.subscribe(Click, handleClick);
 	}
 
 	public function destroy() {
-		GameEvents.unsubscribe(Click, handleClick);
+		EventBus.unsubscribe(Click, handleClick);
 	}
 }

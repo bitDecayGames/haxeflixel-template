@@ -5,7 +5,7 @@ import bitdecay.flixel.debug.DebugTool;
 import bitdecay.flixel.debug.DebugUI;
 import openfl.display.BitmapData;
 import events.IEvent;
-import events.GameEvents;
+import events.EventBus;
 #end
 
 class EventLog extends DebugTool<EventLogWindow> {
@@ -30,7 +30,7 @@ class EventLog extends DebugTool<EventLogWindow> {
 
 	override function init() {
 		super.init();
-		GameEvents.subscribeAll(window.addEvent);
+		EventBus.subscribeAll(window.addEvent);
 	}
 
 	override function makeWindow(icon:BitmapData):EventLogWindow {

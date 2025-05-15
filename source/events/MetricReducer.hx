@@ -17,7 +17,7 @@ class MetricReducer {
 	private static var currentFloatTrackers:Map<String, Float> = [];
 
 	public static function init() {
-		GameEvents.subscribeAll(handleEvent);
+		EventBus.subscribeAll(handleEvent);
 	}
 
 	public static function loadFromStorage() {
@@ -45,7 +45,7 @@ class MetricReducer {
 		}
 		currentIntTrackers.set(metricName, newValue);
 		if (MetaRegistry.countEvents.exists(metricName)) {
-			GameEvents.fire(MetaRegistry.countEvents.get(metricName)(newValue));
+			EventBus.fire(MetaRegistry.countEvents.get(metricName)(newValue));
 		}
 	}
 
@@ -62,7 +62,7 @@ class MetricReducer {
 			}
 			currentIntTrackers.set(metricName, newValue);
 			if (MetaRegistry.minEvents.exists(metricName)) {
-				GameEvents.fire(MetaRegistry.minEvents.get(metricName)(newValue));
+				EventBus.fire(MetaRegistry.minEvents.get(metricName)(newValue));
 			}
 		} else if (Std.isOfType(eVal, Float)) {
 			var newValue:Float = eVal;
@@ -74,7 +74,7 @@ class MetricReducer {
 			}
 			currentFloatTrackers.set(metricName, newValue);
 			if (MetaRegistry.minEvents.exists(metricName)) {
-				GameEvents.fire(MetaRegistry.minEvents.get(metricName)(newValue));
+				EventBus.fire(MetaRegistry.minEvents.get(metricName)(newValue));
 			}
 		}
 	}
@@ -93,7 +93,7 @@ class MetricReducer {
 			}
 			currentIntTrackers.set(metricName, newValue);
 			if (MetaRegistry.maxEvents.exists(metricName)) {
-				GameEvents.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+				EventBus.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
 			}
 		} else if (Std.isOfType(eVal, Float)) {
 			var newValue:Float = eVal;
@@ -105,7 +105,7 @@ class MetricReducer {
 			}
 			currentFloatTrackers.set(metricName, newValue);
 			if (MetaRegistry.maxEvents.exists(metricName)) {
-				GameEvents.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+				EventBus.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
 			}
 		}
 	}

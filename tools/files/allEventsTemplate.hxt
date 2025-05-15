@@ -1,5 +1,6 @@
 package ::pack::;
 
+// @formatter:off
 import events.IEvent.EventReducer;
 
 /*

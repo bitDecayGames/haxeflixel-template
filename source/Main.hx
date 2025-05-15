@@ -1,8 +1,8 @@
 package;
 
 import events.MetricReducer;
-import events.DistanceClickDeriver;
-import events.SpeedClickDeriver;
+import events.derivers.DistanceClickDeriver;
+import events.derivers.SpeedClickDeriver;
 import debug.events.EventLog;
 import openfl.display.Sprite;
 import openfl.events.KeyboardEvent;
@@ -20,11 +20,10 @@ import bitdecay.flixel.debug.DebugSuite;
 import bitdecay.flixel.debug.tools.btree.BTreeInspector;
 import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import achievements.Achievements;
-import events.GameEvents;
+import events.EventBus;
 import audio.FmodPlugin;
 import config.Configure;
 import debug.DebugLayers;
-import events.gen.Event;
 import helpers.Storage;
 import misc.FlxTextFactory;
 import misc.Macros;
@@ -58,9 +57,9 @@ class Main extends Sprite {
 			configureDebug();
 			configureLogging();
 
-			GameEvents.init();
-			GameEvents.registerDeriver(new SpeedClickDeriver(2000));
-			GameEvents.registerDeriver(new DistanceClickDeriver(100));
+			EventBus.init();
+			EventBus.registerDeriver(new SpeedClickDeriver(2000));
+			EventBus.registerDeriver(new DistanceClickDeriver(100));
 
 			MetricReducer.init();
 
