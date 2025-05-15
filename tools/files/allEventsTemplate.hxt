@@ -13,10 +13,16 @@ class MetaRegistry {
 	public static var countEvents:Map<String, (Int) -> IEvent> = [::foreach events::::if (reducerList == "COUNT")::
 		"::classKey::" => ::className::.new,::end::::end::
 	];
-	public static var maxEvents:Map<String, (Float) -> IEvent> = [::foreach events::::if (reducerList == "MAX")::
+	public static var maxFloatEvents:Map<String, (Float) -> IEvent> = [::foreach events::::if ((reducerList == "MAX") && (reducerType == "Float"))::
 		"::classKey::" => ::className::.new,::end::::end::
 	];
-	public static var minEvents:Map<String, (Float) -> IEvent> = [::foreach events::::if (reducerList == "MIN")::
+	public static var maxIntEvents:Map<String, (Int) -> IEvent> = [::foreach events::::if ((reducerList == "MAX") && (reducerType == "Int"))::
+		"::classKey::" => ::className::.new,::end::::end::
+	];
+	public static var minFloatEvents:Map<String, (Float) -> IEvent> = [::foreach events::::if ((reducerList == "MIN") && (reducerType == "Float"))::
+		"::classKey::" => ::className::.new,::end::::end::
+	];
+	public static var minIntEvents:Map<String, (Int) -> IEvent> = [::foreach events::::if ((reducerList == "MIN") && (reducerType == "Int"))::
 		"::classKey::" => ::className::.new,::end::::end::
 	];
 }

@@ -110,7 +110,8 @@ class EventGenerator {
 					classKey: countData.name,
 					className: className,
 					rendered: renderedEvent,
-					reducerList: "COUNT"
+					reducerList: "COUNT",
+					reducerType: ''
 				});
 			}
 
@@ -121,7 +122,16 @@ class EventGenerator {
 				className = toPascalCase(countData.name);
 				countData.className = className;
 				countData.meta = null;
-				countData.fields = [{"name": "min", "type": "Float"}]; // Stand-in
+				var minField:FieldDefinition = {
+					name: 'min',
+					type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
+				};
+				for (f in eventData.fields) {
+					if (StringTools.contains(eventData.meta.reducer, '(\'${f.name}\')')) {
+						minField.type = f.type;
+					}
+				}
+				countData.fields = [minField];
 				ctorArgsOutput = ctorTpl.execute(countData);
 				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
 				renderedEvent = tpl.execute(countData);
@@ -129,7 +139,8 @@ class EventGenerator {
 					classKey: countData.name,
 					className: className,
 					rendered: renderedEvent,
-					reducerList: "MIN"
+					reducerList: "MIN",
+					reducerType: '${minField.type}'
 				});
 			}
 
@@ -140,7 +151,16 @@ class EventGenerator {
 				className = toPascalCase(countData.name);
 				countData.className = className;
 				countData.meta = null;
-				countData.fields = [{"name": "max", "type": "Float"}]; // Stand-in
+				var maxField:FieldDefinition = {
+					name: 'max',
+					type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
+				};
+				for (f in eventData.fields) {
+					if (StringTools.contains(eventData.meta.reducer, '(\'${f.name}\')')) {
+						maxField.type = f.type;
+					}
+				}
+				countData.fields = [maxField];
 				ctorArgsOutput = ctorTpl.execute(countData);
 				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
 				renderedEvent = tpl.execute(countData);
@@ -148,7 +168,8 @@ class EventGenerator {
 					classKey: countData.name,
 					className: className,
 					rendered: renderedEvent,
-					reducerList: "MAX"
+					reducerList: "MAX",
+					reducerType: '${maxField.type}'
 				});
 			}
 		}
@@ -182,6 +203,7 @@ typedef ParsedEvent = {
 	var className:String;
 	var rendered:String;
 	var reducerList:String;
+	var ?reducerType:String;
 }
 
 typedef EventDefinition = {

@@ -42,7 +42,7 @@
 		"fields": [
 			{
 				"name": "time",
-				"type": "Float"
+				"type": "Int"
 			}
 		]
 	},{

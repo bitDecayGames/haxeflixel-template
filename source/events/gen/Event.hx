@@ -13,10 +13,14 @@ class MetaRegistry {
 	public static var countEvents:Map<String, (Int) -> IEvent> = [
 		"click_count" => ClickCount.new,
 	];
-	public static var maxEvents:Map<String, (Float) -> IEvent> = [
+	public static var maxFloatEvents:Map<String, (Float) -> IEvent> = [
 		"distance_click_max" => DistanceClickMax.new,
 	];
-	public static var minEvents:Map<String, (Float) -> IEvent> = [
+	public static var maxIntEvents:Map<String, (Int) -> IEvent> = [
+	];
+	public static var minFloatEvents:Map<String, (Float) -> IEvent> = [
+	];
+	public static var minIntEvents:Map<String, (Int) -> IEvent> = [
 		"speed_click_min" => SpeedClickMin.new,
 	];
 }
@@ -78,9 +82,9 @@ class SpeedClick implements events.IEvent {
 	public final reducer:EventReducer = MIN('time');
 	public var id:Int;
 
-	public var time:Float;
+	public var time:Int;
 
-	public function new(time:Float) {
+	public function new(time:Int) {
 		this.time = time;
 	}
 }
@@ -90,9 +94,9 @@ class SpeedClickMin implements events.IEvent {
 	public final reducer:EventReducer = NONE;
 	public var id:Int;
 
-	public var min:Float;
+	public var min:Int;
 
-	public function new(min:Float) {
+	public function new(min:Int) {
 		this.min = min;
 	}
 }

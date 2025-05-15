@@ -61,8 +61,8 @@ class MetricReducer {
 				}
 			}
 			currentIntTrackers.set(metricName, newValue);
-			if (MetaRegistry.minEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.minEvents.get(metricName)(newValue));
+			if (MetaRegistry.minIntEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.minIntEvents.get(metricName)(newValue));
 			}
 		} else if (Std.isOfType(eVal, Float)) {
 			var newValue:Float = eVal;
@@ -73,8 +73,8 @@ class MetricReducer {
 				}
 			}
 			currentFloatTrackers.set(metricName, newValue);
-			if (MetaRegistry.minEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.minEvents.get(metricName)(newValue));
+			if (MetaRegistry.minFloatEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.minFloatEvents.get(metricName)(newValue));
 			}
 		}
 	}
@@ -92,8 +92,8 @@ class MetricReducer {
 				}
 			}
 			currentIntTrackers.set(metricName, newValue);
-			if (MetaRegistry.maxEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+			if (MetaRegistry.maxIntEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.maxIntEvents.get(metricName)(newValue));
 			}
 		} else if (Std.isOfType(eVal, Float)) {
 			var newValue:Float = eVal;
@@ -104,8 +104,8 @@ class MetricReducer {
 				}
 			}
 			currentFloatTrackers.set(metricName, newValue);
-			if (MetaRegistry.maxEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.maxEvents.get(metricName)(newValue));
+			if (MetaRegistry.maxFloatEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.maxFloatEvents.get(metricName)(newValue));
 			}
 		}
 	}
