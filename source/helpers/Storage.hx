@@ -16,6 +16,10 @@ class Storage {
 		gameSave.bind(saveName); // bind to the named save slot
 		var dirty = false;
 
+		#if clearStorage
+		gameSave.erase();
+		#end
+
 		// if gameSave.data.____ does not exist, initialize the starting value
 		if (gameSave.data.highscore == null) {
 			gameSave.data.highscore = 0.0;
@@ -66,9 +70,7 @@ class Storage {
 		if (highscore < newHighscore) {
 			highscore = newHighscore;
 			gameSave.data.highscore = newHighscore;
-			#if !debug
 			gameSave.flush();
-			#end
 		}
 	}
 
@@ -76,9 +78,7 @@ class Storage {
 		if (!achievements.contains(achievementKey)) {
 			achievements.push(achievementKey);
 			gameSave.data.achievements = achievements;
-			#if !debug
 			gameSave.flush();
-			#end
 		}
 	}
 

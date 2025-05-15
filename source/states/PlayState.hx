@@ -22,6 +22,7 @@ class PlayState extends FlxTransitionableState {
 
 		FlxG.camera.pixelPerfectRender = true;
 
+		Achievements.onAchieve.add(handleAchieve);
 		EventBus.subscribe(ClickCount, (c) -> {
 			QLog.notice('I got me an event about ${c.count} clicks having happened.');
 		});
@@ -34,9 +35,11 @@ class PlayState extends FlxTransitionableState {
 		item.y = 50;
 		add(item);
 
-		add(Achievements.ACHIEVEMENT_NAME_HERE.toToast(true, true));
-
 		QLog.error('Example error');
+	}
+
+	function handleAchieve(def:AchievementDef) {
+		add(def.toToast(true));
 	}
 
 	override public function update(elapsed:Float) {
