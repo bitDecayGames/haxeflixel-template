@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-./bin/export_ase.sh
+./bin/precompile.sh
 
 lime test html5 -debug ${@#}

@@ -1,5 +1,6 @@
 package;
 
+import haxe.crypto.Md5;
 #if sys
 import json2object.JsonParser;
 import haxe.Json;
@@ -12,13 +13,26 @@ class EventGenerator {
 	static inline var FLAG_INPUT_FILE = "--file";
 	static inline var FLAG_OUTPUT_HX_FILE = "--out";
 	static inline var FLAG_PACKAGE = "--package";
+	static inline var FLAG_CLEAN = "--clean";
+
+	static inline var BLUE = '\033[1;34m';
+	static inline var MAGENTA = '\033[35m';
+	static inline var YELLOW = '\033[33m';
+	static inline var RED = '\033[31m';
+	static inline var GREEN = '\033[32m';
+	static inline var GRAY = '\033[0;37m';
 
 	static inline var EVENT_TEMPLATE_FILE:String = "./files/eventTemplate.hxt";
 	static inline var ALL_EVENT_TEMPLATE_FILE:String = "./files/allEventsTemplate.hxt";
 
+	static var hashRegex = ~/Input Hash: (.*)/g;
+
 	static var allEventTemplate:Template = null;
 	static var ctorTemplate:Template = null;
 	static var eventTemplate:Template = null;
+
+	static var error = false;
+	static var allEventNames:Map<String, Bool> = [];
 
 	static public function main():Void {
 		var args = parseArgs(Sys.args());
@@ -43,17 +57,34 @@ class EventGenerator {
 
 		initTemplates();
 
-		for (filePath in args.get(FLAG_INPUT_FILE)) {
-			trace('parsing file ${filePath}');
+		var inputFiles = args.get(FLAG_INPUT_FILE);
+
+		Sys.println('${GREEN}scanning event files${GRAY}');
+		var oldHash = getPreviousHash(outputFile);
+		var newHash = getHashOfFiles(inputFiles);
+
+		if (oldHash == newHash && !args.exists(FLAG_CLEAN)) {
+			Sys.println('${BLUE}no changes detected, skipping event generation${GRAY}');
+			return;
+		}
+
+		for (filePath in inputFiles) {
+			Sys.println('${GREEN}parsing file ${filePath}${GRAY}');
 			originFiles.push(filePath);
 			renderedEvents = renderedEvents.concat(getRenderedEventTypes(filePath));
+		}
+
+		if (error) {
+			Sys.println('${RED}ERRORS OCCURRED DURING GENERATION. PLEASE FIX AND RE-RUN');
+			Sys.exit(1);
 		}
 
 		var finalData:Dynamic = {
 			pack: outputPackage,
 			events: renderedEvents,
 			origin: Type.getClassName(EventGenerator),
-			inputs: originFiles
+			inputs: originFiles,
+			hash: newHash
 		};
 
 		var output = allEventTemplate.execute(finalData);
@@ -63,11 +94,35 @@ class EventGenerator {
 			FileSystem.createDirectory(outdir);
 		}
 
-		trace('writing ${renderedEvents.length} events to ${outputFile}');
+		Sys.println('${GRAY}writing ${renderedEvents.length} events to: ${MAGENTA}${outputFile}${GRAY}');
 		var fo = File.write(outputFile);
 		fo.writeString(output);
 		fo.flush();
 		fo.close();
+	}
+
+	static function getPreviousHash(outFile:String):String {
+		if (!FileSystem.exists(outFile)) {
+			return "";
+		}
+
+		final outFileContent = File.getContent(outFile);
+		if (!hashRegex.match(outFileContent)) {
+			return "";
+		}
+
+		return hashRegex.matched(1);
+	}
+
+	static function getHashOfFiles(inFiles:Array<String>):String {
+		var fileHashes:String = "";
+
+		for (f in inFiles) {
+			final content = File.getContent(f);
+			fileHashes += Md5.encode(content);
+		}
+
+		return Md5.encode(fileHashes);
 	}
 
 	static function initTemplates() {
@@ -91,7 +146,12 @@ class EventGenerator {
 		}
 
 		for (eventData in parsed) {
-			trace('parsing event: ${eventData.name}');
+			Sys.println('\t${GREEN}⤷${GRAY}parsing event: ${BLUE}${eventData.name}${GRAY}');
+			if (allEventNames.exists(eventData.name)) {
+				error = true;
+				Sys.println('${RED}multiple events found with name: ${GRAY}${eventData.name}');
+			}
+			allEventNames.set(eventData.name, true);
 			var className = toPascalCase(eventData.name);
 			var ctorArgsOutput = ctorTemplate.execute(eventData);
 			eventData.className = className;
@@ -118,7 +178,7 @@ class EventGenerator {
 		if (reducer == "COUNT") {
 			var countData:Dynamic = {};
 			countData.name = '${def.name}_count';
-			trace('creating meta event: ${countData.name}');
+			Sys.println('\t  ${GREEN}⤷${YELLOW}creating meta event: ${BLUE}${countData.name}${GRAY}');
 			var className = toPascalCase(countData.name);
 			countData.className = className;
 			countData.meta = null;
@@ -138,7 +198,7 @@ class EventGenerator {
 		if (StringTools.startsWith(reducer, "SUM(")) {
 			var countData:Dynamic = {};
 			countData.name = '${def.name}_sum';
-			trace('creating meta event: ${countData.name}');
+			Sys.println('\t  ${GREEN}⤷${YELLOW}creating meta event: ${BLUE}${countData.name}${GRAY}');
 			var className = toPascalCase(countData.name);
 			countData.className = className;
 			countData.meta = null;
@@ -167,7 +227,7 @@ class EventGenerator {
 		if (StringTools.startsWith(reducer, "MIN(")) {
 			var countData:Dynamic = {};
 			countData.name = '${def.name}_min';
-			trace('creating meta event: ${countData.name}');
+			Sys.println('\t  ${GREEN}⤷${YELLOW}creating meta event: ${BLUE}${countData.name}${GRAY}');
 			var className = toPascalCase(countData.name);
 			countData.className = className;
 			countData.meta = null;
@@ -196,7 +256,7 @@ class EventGenerator {
 		if (StringTools.startsWith(reducer, "MAX(")) {
 			var countData:Dynamic = {};
 			countData.name = '${def.name}_max';
-			trace('creating meta event: ${countData.name}');
+			Sys.println('\t  ${GREEN}⤷${YELLOW}creating meta event: ${BLUE}${countData.name}${GRAY}');
 			var className = toPascalCase(countData.name);
 			countData.className = className;
 			countData.meta = null;
