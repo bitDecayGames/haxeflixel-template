@@ -21,6 +21,9 @@ class EventLogWindow extends DebugToolWindow {
 	public static inline var MAX_LOG_LINES:Int = 200;
 	static inline var LINE_BREAK:String = #if js "\n" #else "<br>" #end;
 
+	var skipFields = ['id', 'type', 'reducers'];
+	var longestEventName = 10;
+
 	var eventStyle = new LogStyle();
 
 	var _text:TextField;
@@ -69,15 +72,6 @@ class EventLogWindow extends DebugToolWindow {
 		add([formatEvent(event)]);
 	}
 
-	// function formatEvent(e:IEvent):String {
-	// 	// TODO: Have a way to format events compactly
-	// 	var eStr = '${e}';
-	// 	return '${StringTools.lpad(Std.string(++eventNum), "0", 4)}: ${eStr}';
-	// }
-	var skipFields = ['id', 'type', 'reducers'];
-
-	var longestEventName = 10;
-
 	public function formatEvent(e:IEvent):String {
 		var id = e.id;
 		var type = e.type;
@@ -88,7 +82,6 @@ class EventLogWindow extends DebugToolWindow {
 		var fields = Reflect.fields(e);
 		for (field in fields) {
 			if (!skipFields.contains(field)) {
-				// var fieldStr = StringTools.lpad(field, " ", 10);
 				var fieldStr = field;
 				var value = Reflect.field(e, field);
 				// Format Float to 3 decimal places

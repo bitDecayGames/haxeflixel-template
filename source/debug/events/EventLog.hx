@@ -2,9 +2,7 @@ package debug.events;
 
 import bitdecay.flixel.debug.DebugTool;
 #if FLX_DEBUG
-import bitdecay.flixel.debug.DebugUI;
 import openfl.display.BitmapData;
-import events.IEvent;
 import events.EventBus;
 #end
 

@@ -1,5 +1,6 @@
 package achievements;
 
+import events.gen.Event.Achieve;
 import events.gen.Event.ClickCount;
 import events.gen.Event.SpeedClickMin;
 import events.EventBus;
@@ -59,26 +60,18 @@ class AchievementDef {
 		this.description = description;
 		this.iconIndex = iconIndex;
 		this.secret = secret;
-	}
 
-	public function init() {
 		achieved = Storage.hasAchievement(key);
 	}
+
+	public function init() {}
 
 	public function toToast(show:Bool, force:Bool = false):AchievementToast {
 		var a = new AchievementToast(this);
 		if (show) {
-			if (!achieved || force) {
-				FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
-				Achievements.ACHIEVEMENTS_DISPLAYED++;
-				a.show(Achievements.ACHIEVEMENTS_DISPLAYED);
-				Analytics.reportAchievement(this.key);
-				Storage.saveAchievement(key);
-				achieved = true;
-			} else {
-				// if you already have the achievement, then don't actually display it
-				a.active = false;
-			}
+			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
+			Achievements.ACHIEVEMENTS_DISPLAYED++;
+			a.show(Achievements.ACHIEVEMENTS_DISPLAYED);
 		} else {
 			// if you get into this block, it means you are showing the achievement badge
 			// in something like a list of achievements, so dim the achievement if you
@@ -91,11 +84,18 @@ class AchievementDef {
 	}
 
 	public function withEventCondition<T:IEvent>(eventType:Class<T>, cb:(T) -> Bool):AchievementDef {
+		if (achieved) {
+			return this;
+		}
+
 		var wrapped:(IEvent) -> Void;
 		wrapped = (e) -> {
 			var result = cb(cast e);
 			if (result) {
+				achieved = true;
 				EventBus.unsubscribe(eventType, wrapped);
+				Storage.saveAchievement(key);
+				EventBus.fire(new Achieve(key));
 				Achievements.onAchieve.dispatch(this);
 			}
 		}

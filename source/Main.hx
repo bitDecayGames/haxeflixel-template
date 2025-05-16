@@ -1,5 +1,6 @@
 package;
 
+import helpers.Analytics;
 import events.MetricReducer;
 import events.derivers.DistanceClickDeriver;
 import events.derivers.SpeedClickDeriver;
@@ -56,13 +57,7 @@ class Main extends Sprite {
 			configureFlixel();
 			configureDebug();
 			configureLogging();
-
-			EventBus.init();
-			EventBus.registerDeriver(new SpeedClickDeriver(2000));
-			EventBus.registerDeriver(new DistanceClickDeriver(100));
-
-			MetricReducer.init();
-
+			initEvents();
 			Achievements.initAchievements();
 		});
 		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
@@ -136,5 +131,14 @@ class Main extends Sprite {
 			FlxG.game.debugger.log.visible = true;
 		});
 		#end
+	}
+
+	private function initEvents() {
+		EventBus.init();
+		EventBus.registerDeriver(new SpeedClickDeriver(2000));
+		EventBus.registerDeriver(new DistanceClickDeriver(100));
+		MetricReducer.init();
+
+		Analytics.initEventReporting();
 	}
 }
