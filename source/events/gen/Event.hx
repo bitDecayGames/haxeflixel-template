@@ -10,24 +10,19 @@ import events.IEvent.EventReducer;
  */
 
 class MetaRegistry {
-	public static var countEvents:Map<String, (Int) -> IEvent> = [
+	public static var intEvents:Map<String, (Int) -> IEvent> = [
 		"click_count" => ClickCount.new,
-	];
-	public static var maxFloatEvents:Map<String, (Float) -> IEvent> = [
-		"distance_click_max" => DistanceClickMax.new,
-	];
-	public static var maxIntEvents:Map<String, (Int) -> IEvent> = [
-	];
-	public static var minFloatEvents:Map<String, (Float) -> IEvent> = [
-	];
-	public static var minIntEvents:Map<String, (Int) -> IEvent> = [
 		"speed_click_min" => SpeedClickMin.new,
+	];
+	public static var floatEvents:Map<String, (Float) -> IEvent> = [
+		"distance_click_max" => DistanceClickMax.new,
+		"distance_click_sum" => DistanceClickSum.new,
 	];
 }
 
 class PlayerDied implements events.IEvent {
 	public final type:String = "player_died";
-	public final reducer:EventReducer = NONE;
+	public final reducers:Array<EventReducer> = [];
 	public var id:Int;
 
 	public var cause:String;
@@ -39,7 +34,7 @@ class PlayerDied implements events.IEvent {
 
 class PlayerSpawn implements events.IEvent {
 	public final type:String = "player_spawn";
-	public final reducer:EventReducer = NONE;
+	public final reducers:Array<EventReducer> = [];
 	public var id:Int;
 
 	public var posX:Float;
@@ -53,7 +48,7 @@ class PlayerSpawn implements events.IEvent {
 
 class Click implements events.IEvent {
 	public final type:String = "click";
-	public final reducer:EventReducer = COUNT;
+	public final reducers:Array<EventReducer> = [COUNT];
 	public var id:Int;
 
 	public var posX:Float;
@@ -67,7 +62,7 @@ class Click implements events.IEvent {
 
 class ClickCount implements events.IEvent {
 	public final type:String = "click_count";
-	public final reducer:EventReducer = NONE;
+	public final reducers:Array<EventReducer> = [];
 	public var id:Int;
 
 	public var count:Int;
@@ -79,7 +74,7 @@ class ClickCount implements events.IEvent {
 
 class SpeedClick implements events.IEvent {
 	public final type:String = "speed_click";
-	public final reducer:EventReducer = MIN('time');
+	public final reducers:Array<EventReducer> = [MIN('time')];
 	public var id:Int;
 
 	public var time:Int;
@@ -91,7 +86,7 @@ class SpeedClick implements events.IEvent {
 
 class SpeedClickMin implements events.IEvent {
 	public final type:String = "speed_click_min";
-	public final reducer:EventReducer = NONE;
+	public final reducers:Array<EventReducer> = [];
 	public var id:Int;
 
 	public var min:Int;
@@ -103,7 +98,7 @@ class SpeedClickMin implements events.IEvent {
 
 class DistanceClick implements events.IEvent {
 	public final type:String = "distance_click";
-	public final reducer:EventReducer = MAX('distance');
+	public final reducers:Array<EventReducer> = [MAX('distance'),SUM('distance')];
 	public var id:Int;
 
 	public var distance:Float;
@@ -115,7 +110,7 @@ class DistanceClick implements events.IEvent {
 
 class DistanceClickMax implements events.IEvent {
 	public final type:String = "distance_click_max";
-	public final reducer:EventReducer = NONE;
+	public final reducers:Array<EventReducer> = [];
 	public var id:Int;
 
 	public var max:Float;
@@ -125,9 +120,21 @@ class DistanceClickMax implements events.IEvent {
 	}
 }
 
+class DistanceClickSum implements events.IEvent {
+	public final type:String = "distance_click_sum";
+	public final reducers:Array<EventReducer> = [];
+	public var id:Int;
+
+	public var sum:Float;
+
+	public function new(sum:Float) {
+		this.sum = sum;
+	}
+}
+
 class Achieve implements events.IEvent {
 	public final type:String = "achieve";
-	public final reducer:EventReducer = NONE;
+	public final reducers:Array<EventReducer> = [];
 	public var id:Int;
 
 	public var name:String;

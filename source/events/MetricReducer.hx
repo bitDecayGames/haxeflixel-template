@@ -71,15 +71,19 @@ class MetricReducer {
 	}
 
 	static function handleEvent(e:IEvent):Void {
-		switch (e.reducer) {
-			case NONE:
-				return;
-			case COUNT:
-				handleCount(e);
-			case MIN(field):
-				handleMin(e, field);
-			case MAX(field):
-				handleMax(e, field);
+		for (r in e.reducers) {
+			switch (r) {
+				case NONE:
+					return;
+				case COUNT:
+					handleCount(e);
+				case SUM(field):
+					handleSum(e, field);
+				case MIN(field):
+					handleMin(e, field);
+				case MAX(field):
+					handleMax(e, field);
+			}
 		}
 
 		// TODO: we want this to trigger an _eventual_ flush, not an immediate one
@@ -93,8 +97,40 @@ class MetricReducer {
 			newValue = currentIntTrackers.get(metricName) + 1;
 		}
 		currentIntTrackers.set(metricName, newValue);
-		if (MetaRegistry.countEvents.exists(metricName)) {
-			EventBus.fire(MetaRegistry.countEvents.get(metricName)(newValue));
+		if (MetaRegistry.intEvents.exists(metricName)) {
+			EventBus.fire(MetaRegistry.intEvents.get(metricName)(newValue));
+		}
+	}
+
+	private static function handleSum(e:IEvent, field:String) {
+		var metricName = '${e.type}_sum';
+		var eVal:Dynamic = Reflect.getProperty(e, field);
+		if (Std.isOfType(eVal, Int)) {
+			var newValue:Int = eVal;
+			if (currentIntTrackers.exists(metricName)) {
+				newValue = newValue + currentIntTrackers.get(metricName);
+				if (newValue == eVal) {
+					// we added zero, no need to go any further
+					return;
+				}
+			}
+			currentIntTrackers.set(metricName, newValue);
+			if (MetaRegistry.intEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.intEvents.get(metricName)(newValue));
+			}
+		} else if (Std.isOfType(eVal, Float)) {
+			var newValue:Float = eVal;
+			if (currentFloatTrackers.exists(metricName)) {
+				newValue = newValue + currentFloatTrackers.get(metricName);
+				if (newValue == eVal) {
+					// we added zero, no need to go any further
+					return;
+				}
+			}
+			currentFloatTrackers.set(metricName, newValue);
+			if (MetaRegistry.floatEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.floatEvents.get(metricName)(newValue));
+			}
 		}
 	}
 
@@ -110,8 +146,8 @@ class MetricReducer {
 				}
 			}
 			currentIntTrackers.set(metricName, newValue);
-			if (MetaRegistry.minIntEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.minIntEvents.get(metricName)(newValue));
+			if (MetaRegistry.intEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.intEvents.get(metricName)(newValue));
 			}
 		} else if (Std.isOfType(eVal, Float)) {
 			var newValue:Float = eVal;
@@ -122,15 +158,14 @@ class MetricReducer {
 				}
 			}
 			currentFloatTrackers.set(metricName, newValue);
-			if (MetaRegistry.minFloatEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.minFloatEvents.get(metricName)(newValue));
+			if (MetaRegistry.floatEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.floatEvents.get(metricName)(newValue));
 			}
 		}
 	}
 
 	private static function handleMax(e:IEvent, field:String) {
 		var metricName = '${e.type}_max';
-		// TODO: Still need to figure out how to handle Int vs Float
 		var eVal:Dynamic = Reflect.getProperty(e, field);
 		if (Std.isOfType(eVal, Int)) {
 			var newValue:Int = eVal;
@@ -141,8 +176,8 @@ class MetricReducer {
 				}
 			}
 			currentIntTrackers.set(metricName, newValue);
-			if (MetaRegistry.maxIntEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.maxIntEvents.get(metricName)(newValue));
+			if (MetaRegistry.intEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.intEvents.get(metricName)(newValue));
 			}
 		} else if (Std.isOfType(eVal, Float)) {
 			var newValue:Float = eVal;
@@ -153,8 +188,8 @@ class MetricReducer {
 				}
 			}
 			currentFloatTrackers.set(metricName, newValue);
-			if (MetaRegistry.maxFloatEvents.exists(metricName)) {
-				EventBus.fire(MetaRegistry.maxFloatEvents.get(metricName)(newValue));
+			if (MetaRegistry.floatEvents.exists(metricName)) {
+				EventBus.fire(MetaRegistry.floatEvents.get(metricName)(newValue));
 			}
 		}
 	}

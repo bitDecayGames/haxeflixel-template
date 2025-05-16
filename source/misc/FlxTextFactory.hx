@@ -7,7 +7,7 @@ import flixel.text.FlxBitmapText;
 import flixel.util.FlxColor;
 
 /**
- * A factory to help create FlxText objects in a consistent mannor
+ * A factory to help create FlxText objects in a consistent manner
  */
 class FlxTextFactory {
 	/**

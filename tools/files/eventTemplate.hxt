@@ -1,6 +1,6 @@
 class ::className:: implements events.IEvent {
 	public final type:String = "::name::";
-	public final reducer:EventReducer = ::if (meta.reducer != null)::::meta.reducer::::else::NONE::end::;
+	public final reducers:Array<EventReducer> = ::if (meta.reducers != null)::::meta.reducers::::else::[]::end::;
 	public var id:Int;
 ::foreach fields::
 	public var ::name:::::type::;::end::

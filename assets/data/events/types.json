@@ -22,7 +22,7 @@
 	},{
 		"name": "click",
 		"meta": {
-			"reducer": "COUNT"
+			"reducers": ["COUNT"]
 		},
 		"fields": [
 			{
@@ -37,7 +37,7 @@
 	},{
 		"name": "speed_click",
 		"meta": {
-			"reducer": "MIN('time')"
+			"reducers": ["MIN('time')"]
 		},
 		"fields": [
 			{
@@ -48,7 +48,10 @@
 	},{
 		"name": "distance_click",
 		"meta": {
-			"reducer": "MAX('distance')"
+			"reducers": [
+				"MAX('distance')",
+				"SUM('distance')"
+			]
 		},
 		"fields": [
 			{

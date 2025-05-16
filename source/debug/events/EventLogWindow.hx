@@ -74,7 +74,7 @@ class EventLogWindow extends DebugToolWindow {
 	// 	var eStr = '${e}';
 	// 	return '${StringTools.lpad(Std.string(++eventNum), "0", 4)}: ${eStr}';
 	// }
-	var skipFields = ['id', 'type', 'reducer'];
+	var skipFields = ['id', 'type', 'reducers'];
 
 	var longestEventName = 10;
 

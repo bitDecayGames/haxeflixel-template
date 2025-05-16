@@ -6,7 +6,7 @@ package events;
 **/
 interface IEvent {
 	public final type:String;
-	public final reducer:EventReducer;
+	public final reducers:Array<EventReducer>;
 	public var id:Int;
 }
 
@@ -17,6 +17,7 @@ interface IEvent {
 enum EventReducer {
 	NONE;
 	COUNT;
+	SUM(field:String);
 	MIN(field:String);
 	MAX(field:String);
 }

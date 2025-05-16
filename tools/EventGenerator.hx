@@ -16,6 +16,10 @@ class EventGenerator {
 	static inline var EVENT_TEMPLATE_FILE:String = "./files/eventTemplate.hxt";
 	static inline var ALL_EVENT_TEMPLATE_FILE:String = "./files/allEventsTemplate.hxt";
 
+	static var allEventTemplate:Template = null;
+	static var ctorTemplate:Template = null;
+	static var eventTemplate:Template = null;
+
 	static public function main():Void {
 		var args = parseArgs(Sys.args());
 
@@ -37,6 +41,8 @@ class EventGenerator {
 		var renderedEvents:Array<ParsedEvent> = [];
 		var originFiles:Array<String> = [];
 
+		initTemplates();
+
 		for (filePath in args.get(FLAG_INPUT_FILE)) {
 			trace('parsing file ${filePath}');
 			originFiles.push(filePath);
@@ -50,10 +56,7 @@ class EventGenerator {
 			inputs: originFiles
 		};
 
-		var allEventContent = File.getContent(ALL_EVENT_TEMPLATE_FILE);
-		var tpl = new Template(allEventContent);
-
-		var output = tpl.execute(finalData);
+		var output = allEventTemplate.execute(finalData);
 
 		var outdir = Path.directory(outputFile);
 		if (!FileSystem.exists(outdir)) {
@@ -65,6 +68,17 @@ class EventGenerator {
 		fo.writeString(output);
 		fo.flush();
 		fo.close();
+	}
+
+	static function initTemplates() {
+		var ctorTpl = '::foreach fields::::name:::::type::, ::end::';
+		ctorTemplate = new Template(ctorTpl);
+
+		var hxtContent = File.getContent(EVENT_TEMPLATE_FILE);
+		eventTemplate = new Template(hxtContent);
+
+		var allEventContent = File.getContent(ALL_EVENT_TEMPLATE_FILE);
+		allEventTemplate = new Template(allEventContent);
 	}
 
 	static function getRenderedEventTypes(path:String):Array<ParsedEvent> {
@@ -79,15 +93,10 @@ class EventGenerator {
 		for (eventData in parsed) {
 			trace('parsing event: ${eventData.name}');
 			var className = toPascalCase(eventData.name);
-			var ctorTemplate = '::foreach fields::::name:::::type::, ::end::';
-			var ctorTpl = new Template(ctorTemplate);
-			var ctorArgsOutput = ctorTpl.execute(eventData);
+			var ctorArgsOutput = ctorTemplate.execute(eventData);
 			eventData.className = className;
 			eventData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
-
-			var hxtContent = File.getContent(EVENT_TEMPLATE_FILE);
-			var tpl = new Template(hxtContent);
-			var renderedEvent = tpl.execute(eventData);
+			var renderedEvent = eventTemplate.execute(eventData);
 			eventTypes.push({
 				classKey: eventData.name,
 				className: className,
@@ -95,86 +104,125 @@ class EventGenerator {
 				reducerList: "NONE"
 			});
 
-			if (eventData.meta != null && eventData.meta.reducer == "COUNT") {
-				var countData:Dynamic = {};
-				countData.name = '${eventData.name}_count';
-				trace('creating meta event: ${countData.name}');
-				className = toPascalCase(countData.name);
-				countData.className = className;
-				countData.meta = null;
-				countData.fields = [{"name": "count", "type": "Int"}];
-				ctorArgsOutput = ctorTpl.execute(countData);
-				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
-				renderedEvent = tpl.execute(countData);
-				eventTypes.push({
-					classKey: countData.name,
-					className: className,
-					rendered: renderedEvent,
-					reducerList: "COUNT",
-					reducerType: ''
-				});
-			}
-
-			if (eventData.meta != null && StringTools.startsWith(eventData.meta.reducer, "MIN(")) {
-				var countData:Dynamic = {};
-				countData.name = '${eventData.name}_min';
-				trace('creating meta event: ${countData.name}');
-				className = toPascalCase(countData.name);
-				countData.className = className;
-				countData.meta = null;
-				var minField:FieldDefinition = {
-					name: 'min',
-					type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
-				};
-				for (f in eventData.fields) {
-					if (StringTools.contains(eventData.meta.reducer, '(\'${f.name}\')')) {
-						minField.type = f.type;
-					}
+			if (eventData.meta != null && eventData.meta.reducers != null) {
+				for (r in eventData.meta.reducers) {
+					eventTypes.push(buildReducer(eventData, r));
 				}
-				countData.fields = [minField];
-				ctorArgsOutput = ctorTpl.execute(countData);
-				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
-				renderedEvent = tpl.execute(countData);
-				eventTypes.push({
-					classKey: countData.name,
-					className: className,
-					rendered: renderedEvent,
-					reducerList: "MIN",
-					reducerType: '${minField.type}'
-				});
-			}
-
-			if (eventData.meta != null && StringTools.startsWith(eventData.meta.reducer, "MAX(")) {
-				var countData:Dynamic = {};
-				countData.name = '${eventData.name}_max';
-				trace('creating meta event: ${countData.name}');
-				className = toPascalCase(countData.name);
-				countData.className = className;
-				countData.meta = null;
-				var maxField:FieldDefinition = {
-					name: 'max',
-					type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
-				};
-				for (f in eventData.fields) {
-					if (StringTools.contains(eventData.meta.reducer, '(\'${f.name}\')')) {
-						maxField.type = f.type;
-					}
-				}
-				countData.fields = [maxField];
-				ctorArgsOutput = ctorTpl.execute(countData);
-				countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
-				renderedEvent = tpl.execute(countData);
-				eventTypes.push({
-					classKey: countData.name,
-					className: className,
-					rendered: renderedEvent,
-					reducerList: "MAX",
-					reducerType: '${maxField.type}'
-				});
 			}
 		}
 
 		return eventTypes;
+	}
+
+	static function buildReducer(def:EventDefinition, reducer:String):ParsedEvent {
+		if (reducer == "COUNT") {
+			var countData:Dynamic = {};
+			countData.name = '${def.name}_count';
+			trace('creating meta event: ${countData.name}');
+			var className = toPascalCase(countData.name);
+			countData.className = className;
+			countData.meta = null;
+			countData.fields = [{"name": "count", "type": "Int"}];
+			var ctorArgsOutput = ctorTemplate.execute(countData);
+			countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+			var renderedEvent = eventTemplate.execute(countData);
+			return {
+				classKey: countData.name,
+				className: className,
+				rendered: renderedEvent,
+				reducerList: "COUNT",
+				reducerType: "Int"
+			};
+		}
+
+		if (StringTools.startsWith(reducer, "SUM(")) {
+			var countData:Dynamic = {};
+			countData.name = '${def.name}_sum';
+			trace('creating meta event: ${countData.name}');
+			var className = toPascalCase(countData.name);
+			countData.className = className;
+			countData.meta = null;
+			var minField:FieldDefinition = {
+				name: 'sum',
+				type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
+			};
+			for (f in def.fields) {
+				if (StringTools.contains(reducer, '(\'${f.name}\')')) {
+					minField.type = f.type;
+				}
+			}
+			countData.fields = [minField];
+			var ctorArgsOutput = ctorTemplate.execute(countData);
+			countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+			var renderedEvent = eventTemplate.execute(countData);
+			return {
+				classKey: countData.name,
+				className: className,
+				rendered: renderedEvent,
+				reducerList: "SUM",
+				reducerType: '${minField.type}'
+			};
+		}
+
+		if (StringTools.startsWith(reducer, "MIN(")) {
+			var countData:Dynamic = {};
+			countData.name = '${def.name}_min';
+			trace('creating meta event: ${countData.name}');
+			var className = toPascalCase(countData.name);
+			countData.className = className;
+			countData.meta = null;
+			var minField:FieldDefinition = {
+				name: 'min',
+				type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
+			};
+			for (f in def.fields) {
+				if (StringTools.contains(reducer, '(\'${f.name}\')')) {
+					minField.type = f.type;
+				}
+			}
+			countData.fields = [minField];
+			var ctorArgsOutput = ctorTemplate.execute(countData);
+			countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+			var renderedEvent = eventTemplate.execute(countData);
+			return {
+				classKey: countData.name,
+				className: className,
+				rendered: renderedEvent,
+				reducerList: "MIN",
+				reducerType: '${minField.type}'
+			};
+		}
+
+		if (StringTools.startsWith(reducer, "MAX(")) {
+			var countData:Dynamic = {};
+			countData.name = '${def.name}_max';
+			trace('creating meta event: ${countData.name}');
+			var className = toPascalCase(countData.name);
+			countData.className = className;
+			countData.meta = null;
+			var maxField:FieldDefinition = {
+				name: 'max',
+				type: Int // Stand-in as we have to provide a value here. Might be updated by the check below
+			};
+			for (f in def.fields) {
+				if (StringTools.contains(reducer, '(\'${f.name}\')')) {
+					maxField.type = f.type;
+				}
+			}
+			countData.fields = [maxField];
+			var ctorArgsOutput = ctorTemplate.execute(countData);
+			countData.ctorArgs = ctorArgsOutput.substr(0, ctorArgsOutput.length - 2);
+			var renderedEvent = eventTemplate.execute(countData);
+			return {
+				classKey: countData.name,
+				className: className,
+				rendered: renderedEvent,
+				reducerList: "MAX",
+				reducerType: '${maxField.type}'
+			};
+		}
+
+		throw('unable to build reducer for "${reducer}"');
 	}
 
 	static function toPascalCase(s:String):String {
@@ -217,7 +265,7 @@ typedef EventDefinition = {
 }
 
 typedef EventDefMetadata = {
-	var ?reducer:String;
+	var ?reducers:Array<String>;
 }
 
 typedef FieldDefinition = {
