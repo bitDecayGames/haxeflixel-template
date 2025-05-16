@@ -1,8 +1,9 @@
 package levels.tiled;
 
+import haxe.io.Path;
+import flixel.FlxSprite;
 import flixel.math.FlxRect;
 import flixel.math.FlxMath;
-import flixel.FlxSprite;
 import flixel.addons.editors.tiled.TiledImageLayer;
 import flixel.addons.editors.tiled.TiledImageTile;
 import flixel.addons.editors.tiled.TiledLayer.TiledLayerType;
@@ -12,9 +13,8 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 import flixel.addons.editors.tiled.TiledTileLayer;
 import flixel.addons.editors.tiled.TiledTileSet;
 import flixel.addons.editors.tiled.TiledTilePropertySet;
-import flixel.tile.FlxTilemap;
 import flixel.addons.tile.FlxTileSpecial;
-import haxe.io.Path;
+import flixel.tile.FlxTilemap;
 
 class TiledMapLoader extends TiledMap {
 	private var relativeDir:String;

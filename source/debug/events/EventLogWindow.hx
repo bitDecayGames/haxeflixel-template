@@ -3,14 +3,13 @@ package debug.events;
 import openfl.Assets;
 import bitdecay.flixel.debug.DebugToolWindow;
 #if FLX_DEBUG
-import events.IEvent;
-import flixel.math.FlxMath;
 import openfl.events.MouseEvent;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.display.BitmapData;
+import events.IEvent;
+import flixel.math.FlxMath;
 import flixel.system.debug.log.LogStyle;
-import flixel.system.FlxAssets;
 #end
 
 /**

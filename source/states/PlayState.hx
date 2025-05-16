@@ -1,13 +1,13 @@
 package states;
 
+import achievements.Achievements;
+import entities.Item;
+import entities.Player;
 import events.gen.Event;
 import events.EventBus;
-import entities.Item;
-import achievements.Achievements;
-import flixel.addons.transition.FlxTransitionableState;
-import entities.Player;
-import flixel.FlxSprite;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.addons.transition.FlxTransitionableState;
 
 // import events.gen.PlayerSpawn;
 // import events.gen.TestHello;

@@ -1,6 +1,5 @@
 package loaders;
 
-import loaders.AsepriteTypes.AseAtlasFrame;
 import haxe.io.Path;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -11,6 +10,7 @@ import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxJsonAsset;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import loaders.AsepriteTypes.AseAtlas;
+import loaders.AsepriteTypes.AseAtlasFrame;
 
 class Aseprite {
 	// a cache to prevent us from re-parsing json multiple times

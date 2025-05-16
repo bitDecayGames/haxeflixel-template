@@ -1,7 +1,5 @@
 package newgrounds;
 
-import flixel.util.FlxTimer;
-import flixel.FlxG;
 import flixel.util.FlxSignal;
 import flixel.util.FlxStringUtil;
 import io.newgrounds.Call.CallError;

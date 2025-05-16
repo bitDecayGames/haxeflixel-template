@@ -1,18 +1,18 @@
 package states;
 
-import flixel.util.FlxTimer;
-import flixel.util.FlxSpriteUtil;
-import input.SimpleController;
-import flixel.FlxSprite;
-import bitdecay.flixel.transitions.TransitionDirection;
-import bitdecay.flixel.transitions.SwirlTransition;
-import states.AchievementsState;
 import com.bitdecay.analytics.Bitlytics;
+import bitdecay.flixel.transitions.SwirlTransition;
+import bitdecay.flixel.transitions.TransitionDirection;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import flixel.util.FlxSpriteUtil;
 import haxefmod.flixel.FmodFlxUtilities;
+import input.SimpleController;
+import states.AchievementsState;
 
 using states.FlxStateExt;
 

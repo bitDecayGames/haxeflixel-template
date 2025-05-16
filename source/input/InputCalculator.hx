@@ -7,7 +7,7 @@ import bitdecay.flixel.spacial.Cardinal;
 /**
  * General helpers for deriving information from controls
  */
-class InputCalcuator {
+class InputCalculator {
 	private static var temp = FlxPoint.get();
 
 	/**

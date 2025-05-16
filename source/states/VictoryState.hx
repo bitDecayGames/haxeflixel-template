@@ -6,7 +6,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import haxefmod.flixel.FmodFlxUtilities;
-import helpers.UiHelpers;
+import ui.MenuBuilder;
 
 using states.FlxStateExt;
 
@@ -27,7 +27,7 @@ class VictoryState extends FlxTransitionableState {
 
 		add(_txtTitle);
 
-		_btnDone = UiHelpers.createMenuButton("Main Menu", clickMainMenu);
+		_btnDone = MenuBuilder.createTextButton("Main Menu", clickMainMenu);
 		_btnDone.setPosition(FlxG.width / 2 - _btnDone.width / 2, FlxG.height - _btnDone.height - 40);
 		_btnDone.updateHitbox();
 		add(_btnDone);

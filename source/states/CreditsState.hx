@@ -1,5 +1,6 @@
 package states;
 
+import config.Configure;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -8,7 +9,6 @@ import flixel.text.FlxText.FlxTextAlign;
 import flixel.text.FlxBitmapText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import config.Configure;
 import haxefmod.flixel.FmodFlxUtilities;
 import misc.FlxTextFactory;
 import ui.MenuBuilder;

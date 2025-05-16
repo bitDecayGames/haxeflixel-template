@@ -1,7 +1,7 @@
 package entities;
 
 import flixel.FlxSprite;
-import input.InputCalcuator;
+import input.InputCalculator;
 import input.SimpleController;
 import loaders.Aseprite;
 import loaders.AsepriteMacros;
@@ -30,7 +30,7 @@ class Player extends FlxSprite {
 	override public function update(delta:Float) {
 		super.update(delta);
 
-		var inputDir = InputCalcuator.getInputCardinal(playerNum);
+		var inputDir = InputCalculator.getInputCardinal(playerNum);
 		if (inputDir != NONE) {
 			inputDir.asVector(velocity).scale(speed);
 		} else {

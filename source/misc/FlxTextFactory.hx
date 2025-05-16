@@ -2,7 +2,6 @@ package misc;
 
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxText.FlxTextAlign;
-import flixel.system.FlxAssets;
 import flixel.text.FlxBitmapText;
 import flixel.util.FlxColor;
 

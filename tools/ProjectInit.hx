@@ -1,9 +1,9 @@
 package;
 
 #if sys
+import haxe.Template;
 import sys.FileSystem;
 import sys.io.File;
-import haxe.Template;
 
 // This is a simple helper to fill out some configuration needed when
 // first configuring a new repo. This modifies the files in-place

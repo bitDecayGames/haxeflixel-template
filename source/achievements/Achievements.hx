@@ -7,7 +7,6 @@ import events.EventBus;
 import events.IEvent;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import achievements.AchievementToast;
-import helpers.Analytics;
 import helpers.Storage;
 
 typedef AchievementID = Int;

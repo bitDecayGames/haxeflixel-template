@@ -1,11 +1,11 @@
 package;
 
-import haxe.crypto.Md5;
 #if sys
-import json2object.JsonParser;
 import haxe.Json;
 import haxe.Template;
+import haxe.crypto.Md5;
 import haxe.io.Path;
+import json2object.JsonParser;
 import sys.FileSystem;
 import sys.io.File;
 

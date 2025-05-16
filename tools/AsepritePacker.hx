@@ -1,9 +1,9 @@
 package;
 
 #if sys
+import haxe.io.Path;
 import sys.FileSystem;
 import sys.io.File;
-import haxe.io.Path;
 #end
 
 class AsepritePacker {
