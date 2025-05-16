@@ -1,5 +1,13 @@
 [
 	{
+		"name": "victory",
+		"fields": [
+			{
+				"name": "time",
+				"type": "Float"
+			}
+		]
+	},{
 		"name": "player_died",
 		"fields": [
 			{

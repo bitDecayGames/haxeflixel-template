@@ -20,6 +20,18 @@ class MetaRegistry {
 	];
 }
 
+class Victory implements events.IEvent {
+	public final type:String = "victory";
+	public final reducers:Array<EventReducer> = [];
+	public var id:Int;
+
+	public var time:Float;
+
+	public function new(time:Float) {
+		this.time = time;
+	}
+}
+
 class PlayerDied implements events.IEvent {
 	public final type:String = "player_died";
 	public final reducers:Array<EventReducer> = [];

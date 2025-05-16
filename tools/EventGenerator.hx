@@ -273,6 +273,8 @@ typedef FieldDefinition = {
 	var type:SupportedType;
 }
 
+// In theory we can support any types we want, but we have to
+// sort out how to add the import to the generated code
 enum SupportedType {
 	String;
 	Float;

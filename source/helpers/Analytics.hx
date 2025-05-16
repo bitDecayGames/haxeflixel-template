@@ -1,5 +1,6 @@
 package helpers;
 
+import events.gen.Event.Victory;
 import events.gen.Event.Achieve;
 import events.EventBus;
 import com.bitdecay.metrics.Tag;
@@ -28,20 +29,14 @@ class Analytics {
 		EventBus.subscribe(Achieve, (e) -> {
 			Bitlytics.Instance().Queue(METRIC_ACHIEVEMENT, 1, [new Tag(TAG_ACHIEVEMENT_NAME, e.name)]);
 		});
+		EventBus.subscribe(Victory, (e) -> {
+			Bitlytics.Instance().Queue(METRIC_VICTORY, 1);
+			Bitlytics.Instance().Queue(METRIC_VICTORY_TIME, e.time);
+		});
 	}
 
-	public static function reportAchievement(key:String) {
-		Bitlytics.Instance().Queue(METRIC_ACHIEVEMENT, 1, [new Tag(TAG_ACHIEVEMENT_NAME, key)]);
-	}
-
-	public static function reportWin(itemCount:Int, time:Float) {
-		Bitlytics.Instance().Queue(METRIC_VICTORY, 1);
-		Bitlytics.Instance().Queue(METRIC_VICTORY_ITEM_COUNT, itemCount);
-		Bitlytics.Instance().Queue(METRIC_VICTORY_TIME, time);
-	}
-
-	public static function reportLoss(itemCount:Int, precentComplete:Float, time:Float) {
-		Bitlytics.Instance().Queue(METRIC_FAILURE, precentComplete);
+	public static function reportLoss(itemCount:Int, percentComplete:Float, time:Float) {
+		Bitlytics.Instance().Queue(METRIC_FAILURE, percentComplete);
 		Bitlytics.Instance().Queue(METRIC_FAILURE_ITEM_COUNT, itemCount);
 		Bitlytics.Instance().Queue(METRIC_FAILURE_TIME, time);
 	}
