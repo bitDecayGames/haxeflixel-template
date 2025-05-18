@@ -1,5 +1,8 @@
 package states;
 
+import levels.ldtk.Ldtk.LdtkProject;
+import levels.ldtk.LdtkTilemap;
+import levels.ldtk.BDTilemap;
 import achievements.Achievements;
 import entities.Item;
 import entities.Player;
@@ -9,16 +12,16 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
 
-// import events.gen.PlayerSpawn;
-// import events.gen.TestHello;
 using states.FlxStateExt;
 
 class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
 
+	var ldtk = new LdtkProject();
+	var terrainLayer:BDTilemap;
+
 	override public function create() {
 		super.create();
-		// Lifecycle.startup.dispatch();
 
 		FlxG.camera.pixelPerfectRender = true;
 
@@ -27,15 +30,27 @@ class PlayState extends FlxTransitionableState {
 			QLog.notice('I got me an event about ${c.count} clicks having happened.');
 		});
 
+		QLog.error('Example error');
+
+		loadLevel("Level_0");
+	}
+
+	function loadLevel(level:String) {
+		var level = ldtk.getLevel(null, level);
+		terrainLayer = new BDTilemap();
+		terrainLayer.loadLdtk(level.l_Terrain);
+		add(terrainLayer);
+
+		if (level.l_Objects.all_Spawn.length == 0) {
+			throw('no spawn found in level ${level}');
+		}
+
+		var spawnPoint = level.l_Objects.all_Spawn[0];
+
 		player = new Player();
+		player.setPosition(spawnPoint.pixelX, spawnPoint.pixelY);
 		add(player);
 		EventBus.fire(new PlayerSpawn(player.x, player.y));
-
-		var item = new Item();
-		item.y = 50;
-		add(item);
-
-		QLog.error('Example error');
 	}
 
 	function handleAchieve(def:AchievementDef) {

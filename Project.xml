@@ -47,6 +47,9 @@
 	<haxelib name="newgrounds" />
 	<haxelib name="hscript" />
 
+	<!-- for ldtk level integration -->
+	<haxelib name="ldtk-haxe-api" />
+
 	<!-- for echo physics -->
 	<!-- <haxelib name="echo-flixel" /> -->
 
