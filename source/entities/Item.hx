@@ -1,7 +1,7 @@
 package entities;
 
-import loaders.Aseprite;
-import loaders.AsepriteMacros;
+import bitdecay.flixel.graphics.Aseprite;
+import bitdecay.flixel.graphics.AsepriteMacros;
 import flixel.FlxSprite;
 
 class Item extends FlxSprite {

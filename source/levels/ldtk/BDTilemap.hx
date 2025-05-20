@@ -1,6 +1,5 @@
 package levels.ldtk;
 
-import flixel.util.FlxDestroyUtil;
 import levels.ldtk.Ldtk.Enum_TileTags;
 import levels.ldtk.LdtkTilemap.LdtkTile;
 
@@ -16,39 +15,13 @@ class BDTile extends LdtkTile<Enum_TileTags> {
 
 	override function destroy() {
 		super.destroy();
-
-		// FlxDestroyUtil.put(hit);
+		// Handle any needed cleanup here
 	}
 
-	// override function setMetaData(metaData:String)
-	// {
-	//     super.setMetaData(metaData);
-	//     try
-	//     {
-	//         final data:{ ?hit:HitMetaData } = haxe.Json.parse(metaData);
-	//         if (data.hit != null)
-	//         {
-	//             final hitData = data.hit;
-	//             hit = FlxRect.get
-	//                 ( hitData.x      ?? 0
-	//                 , hitData.y      ?? 0
-	//                 , hitData.width  ?? width
-	//                 , hitData.height ?? height
-	//                 );
-	//             overlapsObject = function(object:FlxObject):Bool
-	//             {
-	//                 return object.x + object.width >= x + hit.left
-	//                     && object.x < x + hit.right
-	//                     && object.y + object.height >= y + hit.top
-	//                     && object.y < y + hit.bottom;
-	//             }
-	//         }
-	//     }
-	//     catch(e)
-	//     {
-	//         FlxG.log.error('Error parsing tile: $index metaData: $metaData');
-	//     }
-	// }
+	override function setMetaData(metaData:String) {
+		super.setMetaData(metaData);
+		// Do any parsing of metadata here
+	}
 
 	override function setTags(tags:Array<Enum_TileTags>) {
 		super.setTags(tags);

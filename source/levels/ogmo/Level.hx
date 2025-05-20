@@ -24,7 +24,8 @@ class Level {
 				case "<entity name>":
 					obj = new FlxObject();
 				default:
-					QuickLog.error('Entity \'${entityData.name}\' is not supported, add parsing to ${Type.getClassName(Type.getClass(this))}');
+					QLog.error('Entity \'${entityData.name}\' is not supported, add parsing to ${Type.getClassName(Type.getClass(this))}');
+					return;
 			}
 			objects.add(obj);
 		}, "<entity layer name>");

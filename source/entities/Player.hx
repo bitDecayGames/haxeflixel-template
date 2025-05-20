@@ -3,8 +3,8 @@ package entities;
 import flixel.FlxSprite;
 import input.InputCalculator;
 import input.SimpleController;
-import loaders.Aseprite;
-import loaders.AsepriteMacros;
+import bitdecay.flixel.graphics.Aseprite;
+import bitdecay.flixel.graphics.AsepriteMacros;
 
 class Player extends FlxSprite {
 	public static var anims = AsepriteMacros.tagNames("assets/aseprite/characters/player.json");

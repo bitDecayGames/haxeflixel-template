@@ -1,15 +1,18 @@
 package levels.ldtk;
 
+import flixel.util.FlxDirectionFlags;
 import ldtk.Layer_Tiles;
 import ldtk.Tileset;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 
 class LdtkTile<Tag:EnumValue> extends FlxTile {
+	static inline var defaultCollisions:FlxDirectionFlags = ANY;
+
 	public var metaData(default, null):Null<String>;
 	public var tags(default, null):Null<haxe.ds.ReadOnlyArray<Tag>>;
 
-	public function new(tilemap:LdtkTilemap<Tag>, index, width, height, visible, allowCollisions) {
+	public function new(tilemap:LdtkTilemap<Tag>, index, width, height, visible, allowCollisions = defaultCollisions) {
 		super(cast tilemap, index, width, height, visible, allowCollisions);
 	}
 
@@ -70,7 +73,7 @@ class LdtkTypedTilemap<Tag:EnumValue, Tile:LdtkTile<Tag>> extends FlxTypedTilema
 	}
 
 	override function createTile(index, width, height) {
-		return cast new LdtkTile(cast this, index, width, height, true, NONE);
+		return cast new LdtkTile(cast this, index, width, height, true);
 	}
 }
 
