@@ -65,7 +65,7 @@ External dependencies use a local script and dependency file to ensure that the 
     * standard haxelib dependencies (pulled from `lib.haxe.org`)
       * Formatted as: `<libName> <libVersion>`
     * git dependencies
-      * Formatted as: `<libName> git <gitRepoLocation> <OPTIONAL: gitBranchOrTag>`
+      * Formatted as: `<libName> git <gitRepoLocation> <OPTIONAL: commit-ish>`
 
 # Metrics & Analytics
 

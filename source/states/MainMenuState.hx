@@ -25,7 +25,7 @@ class MainMenuState extends FlxTransitionableState {
 		bgColor = FlxColor.TRANSPARENT;
 		FlxG.camera.pixelPerfectRender = true;
 
-		var bgImage = new FlxSprite(AssetPaths.title_image__png);
+		var bgImage = new FlxSprite(AssetPaths.title__png);
 		add(bgImage);
 
 		// This can be swapped out for an image instead
