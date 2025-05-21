@@ -13,12 +13,11 @@ metrics/.env
 # potential ldtk backups we don't want in the repo
 /backups
 
-# haxefmod integration
-fmod/CachedHaxeConstantsOutputLocation
-
 # FMOD
 fmod/.cache/
 fmod/.unsaved/
+# haxefmod integration
+fmod/Cached*
 
 # error files
 dump/
