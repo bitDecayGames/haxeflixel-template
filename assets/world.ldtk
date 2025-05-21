@@ -11,7 +11,7 @@
 	"iid": "48a599b0-1460-11ee-8f1d-1923aa7248a0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 205,
+	"nextUid": 221,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "GridVania",
@@ -247,7 +247,7 @@
 					"textLanguageMode": null,
 					"symmetricalRef": false,
 					"autoChainRef": true,
-					"allowOutOfLevelRef": false,
+					"allowOutOfLevelRef": true,
 					"allowedRefs": "OnlySpecificEntity",
 					"allowedRefsEntityUid": 200,
 					"allowedRefTags": [],
@@ -307,7 +307,7 @@
 			"padding": 0,
 			"tags": [],
 			"tagsSourceEnumUid": 199,
-			"enumTags": [ { "enumValueId": "SOLID", "tileIds": [1,2,3] }, { "enumValueId": "ONEWAY", "tileIds": [] }, { "enumValueId": "NONE", "tileIds": [] }, { "enumValueId": "INVISIBLE", "tileIds": [] } ],
+			"enumTags": [ { "enumValueId": "SOLID", "tileIds": [2,3] }, { "enumValueId": "ONEWAY", "tileIds": [1] }, { "enumValueId": "NONE", "tileIds": [] }, { "enumValueId": "INVISIBLE", "tileIds": [3] } ],
 			"customData": [],
 			"savedSelections": [],
 			"cachedPixelData": { "opaqueTiles": "0111", "averageColors": "0000facff7c4f853" }
@@ -355,8 +355,8 @@
 		}
 	], "enums": [
 		{ "identifier": "Direction", "uid": 15, "values": [
-			{ "id": "EAST", "tileRect": { "tilesetUid": 16, "x": 0, "y": 16, "w": 16, "h": 16 }, "color": 12470831 },
-			{ "id": "WEST", "tileRect": { "tilesetUid": 16, "x": 16, "y": 16, "w": 16, "h": 16 }, "color": 14120515 },
+			{ "id": "EAST", "tileRect": { "tilesetUid": 16, "x": 16, "y": 80, "w": 16, "h": 16 }, "color": 12470831 },
+			{ "id": "WEST", "tileRect": { "tilesetUid": 16, "x": 32, "y": 80, "w": 16, "h": 16 }, "color": 14120515 },
 			{ "id": "NORTH", "tileRect": { "tilesetUid": 16, "x": 0, "y": 80, "w": 16, "h": 16 }, "color": 15389866 },
 			{ "id": "SOUTH", "tileRect": { "tilesetUid": 16, "x": 48, "y": 80, "w": 16, "h": 16 }, "color": 14984818 }
 		], "iconTilesetUid": 16, "externalRelPath": null, "externalFileChecksum": null, "tags": [] },
@@ -373,7 +373,48 @@
 			{ "id": "NONE", "tileRect": null, "color": 15389866 },
 			{ "id": "INVISIBLE", "tileRect": null, "color": 14984818 }
 		], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }
-	], "externalEnums": [], "levelFields": [] },
+	], "externalEnums": [
+		{ "identifier": "FmodSong", "uid": 218, "values": [{ "id": "LetsGo", "tileRect": null, "color": 12470831 }], "iconTilesetUid": null, "externalRelPath": "../source/FmodConstants.hx", "externalFileChecksum": "b8c49dea63069e1ac247c830326389e5", "tags": [] },
+		{ "identifier": "FmodSFX", "uid": 219, "values": [ { "id": "MenuHover", "tileRect": null, "color": 12470831 }, { "id": "MenuSelect", "tileRect": null, "color": 14120515 } ], "iconTilesetUid": null, "externalRelPath": "../source/FmodConstants.hx", "externalFileChecksum": "b8c49dea63069e1ac247c830326389e5", "tags": [] }
+	], "levelFields": [
+		{
+			"identifier": "Music",
+			"doc": null,
+			"__type": "ExternEnum.FmodSong",
+			"uid": 220,
+			"type": "F_Enum(218)",
+			"isArray": false,
+			"canBeNull": false,
+			"arrayMinLength": null,
+			"arrayMaxLength": null,
+			"editorDisplayMode": "NameAndValue",
+			"editorDisplayScale": 1,
+			"editorDisplayPos": "Above",
+			"editorLinkStyle": "StraightArrow",
+			"editorDisplayColor": null,
+			"editorAlwaysShow": true,
+			"editorShowInWorld": true,
+			"editorCutLongValues": true,
+			"editorTextSuffix": null,
+			"editorTextPrefix": null,
+			"useForSmartColor": false,
+			"exportToToc": false,
+			"searchable": false,
+			"min": null,
+			"max": null,
+			"regex": null,
+			"acceptFileTypes": null,
+			"defaultOverride": null,
+			"textLanguageMode": null,
+			"symmetricalRef": false,
+			"autoChainRef": true,
+			"allowOutOfLevelRef": true,
+			"allowedRefs": "OnlySame",
+			"allowedRefsEntityUid": null,
+			"allowedRefTags": [],
+			"tilesetUid": null
+		}
+	] },
 	"levels": [
 		{
 			"identifier": "Level_0",
@@ -394,7 +435,10 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [],
+			"fieldInstances": [{ "__identifier": "Music", "__type": "ExternEnum.FmodSong", "__value": "LetsGo", "__tile": null, "defUid": 220, "realEditorValues": [{
+				"id": "V_String",
+				"params": ["LetsGo"]
+			}] }],
 			"layerInstances": [
 				{
 					"__identifier": "Objects",
@@ -435,22 +479,6 @@
 							"fieldInstances": [],
 							"__worldX": 0,
 							"__worldY": 0
-						},
-						{
-							"__identifier": "Spawn",
-							"__grid": [5,8],
-							"__pivot": [0.5,1],
-							"__tags": ["Player"],
-							"__tile": null,
-							"__smartColor": "#FFFFFF",
-							"iid": "4ab69990-1030-11f0-85c4-1914a61267c2",
-							"width": 16,
-							"height": 16,
-							"defUid": 74,
-							"px": [88,144],
-							"fieldInstances": [],
-							"__worldX": 88,
-							"__worldY": 144
 						},
 						{
 							"__identifier": "CameraZone",
@@ -508,6 +536,22 @@
 							],
 							"__worldX": 544,
 							"__worldY": 0
+						},
+						{
+							"__identifier": "Spawn",
+							"__grid": [7,10],
+							"__pivot": [0.5,1],
+							"__tags": ["Player"],
+							"__tile": null,
+							"__smartColor": "#FFFFFF",
+							"iid": "4ab69990-1030-11f0-85c4-1914a61267c2",
+							"width": 16,
+							"height": 16,
+							"defUid": 74,
+							"px": [120,176],
+							"fieldInstances": [],
+							"__worldX": 120,
+							"__worldY": 176
 						}
 					]
 				},
@@ -541,15 +585,23 @@
 						{ "px": [208,96], "src": [0,16], "f": 0, "t": 2, "d": [493], "a": 1 },
 						{ "px": [224,96], "src": [0,16], "f": 0, "t": 2, "d": [494], "a": 1 },
 						{ "px": [240,96], "src": [0,16], "f": 0, "t": 2, "d": [495], "a": 1 },
+						{ "px": [192,128], "src": [16,0], "f": 0, "t": 1, "d": [652], "a": 1 },
+						{ "px": [192,144], "src": [16,0], "f": 0, "t": 1, "d": [732], "a": 1 },
+						{ "px": [208,144], "src": [16,0], "f": 0, "t": 1, "d": [733], "a": 1 },
+						{ "px": [224,144], "src": [16,0], "f": 0, "t": 1, "d": [734], "a": 1 },
+						{ "px": [240,144], "src": [16,0], "f": 0, "t": 1, "d": [735], "a": 1 },
+						{ "px": [144,160], "src": [16,16], "f": 0, "t": 3, "d": [809], "a": 1 },
 						{ "px": [720,160], "src": [0,16], "f": 0, "t": 2, "d": [845], "a": 1 },
 						{ "px": [880,160], "src": [0,16], "f": 0, "t": 2, "d": [855], "a": 1 },
 						{ "px": [896,160], "src": [0,16], "f": 0, "t": 2, "d": [856], "a": 1 },
+						{ "px": [144,176], "src": [16,16], "f": 0, "t": 3, "d": [889], "a": 1 },
 						{ "px": [720,176], "src": [0,16], "f": 0, "t": 2, "d": [925], "a": 1 },
 						{ "px": [832,176], "src": [0,16], "f": 0, "t": 2, "d": [932], "a": 1 },
 						{ "px": [848,176], "src": [0,16], "f": 0, "t": 2, "d": [933], "a": 1 },
 						{ "px": [864,176], "src": [0,16], "f": 0, "t": 2, "d": [934], "a": 1 },
 						{ "px": [1088,176], "src": [0,16], "f": 0, "t": 2, "d": [948], "a": 1 },
 						{ "px": [1104,176], "src": [0,16], "f": 0, "t": 2, "d": [949], "a": 1 },
+						{ "px": [144,192], "src": [16,16], "f": 0, "t": 3, "d": [969], "a": 1 },
 						{ "px": [400,192], "src": [0,16], "f": 0, "t": 2, "d": [985], "a": 1 },
 						{ "px": [416,192], "src": [0,16], "f": 0, "t": 2, "d": [986], "a": 1 },
 						{ "px": [720,192], "src": [0,16], "f": 0, "t": 2, "d": [1005], "a": 1 },
@@ -557,6 +609,7 @@
 						{ "px": [816,192], "src": [0,16], "f": 0, "t": 2, "d": [1011], "a": 1 },
 						{ "px": [832,192], "src": [0,16], "f": 0, "t": 2, "d": [1012], "a": 1 },
 						{ "px": [1104,192], "src": [0,16], "f": 0, "t": 2, "d": [1029], "a": 1 },
+						{ "px": [144,208], "src": [16,16], "f": 0, "t": 3, "d": [1049], "a": 1 },
 						{ "px": [384,208], "src": [0,16], "f": 0, "t": 2, "d": [1064], "a": 1 },
 						{ "px": [400,208], "src": [0,16], "f": 0, "t": 2, "d": [1065], "a": 1 },
 						{ "px": [512,208], "src": [0,16], "f": 0, "t": 2, "d": [1072], "a": 1 },
@@ -564,6 +617,8 @@
 						{ "px": [544,208], "src": [0,16], "f": 0, "t": 2, "d": [1074], "a": 1 },
 						{ "px": [608,208], "src": [0,16], "f": 0, "t": 2, "d": [1078], "a": 1 },
 						{ "px": [704,208], "src": [0,16], "f": 0, "t": 2, "d": [1084], "a": 1 },
+						{ "px": [144,224], "src": [16,16], "f": 0, "t": 3, "d": [1129], "a": 1 },
+						{ "px": [144,240], "src": [16,16], "f": 0, "t": 3, "d": [1209], "a": 1 },
 						{ "px": [992,256], "src": [0,16], "f": 0, "t": 2, "d": [1342], "a": 1 },
 						{ "px": [1008,256], "src": [0,16], "f": 0, "t": 2, "d": [1343], "a": 1 },
 						{ "px": [1024,256], "src": [0,16], "f": 0, "t": 2, "d": [1344], "a": 1 },

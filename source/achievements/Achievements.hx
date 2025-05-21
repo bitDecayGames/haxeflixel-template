@@ -19,11 +19,14 @@ class Achievements {
 
 	public static function initAchievements() {
 		// @formatter:off
-		add(new AchievementDef(1, "quick_clicker", "Quick Clicker", "Click twice in less than .2 seconds", 0, null).withEventCondition(SpeedClickMin, (e) -> {
+		add(new AchievementDef(1, "quick_clicker", "Quick Clicker", "Click twice in less than .2 seconds", 0).withEventCondition(SpeedClickMin, (e) -> {
 			return e.min < 200;
 		}));
-		add(new AchievementDef(2, "mad_clicker", "Mad Clicker", "Click a total of 10 times", 0, null).withEventCondition(ClickCount, (e) -> {
+		add(new AchievementDef(2, "mad_clicker", "Mad Clicker", "Click a total of 10 times", 0).withEventCondition(ClickCount, (e) -> {
 			return e.count >= 10;
+		}));
+		add(new AchievementDef(3, "ultra_clicker", "Ultra Clicker", "Click a total of 100 times", 0).withEventCondition(ClickCount, (e) -> {
+			return e.count >= 100;
 		}));
 		// @formatter:on
 	}
@@ -44,8 +47,8 @@ class Achievements {
 }
 
 class AchievementDef {
-	public var ID:Int; // mostly used to tie achievements to NG Medals
-	public var key:String;
+	public var ID:Int; // mostly used to tie achievements to NG Medals, will be provided by NG
+	public var key:String; // mostly used for analytics readability, should be unique
 	public var title:String;
 	public var description:String;
 	public var iconIndex:Int;
@@ -68,7 +71,7 @@ class AchievementDef {
 	public function toToast(show:Bool, force:Bool = false):AchievementToast {
 		var a = new AchievementToast(this);
 		if (show) {
-			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
+			FmodManager.PlaySoundOneShot(Fmod.sfx(MenuSelect));
 			Achievements.ACHIEVEMENTS_DISPLAYED++;
 			a.show(Achievements.ACHIEVEMENTS_DISPLAYED);
 		} else {

@@ -2,8 +2,7 @@
 // This is a special file that causes all files in this project to implicitly import
 // these imports
 import haxefmod.FmodManager;
-import FmodConstants.FmodSFX;
-import FmodConstants.FmodSongs;
+import FmodConstants.Fmod;
 // Give easy access to logging and debug
 import bitdecay.flixel.system.QuickLog as QLog;
 import bitdecay.flixel.debug.DebugSuite as DS;

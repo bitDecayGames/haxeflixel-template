@@ -1,6 +1,9 @@
 package levels.ldtk;
 
-// Uncomment and point this at your project file for the macro magic to do its thing
+/**
+ * Uses the macro magic to load our world.ldtk into compile-time data we can use
+ * and get auto-complete on
+**/
 private typedef _Tmp = haxe.macro.MacroType<[ldtk.Project.build("assets/world.ldtk")]>;
 
 @:forward

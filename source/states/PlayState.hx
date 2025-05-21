@@ -1,5 +1,6 @@
 package states;
 
+import todo.TODO;
 import flixel.group.FlxGroup;
 import flixel.math.FlxRect;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -48,6 +49,7 @@ class PlayState extends FlxTransitionableState {
 		unload();
 
 		var level = new Level(level);
+		FmodManager.PlaySong(Fmod.music(level.raw.f_Music));
 		midGroundGroup.add(level.terrainLayer);
 		FlxG.worldBounds.copyFrom(level.terrainLayer.getBounds());
 
@@ -61,7 +63,7 @@ class PlayState extends FlxTransitionableState {
 
 		for (_ => zone in level.camZones) {
 			if (zone.containsPoint(level.spawnPoint)) {
-				camera.setScrollBoundsRect(zone.x, zone.y, zone.width, zone.height);
+				setCameraBounds(zone);
 			}
 		}
 
@@ -93,6 +95,8 @@ class PlayState extends FlxTransitionableState {
 
 		FlxG.collide(midGroundGroup, player);
 		handleCameraBounds();
+
+		TODO.music('scarySong');
 	}
 
 	function handleCameraBounds() {

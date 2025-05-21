@@ -31,6 +31,10 @@ class LdtkTile<Tag:EnumValue> extends FlxTile {
 
 typedef LdtkTilemap<Tag:EnumValue> = LdtkTypedTilemap<Tag, LdtkTile<Tag>>;
 
+/**
+ * A FlxTilemap for Ldtk data. Works in a more Flixel style way than the FlxSpriteGroup 
+ * way that deepnight provides out-of-the-box
+**/
 class LdtkTypedTilemap<Tag:EnumValue, Tile:LdtkTile<Tag>> extends FlxTypedTilemap<Tile> {
 	var ldtkData:Layer_Tiles;
 

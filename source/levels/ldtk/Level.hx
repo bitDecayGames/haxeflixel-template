@@ -8,6 +8,9 @@ import levels.ldtk.Ldtk.LdtkProject;
 using levels.ldtk.LdtkUtils;
 
 class Level {
+	public static var project = new LdtkProject();
+
+	public var raw:Ldtk.Ldtk_Level;
 	public var terrainLayer:BDTilemap;
 	public var spawnPoint:FlxPoint = FlxPoint.get();
 
@@ -15,22 +18,21 @@ class Level {
 	public var camTransitions:Array<CameraTransition>;
 
 	public function new(nameOrIID:String) {
-		var project = new LdtkProject();
-		var level = project.getLevel(nameOrIID);
+		raw = project.getLevel(nameOrIID);
 		terrainLayer = new BDTilemap();
-		terrainLayer.loadLdtk(level.l_Terrain);
+		terrainLayer.loadLdtk(raw.l_Terrain);
 
-		if (level.l_Objects.all_Spawn.length == 0) {
-			throw('no spawn found in level ${level}');
+		if (raw.l_Objects.all_Spawn.length == 0) {
+			throw('no spawn found in level ${nameOrIID}');
 		}
 
-		var sp = level.l_Objects.all_Spawn[0];
+		var sp = raw.l_Objects.all_Spawn[0];
 		spawnPoint.set(sp.pixelX, sp.pixelY);
 
 		var test:Ldtk.Entity_Spawn = null;
 
-		parseCameraZones(level.l_Objects.all_CameraZone);
-		parseCameraTransitions(level.l_Objects.all_CameraTransition);
+		parseCameraZones(raw.l_Objects.all_CameraZone);
+		parseCameraTransitions(raw.l_Objects.all_CameraTransition);
 	}
 
 	function parseCameraZones(zoneDefs:Array<Ldtk.Entity_CameraZone>) {

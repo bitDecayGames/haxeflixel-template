@@ -3,6 +3,10 @@ package levels.ldtk;
 import levels.ldtk.Ldtk.Enum_TileTags;
 import levels.ldtk.LdtkTilemap.LdtkTile;
 
+/**
+ * Bit Decay extension of LdtkTile that knows what to do with the tags and
+ * metadata on each tile
+**/
 class BDTile extends LdtkTile<Enum_TileTags> {
 	// var hit:FlxRect;
 	public function new(tilemap:BDTilemap, index, width, height) {
@@ -53,6 +57,10 @@ class BDTile extends LdtkTile<Enum_TileTags> {
 	}
 }
 
+/**
+ * Bit Decay extension of LdtkTilemap that is comprised of BDTiles to handle
+ * game specific parsing of tile tags and metadata
+**/
 class BDTilemap extends LdtkTilemap<Enum_TileTags> {
 	override function createTile(index:Int, width:Float, height:Float):BDTile {
 		return new BDTile(this, index, width, height);
