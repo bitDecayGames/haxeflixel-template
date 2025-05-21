@@ -6,7 +6,7 @@ import levels.ldtk.LdtkTilemap.LdtkTile;
 class BDTile extends LdtkTile<Enum_TileTags> {
 	// var hit:FlxRect;
 	public function new(tilemap:BDTilemap, index, width, height) {
-		super(cast tilemap, index, width, height, true, NONE);
+		super(cast tilemap, index, width, height, true);
 
 		#if debug
 		ignoreDrawDebug = true;

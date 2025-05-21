@@ -1,10 +1,12 @@
 package states;
 
+import flixel.group.FlxGroup;
+import flixel.math.FlxRect;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import entities.CameraTransition;
+import levels.ldtk.Level;
 import levels.ldtk.Ldtk.LdtkProject;
-import levels.ldtk.LdtkTilemap;
-import levels.ldtk.BDTilemap;
 import achievements.Achievements;
-import entities.Item;
 import entities.Player;
 import events.gen.Event;
 import events.EventBus;
@@ -16,9 +18,12 @@ using states.FlxStateExt;
 
 class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
+	var midGroundGroup = new FlxGroup();
+	var activeCameraTransition:CameraTransition = null;
+
+	var transitions = new FlxTypedGroup<CameraTransition>();
 
 	var ldtk = new LdtkProject();
-	var terrainLayer:BDTilemap;
 
 	override public function create() {
 		super.create();
@@ -30,27 +35,49 @@ class PlayState extends FlxTransitionableState {
 			QLog.notice('I got me an event about ${c.count} clicks having happened.');
 		});
 
-		QLog.error('Example error');
+		// QLog.error('Example error');
+
+		// Build out our render order
+		add(midGroundGroup);
+		add(transitions);
 
 		loadLevel("Level_0");
 	}
 
 	function loadLevel(level:String) {
-		var level = ldtk.getLevel(null, level);
-		terrainLayer = new BDTilemap();
-		terrainLayer.loadLdtk(level.l_Terrain);
-		add(terrainLayer);
+		unload();
 
-		if (level.l_Objects.all_Spawn.length == 0) {
-			throw('no spawn found in level ${level}');
+		var level = new Level(level);
+		midGroundGroup.add(level.terrainLayer);
+		FlxG.worldBounds.copyFrom(level.terrainLayer.getBounds());
+
+		player = new Player(level.spawnPoint.x, level.spawnPoint.y);
+		camera.follow(player);
+		add(player);
+
+		for (t in level.camTransitions) {
+			transitions.add(t);
 		}
 
-		var spawnPoint = level.l_Objects.all_Spawn[0];
+		for (_ => zone in level.camZones) {
+			if (zone.containsPoint(level.spawnPoint)) {
+				camera.setScrollBoundsRect(zone.x, zone.y, zone.width, zone.height);
+			}
+		}
 
-		player = new Player();
-		player.setPosition(spawnPoint.pixelX, spawnPoint.pixelY);
-		add(player);
 		EventBus.fire(new PlayerSpawn(player.x, player.y));
+	}
+
+	function unload() {
+		for (t in transitions) {
+			t.destroy();
+		}
+		transitions.clear();
+
+		for (o in midGroundGroup) {
+			o.destroy();
+		}
+		midGroundGroup.clear();
 	}
 
 	function handleAchieve(def:AchievementDef) {
@@ -63,6 +90,45 @@ class PlayState extends FlxTransitionableState {
 		if (FlxG.mouse.justPressed) {
 			EventBus.fire(new Click(FlxG.mouse.x, FlxG.mouse.y));
 		}
+
+		FlxG.collide(midGroundGroup, player);
+		handleCameraBounds();
+	}
+
+	function handleCameraBounds() {
+		if (activeCameraTransition == null) {
+			FlxG.overlap(player, transitions, (p, t) -> {
+				activeCameraTransition = cast t;
+			});
+		} else if (!FlxG.overlap(player, activeCameraTransition)) {
+			var bounds = activeCameraTransition.getRotatedBounds();
+			for (dir => camZone in activeCameraTransition.camGuides) {
+				switch (dir) {
+					case N:
+						if (player.y < bounds.top) {
+							setCameraBounds(camZone);
+						}
+					case S:
+						if (player.y > bounds.bottom) {
+							setCameraBounds(camZone);
+						}
+					case E:
+						if (player.x > bounds.right) {
+							setCameraBounds(camZone);
+						}
+					case W:
+						if (player.x < bounds.left) {
+							setCameraBounds(camZone);
+						}
+					default:
+						QLog.error('camera transition area has unsupported cardinal direction ${dir}');
+				}
+			}
+		}
+	}
+
+	public function setCameraBounds(bounds:FlxRect) {
+		camera.setScrollBoundsRect(bounds.x, bounds.y, bounds.width, bounds.height);
 	}
 
 	override public function onFocusLost() {

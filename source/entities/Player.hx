@@ -11,11 +11,11 @@ class Player extends FlxSprite {
 	public static var layers = AsepriteMacros.layerNames("assets/aseprite/characters/player.json");
 	public static var eventData = AsepriteMacros.frameUserData("assets/aseprite/characters/player.json", "Layer 1");
 
-	var speed:Float = 30;
+	var speed:Float = 150;
 	var playerNum = 0;
 
-	public function new() {
-		super();
+	public function new(X:Float, Y:Float) {
+		super(X, Y);
 		// This call can be used once https://github.com/HaxeFlixel/flixel/pull/2860 is merged
 		// FlxAsepriteUtil.loadAseAtlasAndTags(this, AssetPaths.player__png, AssetPaths.player__json);
 		Aseprite.loadAllAnimations(this, AssetPaths.player__json);
