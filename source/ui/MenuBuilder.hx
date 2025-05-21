@@ -1,6 +1,5 @@
 package ui;
 
-import FmodConstants.FmodSFX;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
@@ -16,14 +15,14 @@ class MenuBuilder {
 		var button = new FlxButton(0, 0, Text);
 		button.allowSwiping = false;
 		button.onOver.callback = function() {
-			FmodManager.PlaySoundOneShot(Fmod.sfx(MenuHover));
+			FmodPlugin.playSFX(FmodSFX.MenuHover);
 			button.color = FlxColor.GRAY;
 		};
 		button.onOut.callback = function() {
 			button.color = FlxColor.WHITE;
 		};
 		button.onUp.callback = function() {
-			FmodManager.PlaySoundOneShot(Fmod.sfx(ClickSoundPath));
+			FmodPlugin.playSFX(FmodSFX.MenuSelect);
 			Callback();
 		};
 

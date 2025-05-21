@@ -18,6 +18,7 @@ fmod/CachedHaxeConstantsOutputLocation
 
 # FMOD
 fmod/.cache/
+fmod/.unsaved/
 
 # error files
 dump/

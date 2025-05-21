@@ -49,7 +49,7 @@ class PlayState extends FlxTransitionableState {
 		unload();
 
 		var level = new Level(level);
-		FmodManager.PlaySong(Fmod.music(level.raw.f_Music));
+		FmodPlugin.playSong(level.raw.f_Music);
 		midGroundGroup.add(level.terrainLayer);
 		FlxG.worldBounds.copyFrom(level.terrainLayer.getBounds());
 
@@ -96,7 +96,7 @@ class PlayState extends FlxTransitionableState {
 		FlxG.collide(midGroundGroup, player);
 		handleCameraBounds();
 
-		TODO.music('scarySong');
+		TODO.sfx('scarySound');
 	}
 
 	function handleCameraBounds() {
