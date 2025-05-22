@@ -1,0 +1,31 @@
+{ "frames": [
+   {
+    "filename": "achievements.ase",
+    "frame": { "x": 0, "y": 0, "w": 770, "h": 140 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 770, "h": 140 },
+    "sourceSize": { "w": 770, "h": 140 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-rc4-x64",
+  "image": "achievements.png",
+  "format": "RGBA8888",
+  "size": { "w": 770, "h": 140 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+   { "name": "click10", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 32, "h": 32 } }] },
+   { "name": "click100", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 0, "w": 32, "h": 32 } }] },
+   { "name": "speedClick", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 0, "w": 32, "h": 32 } }] },
+   { "name": "background", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 96, "w": 288, "h": 44 } }] }
+  ]
+ }
+}

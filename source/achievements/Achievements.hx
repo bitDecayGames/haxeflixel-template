@@ -18,16 +18,20 @@ class Achievements {
 	public static var onAchieve = new FlxTypedSignal<(AchievementDef) -> Void>();
 
 	public static function initAchievements() {
+		var icons = AchievementToast.icons;
 		// @formatter:off
-		add(new AchievementDef(1, "quick_clicker", "Quick Clicker", "Click twice in less than .2 seconds", 0).withEventCondition(SpeedClickMin, (e) -> {
-			return e.min < 200;
-		}));
-		add(new AchievementDef(2, "mad_clicker", "Mad Clicker", "Click a total of 10 times", 0).withEventCondition(ClickCount, (e) -> {
-			return e.count >= 10;
-		}));
-		add(new AchievementDef(3, "ultra_clicker", "Ultra Clicker", "Click a total of 100 times", 0).withEventCondition(ClickCount, (e) -> {
-			return e.count >= 100;
-		}));
+		add(new AchievementDef(1, "quick_clicker", "Quick Clicker", "Click twice in less than .2 seconds", icons.speedClick_0)
+			.withEventCondition(SpeedClickMin, (e) -> {
+				return e.min < 200;
+			}));
+		add(new AchievementDef(2, "mad_clicker", "Mad Clicker", "Click a total of 10 times", icons.click10_0)
+			.withEventCondition(ClickCount, (e) -> {
+				return e.count >= 10;
+			}));
+		add(new AchievementDef(3, "ultra_clicker", "Ultra Clicker", "Click a total of 100 times", icons.click100_0)
+			.withEventCondition(ClickCount, (e) -> {
+				return e.count >= 100;
+			}));
 		// @formatter:on
 	}
 
@@ -51,16 +55,16 @@ class AchievementDef {
 	public var key:String; // mostly used for analytics readability, should be unique
 	public var title:String;
 	public var description:String;
-	public var iconIndex:Int;
+	public var iconName:String;
 	public var achieved:Bool = false;
 	public var secret:Bool;
 
-	public function new(id:Int, key:String, title:String, description:String, iconIndex:Int, ?secret:Bool = false) {
+	public function new(id:Int, key:String, title:String, description:String, iconName:String, ?secret:Bool = false) {
 		this.ID = id;
 		this.key = key;
 		this.title = title;
 		this.description = description;
-		this.iconIndex = iconIndex;
+		this.iconName = iconName;
 		this.secret = secret;
 
 		achieved = Storage.hasAchievement(key);

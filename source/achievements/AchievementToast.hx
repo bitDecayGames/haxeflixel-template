@@ -1,5 +1,7 @@
 package achievements;
 
+import bitdecay.flixel.graphics.AsepriteMacros;
+import bitdecay.flixel.graphics.Aseprite;
 import flixel.tweens.FlxTween;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -10,12 +12,14 @@ import achievements.Achievements;
 import achievements.Achievements.AchievementDef;
 
 class AchievementToast extends FlxTypedSpriteGroup<FlxSprite> {
+	public static var icons = AsepriteMacros.sliceNames("assets/aseprite/ui/achievements.json");
+
 	private static var TIME_TO_TRANSITION:Float = .25;
 	private static var TIME_TO_VIEW:Float = 7;
 
-	private static var TITLE_TEXT_SIZE:Int = 18;
-	private static var DESCRIPTION_TEXT_SIZE:Int = 15;
-	private static var PADDING:Float = 10;
+	private static var TITLE_TEXT_SIZE:Int = 12;
+	private static var DESCRIPTION_TEXT_SIZE:Int = 8;
+	private static var PADDING:Float = 3;
 	private static var TEXT_COLOR:FlxColor = 0x5b4f37;
 	private static var ICON_SIZE:Int = 70;
 	private static var DIM_COLOR:FlxColor = 0x99aeaeae;
@@ -33,7 +37,8 @@ class AchievementToast extends FlxTypedSpriteGroup<FlxSprite> {
 		super();
 		this.def = def;
 
-		background = new FlxSprite(0, 0, AssetPaths.achievement_background__png);
+		background = new FlxSprite(0, 0);
+		Aseprite.loadSlice(background, AssetPaths.achievements__json, icons.background_0);
 		add(background);
 		background.setPosition(0, 0);
 
@@ -41,9 +46,7 @@ class AchievementToast extends FlxTypedSpriteGroup<FlxSprite> {
 		TOAST_Y = FlxG.height + background.height;
 
 		icon = new FlxSprite(0, 0);
-		icon.loadGraphic(AssetPaths.achievement_icons__png, true, ICON_SIZE, ICON_SIZE);
-		icon.animation.add("default", [def.iconIndex]);
-		icon.animation.play("default");
+		Aseprite.loadSlice(icon, AssetPaths.achievements__json, def.iconName);
 		add(icon);
 		icon.setPosition(PADDING, PADDING);
 

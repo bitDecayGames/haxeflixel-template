@@ -7,10 +7,20 @@ import levels.ldtk.Ldtk.LdtkProject;
 
 using levels.ldtk.LdtkUtils;
 
+/**
+ * The middle layer between LDTK project and game code. This class
+ * should do all of the major parsing of project data into flixel
+ * types and basic game objects.
+**/
 class Level {
 	public static var project = new LdtkProject();
 
+	/**
+	 * The raw level from the project. Available to get any needed
+	 * one-off values out of the level for special use-cases
+	**/
 	public var raw:Ldtk.Ldtk_Level;
+
 	public var terrainLayer:BDTilemap;
 	public var spawnPoint:FlxPoint = FlxPoint.get();
 
