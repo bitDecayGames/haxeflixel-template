@@ -3,6 +3,9 @@ package helpers;
 import flixel.util.FlxSave;
 import achievements.Achievements;
 
+/**
+ * Responsible for basic storage of game data.
+**/
 class Storage {
 	private static var saveName:String = "SAVE";
 

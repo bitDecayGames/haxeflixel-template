@@ -7,12 +7,14 @@ import events.gen.Event.MetaRegistry;
 
 /**
  * Listens for all events and automatically applies a reduction
- * to the event types. This fires a new event based on the reduction
+ * to the event types. This fires a new event for each reduction
+ * that produces a new value (ex: a new "min" value is found)
  *
  * Supports:
  * - `*_count` - firing an event with a total of the event occurrences
- * - `*_max`   - firing an event if a new maximum value occurs
+ * - `*_sum`   - firing an event with the sum of event values
  * - `*_min`   - firing an event if a new minimum value occurs
+ * - `*_max`   - firing an event if a new maximum value occurs
 **/
 class MetricReducer {
 	private static inline var STORAGE_KEY = 'metrics';
