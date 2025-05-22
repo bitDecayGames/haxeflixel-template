@@ -1,5 +1,8 @@
 package states;
 
+import flixel.util.FlxColor;
+import flixel.math.FlxPoint;
+import ui.BaseHeaderWindow;
 import todo.TODO;
 import flixel.group.FlxGroup;
 import flixel.math.FlxRect;
@@ -43,6 +46,13 @@ class PlayState extends FlxTransitionableState {
 		add(transitions);
 
 		loadLevel("Level_0");
+
+		var testWindow = new BaseHeaderWindow("Testing", 50, 50, 100, 100, BaseHeaderWindow.styles.basic_0, BaseHeaderWindow.styles.rabbitBG_0);
+		testWindow.header.bg.setScrollSpeed(FlxPoint.weak(-5, 0), 50);
+		testWindow.header.bg.color = FlxColor.GRAY.getDarkened(.7);
+		testWindow.content.bg.setScrollSpeed(FlxPoint.weak(5, 0), 50);
+		testWindow.content.bg.color = FlxColor.GRAY.getDarkened(.7);
+		add(testWindow);
 	}
 
 	function loadLevel(level:String) {

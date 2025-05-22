@@ -26,6 +26,8 @@ class MainMenuState extends FlxTransitionableState {
 		FlxG.camera.pixelPerfectRender = true;
 
 		var bgImage = new FlxSprite(AssetPaths.title__png);
+		bgImage.scale.set(camera.width / bgImage.width, camera.height / bgImage.height);
+		bgImage.screenCenter();
 		add(bgImage);
 
 		// This can be swapped out for an image instead

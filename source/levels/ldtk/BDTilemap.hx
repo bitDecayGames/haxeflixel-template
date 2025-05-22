@@ -1,5 +1,6 @@
 package levels.ldtk;
 
+import flixel.util.FlxColor;
 import levels.ldtk.Ldtk.Enum_TileTags;
 import levels.ldtk.LdtkTilemap.LdtkTile;
 
@@ -44,7 +45,11 @@ class BDTile extends LdtkTile<Enum_TileTags> {
 		#end
 
 		if (tags.contains(INVISIBLE)) {
+			#if debug
+			debugBoundingBoxColor = FlxColor.CYAN;
+			#else
 			visible = false;
+			#end
 		}
 
 		if (tags.contains(SOLID)) {
