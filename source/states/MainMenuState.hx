@@ -1,5 +1,6 @@
 package states;
 
+import ui.MenuBuilder;
 import com.bitdecay.analytics.Bitlytics;
 import bitdecay.flixel.transitions.SwirlTransition;
 import bitdecay.flixel.transitions.TransitionDirection;
@@ -31,7 +32,7 @@ class MainMenuState extends FlxTransitionableState {
 		add(bgImage);
 
 		// This can be swapped out for an image instead
-		startButton = new FlxButton("Play", clickPlay);
+		startButton = MenuBuilder.createTextButton("Play", clickPlay, MenuSelect, MenuHover);
 		startButton.screenCenter(X);
 		startButton.y = FlxG.height * .6;
 		add(startButton);

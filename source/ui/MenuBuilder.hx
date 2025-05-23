@@ -8,22 +8,27 @@ class MenuBuilder {
 	 * Creates a simple button with a label, a callback, and a SFX on click
 	 *
 	 * @param   Text           The text to display on the button
-	 * @param   Callback       Function to be called when the button is clicked
-	 * @param   ClickSoundPath Optional custom SFX to play when the button is clicked
+	 * @param   cb             Function to be called when the button is clicked
+	 * @param   clickSFX Optional SFX to play when the button is clicked
+	 * @param   hoverSFX Optional SFX to play when the button is hovered
 	 */
-	public static function createTextButton(Text:String, Callback:Void->Void, ?ClickSoundPath:FmodSFX = MenuSelect):FlxButton {
+	public static function createTextButton(Text:String, cb:Void->Void, ?clickSFX:FmodSFX = MenuSelect, ?hoverSFX:FmodSFX = MenuHover):FlxButton {
 		var button = new FlxButton(0, 0, Text);
 		button.allowSwiping = false;
 		button.onOver.callback = function() {
-			FmodPlugin.playSFX(FmodSFX.MenuHover);
+			if (hoverSFX != null) {
+				FmodPlugin.playSFX(hoverSFX);
+			}
 			button.color = FlxColor.GRAY;
 		};
 		button.onOut.callback = function() {
 			button.color = FlxColor.WHITE;
 		};
 		button.onUp.callback = function() {
-			FmodPlugin.playSFX(FmodSFX.MenuSelect);
-			Callback();
+			if (clickSFX != null) {
+				FmodPlugin.playSFX(clickSFX);
+			}
+			cb();
 		};
 
 		return button;
