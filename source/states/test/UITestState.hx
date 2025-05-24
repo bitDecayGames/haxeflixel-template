@@ -1,5 +1,7 @@
 package states.test;
 
+import flixel.tweens.FlxTween;
+import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.FlxState;
 import ui.Styles;
 import flixel.tweens.FlxEase;
@@ -22,11 +24,22 @@ class UITestState extends FlxState {
 	override public function create() {
 		super.create();
 
+		createVerticalWindow();
+		createGridWindow();
+		createPlainWindow();
+	}
+
+	function createVerticalWindow() {
 		testWindow = new ItemScrollWindow(50, 50, 100, 100, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
-		// testWindow.bg.setScrollSpeed(FlxPoint.weak(-5, 0), 50);
-		// testWindow.bg.color = FlxColor.GRAY.getDarkened(.7);
+
+		function tweenFunction(s:FlxSprite, v:Float) {
+			s.color = FlxColor.fromHSB(v, 1, .3);
+		}
+		FlxTween.num(0, 360, 3, {
+			type: FlxTweenType.LOOPING,
+		}, tweenFunction.bind(testWindow.bg));
+
 		testWindow.bg.setScrollSpeed(FlxPoint.weak(5, 0), 50);
-		testWindow.bg.color = FlxColor.GRAY.getDarkened(.7);
 		testWindow.withLayout(Vertical(10));
 		testWindow.padding = 5;
 		testWindow.style.ease = FlxEase.bounceOut;
@@ -37,8 +50,11 @@ class UITestState extends FlxState {
 			spr.makeGraphic(FlxG.random.int(10, 20), FlxG.random.int(10, 20));
 			testWindow.addItem(spr);
 		}
+	}
 
-		testGridWindow = new BaseHeaderWindow("Test Grid", 200, 50, 100, 100, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
+	function createGridWindow() {
+		var gridWindow = new ItemScrollWindow(200, 50, 100, 100, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
+		testGridWindow = new BaseHeaderWindow(200, 50, "Test Grid", gridWindow, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
 		testGridWindow.header.bg.setScrollSpeed(FlxPoint.weak(-5, 0), 50);
 		testGridWindow.header.bg.color = FlxColor.GRAY.getDarkened(.7);
 		testGridWindow.content.bg.setScrollSpeed(FlxPoint.weak(5, 0), 50);
@@ -66,11 +82,23 @@ class UITestState extends FlxState {
 		spr = new FlxSprite(0, 0);
 		spr.makeGraphic(FlxG.random.int(10, 20), FlxG.random.int(10, 20));
 		testGridWindow.content.addItem(spr, {col: 2, row: 2});
+	}
 
-		testNoLayoutWindow = new BaseHeaderWindow("Test None", 150, 100, 100, 100, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
+	function createPlainWindow() {
+		var plainWindow = new ItemScrollWindow(150, 100, 100, 100, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
+		testNoLayoutWindow = new BaseHeaderWindow(100, 100, "No Layout", plainWindow, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
+		testNoLayoutWindow.headerText.borderStyle = FlxTextBorderStyle.OUTLINE;
 		add(testNoLayoutWindow);
 
-		spr = new FlxSprite(0, 0);
+		var spr = new FlxSprite(0, 0);
+		spr.makeGraphic(FlxG.random.int(10, 20), FlxG.random.int(10, 20));
+		testNoLayoutWindow.content.addItem(spr);
+
+		spr = new FlxSprite(5, 15);
+		spr.makeGraphic(FlxG.random.int(10, 20), FlxG.random.int(10, 20));
+		testNoLayoutWindow.content.addItem(spr);
+
+		spr = new FlxSprite(35, 25);
 		spr.makeGraphic(FlxG.random.int(10, 20), FlxG.random.int(10, 20));
 		testNoLayoutWindow.content.addItem(spr);
 	}
@@ -85,8 +113,20 @@ class UITestState extends FlxState {
 
 		if (FlxG.keys.pressed.U) {
 			testWindow.scrollUp();
+			cast(testNoLayoutWindow.content, ItemScrollWindow).scrollUp();
+			cast(testGridWindow.content, ItemScrollWindow).scrollUp();
 		} else if (FlxG.keys.pressed.J) {
 			testWindow.scrollDown();
+			cast(testNoLayoutWindow.content, ItemScrollWindow).scrollDown();
+			cast(testGridWindow.content, ItemScrollWindow).scrollDown();
+		} else if (FlxG.keys.pressed.H) {
+			testWindow.scrollLeft();
+			cast(testNoLayoutWindow.content, ItemScrollWindow).scrollLeft();
+			cast(testGridWindow.content, ItemScrollWindow).scrollLeft();
+		} else if (FlxG.keys.pressed.K) {
+			testWindow.scrollRight();
+			cast(testNoLayoutWindow.content, ItemScrollWindow).scrollRight();
+			cast(testGridWindow.content, ItemScrollWindow).scrollRight();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.util.FlxSort;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import bitdecay.flixel.graphics.Aseprite;
@@ -22,10 +23,14 @@ class ItemScrollWindow extends Window {
 		};
 	}
 
-	var index:Int = 0;
-	var scrolling = false;
-
 	public var style:ScrollStyle;
+	public var tolerance = 5;
+
+	var rowIndex:Int = 0;
+	var colIndex:Int = 0;
+	var rowCoords:Array<Float> = [];
+	var colCoords:Array<Float> = [];
+	var scrolling = false;
 
 	public function new(X:Float, Y:Float, width:Int, contentHeight:Int, borderStyle:String, bgStyle:String) {
 		var borderFrame = Aseprite.getSliceFrame(AssetPaths.windows__json, borderStyle);
@@ -36,36 +41,109 @@ class ItemScrollWindow extends Window {
 		style = getDefaultStyle();
 	}
 
+	override function applyLayout() {
+		super.applyLayout();
+
+		var inCols:Array<Float> = [];
+		var inRows:Array<Float> = [];
+		for (gc in gridCells) {
+			inCols.push(gc.obj.x);
+			inRows.push(gc.obj.y);
+		}
+
+		inCols.sort((a, b) -> {
+			FlxSort.byValues(FlxSort.ASCENDING, a, b);
+		});
+		inRows.sort((a, b) -> {
+			FlxSort.byValues(FlxSort.ASCENDING, a, b);
+		});
+
+		colCoords = [];
+		rowCoords = [];
+
+		var last:Float = Math.NEGATIVE_INFINITY;
+		for (c in inCols) {
+			if (c - last < tolerance) {
+				continue;
+			}
+			colCoords.push(c);
+			last = c;
+		}
+
+		last = Math.NEGATIVE_INFINITY;
+		for (r in inRows) {
+			if (r - last < tolerance) {
+				continue;
+			}
+			rowCoords.push(r);
+			last = r;
+		}
+	}
+
 	public function scrollUp(numItems:Int = 1) {
-		scroll(index - numItems);
+		scrollVertical(rowIndex - numItems);
 	}
 
 	public function scrollDown(numItems:Int = 1) {
-		scroll(index + numItems);
+		scrollVertical(rowIndex + numItems);
 	}
 
-	function scroll(toIndex:Int) {
-		toIndex = boundIndex(toIndex);
-		if (scrolling || toIndex == index) {
+	public function scrollLeft(numItems:Int = 1) {
+		scrollHorizontal(colIndex - numItems);
+	}
+
+	public function scrollRight(numItems:Int = 1) {
+		scrollHorizontal(colIndex + numItems);
+	}
+
+	function scrollVertical(toIndex:Int) {
+		toIndex = boundIndex(toIndex, rowCoords);
+		if (scrolling || toIndex == rowIndex) {
 			return;
 		}
 
-		var scroll = (bg.y + padding) - gridCells[toIndex].obj.y;
+		var scroll = rowCoords[rowIndex] - rowCoords[toIndex];
 
-		if (scroll != 0) {
-			scrolling = true;
-			FlxTween.linearMotion(objects, objects.x, objects.y, objects.x, objects.y + scroll, style.duration, true, {
-				ease: style.ease,
-				onComplete: (t) -> {
-					index = toIndex;
-					scrolling = false;
-				}
-			});
+		if (scroll == 0) {
+			rowIndex = toIndex;
+			return;
 		}
+
+		scrolling = true;
+		FlxTween.linearMotion(objects, objects.x, objects.y, objects.x, objects.y + scroll, style.duration, true, {
+			ease: style.ease,
+			onComplete: (t) -> {
+				rowIndex = toIndex;
+				scrolling = false;
+			}
+		});
 	}
 
-	function boundIndex(inVal:Int):Int {
-		return inVal < 0 ? 0 : inVal >= objects.length ? objects.length - 1 : inVal;
+	function scrollHorizontal(toIndex:Int) {
+		toIndex = boundIndex(toIndex, colCoords);
+		if (scrolling || toIndex == colIndex) {
+			return;
+		}
+
+		var scroll = colCoords[colIndex] - colCoords[toIndex];
+
+		if (scroll == 0) {
+			colIndex = toIndex;
+			return;
+		}
+
+		scrolling = true;
+		FlxTween.linearMotion(objects, objects.x, objects.y, objects.x + scroll, objects.y, style.duration, true, {
+			ease: style.ease,
+			onComplete: (t) -> {
+				colIndex = toIndex;
+				scrolling = false;
+			}
+		});
+	}
+
+	function boundIndex(inVal:Int, arr:Array<Float>):Int {
+		return inVal < 0 ? 0 : inVal >= arr.length ? arr.length - 1 : inVal;
 	}
 
 	override function update(elapsed:Float) {
