@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.math.FlxPoint;
 import flixel.util.FlxSort;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -40,6 +41,10 @@ class ItemScrollWindow extends Window {
 	var rowCoords:Array<Float> = [];
 	var colCoords:Array<Float> = [];
 	var scrolling = false;
+
+	// we use this for our tweens so that the window can move while scroll tweens are
+	// occurring.
+	var scrollOffset = FlxPoint.get();
 
 	public function new(X:Float, Y:Float, width:Int, contentHeight:Int, borderStyle:String, bgStyle:String) {
 		var borderFrame = Aseprite.getSliceFrame(AssetPaths.windows__json, borderStyle);
@@ -119,7 +124,7 @@ class ItemScrollWindow extends Window {
 		}
 
 		scrolling = true;
-		FlxTween.linearMotion(objects, objects.x, objects.y, objects.x, objects.y + scroll, style.duration, true, {
+		FlxTween.tween(scrollOffset, {y: scrollOffset.y + scroll}, style.duration, {
 			ease: style.ease,
 			onComplete: (t) -> {
 				rowIndex = toIndex;
@@ -142,7 +147,7 @@ class ItemScrollWindow extends Window {
 		}
 
 		scrolling = true;
-		FlxTween.linearMotion(objects, objects.x, objects.y, objects.x + scroll, objects.y, style.duration, true, {
+		FlxTween.tween(scrollOffset, {x: scrollOffset.x + scroll}, style.duration, {
 			ease: style.ease,
 			onComplete: (t) -> {
 				colIndex = toIndex;
@@ -157,6 +162,7 @@ class ItemScrollWindow extends Window {
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
+		objects.setPosition(bg.x + scrollOffset.x, bg.y + scrollOffset.y);
 	}
 }
 
