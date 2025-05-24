@@ -1,4 +1,4 @@
-package states.test;
+package states.demo;
 
 import flixel.tweens.FlxTween;
 import flixel.text.FlxText.FlxTextBorderStyle;
@@ -14,7 +14,7 @@ import flixel.FlxSprite;
 
 using states.FlxStateExt;
 
-class UITestState extends FlxState {
+class UIDemoState extends FlxState {
 	// var testWindow:BaseHeaderWindow;
 	var testGridWindow:BaseHeaderWindow;
 	var testNoLayoutWindow:BaseHeaderWindow;

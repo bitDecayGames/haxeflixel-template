@@ -8,6 +8,13 @@
 			"preLaunchTask": "custom build and test",
 			"url": "http://localhost:3000",
 		},
+				{
+			"name": "Prepare + Launch",
+			"type": "chrome",
+			"request": "launch",
+			"preLaunchTask": "custom build and run",
+			"url": "http://localhost:3000",
+		},
 		{
 			"name": "Build + Debug",
 			"type": "lime",

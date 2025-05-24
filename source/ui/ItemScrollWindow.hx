@@ -9,6 +9,9 @@ import bitdecay.flixel.ui.Window;
 /**
  * A window that holds a set of scrollable objects. Handles scrolling between
  * them in a configurable style.
+ *
+ * If items in the window are moved, `applyLayout()` should be called to ensure
+ * scrolling coordinates are updated properly.
 **/
 class ItemScrollWindow extends Window {
 	public static var DEFAULT_STYLE:ScrollStyle = {
@@ -24,6 +27,12 @@ class ItemScrollWindow extends Window {
 	}
 
 	public var style:ScrollStyle;
+
+	/**
+	 * How far apart elements have to be for a new scroll coordinate to be
+	 * added to the window. If elements are closer together than this value
+	 * on an axis, they will not have a distinct scroll position on that axis
+	**/
 	public var tolerance = 5;
 
 	var rowIndex:Int = 0;

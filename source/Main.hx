@@ -36,7 +36,9 @@ import states.PlayState;
 #if credits
 import states.CreditsState;
 #end
-import states.test.UITestState;
+#if FLX_DEBUG
+import plugins.GlobalDebugPlugin;
+#end
 
 class Main extends Sprite {
 	public function new() {
@@ -49,8 +51,6 @@ class Main extends Sprite {
 		startingState = PlayState;
 		#elseif credits
 		startingState = CreditsState;
-		#elseif testUI
-		startingState = UITestState;
 		#else
 		if (Macros.isDefined("SKIP_SPLASH")) {
 			startingState = MainMenuState;
@@ -111,11 +111,17 @@ class Main extends Sprite {
 
 		// This lets the slash key auto-focus the input console in the debugger when pressed
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent) {
-			if (FlxG.debugger.visible && FlxG.game.debugger.console.visible && e.keyCode == Keyboard.SLASH) {
+			if (FlxG.debugger.visible && e.keyCode == Keyboard.SLASH) {
+				if (!FlxG.game.debugger.console.visible) {
+					FlxG.game.debugger.console.visible = true;
+				}
+
 				@:privateAccess
 				FlxG.stage.focus = FlxG.game.debugger.console.input;
 			}
 		});
+
+		FlxG.plugins.addPlugin(new GlobalDebugPlugin());
 		#end
 	}
 
