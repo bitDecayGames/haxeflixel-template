@@ -13,10 +13,14 @@ class TODO {
 
 	// Map of name -> list of timestamps
 	static var callTimes = new Map<String, Array<Int>>();
+	static var previouslyWarned = new Map<String, Bool>();
 	#end
 
 	public static inline function sfx(name:String) {
 		#if debug
+		if (previouslyWarned.exists(name)) {
+			return;
+		}
 		var now = FlxG.game.ticks;
 
 		if (!callTimes.exists(name)) {
@@ -31,6 +35,7 @@ class TODO {
 
 		if (times.length >= MAX_CALLS) {
 			QLog.warn('SFX "$name" called too often. Make sure this is not in a tight loop');
+			previouslyWarned.set(name, true);
 			return;
 		}
 
