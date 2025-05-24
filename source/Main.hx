@@ -36,6 +36,7 @@ import states.PlayState;
 #if credits
 import states.CreditsState;
 #end
+import states.test.UITestState;
 
 class Main extends Sprite {
 	public function new() {
@@ -48,6 +49,8 @@ class Main extends Sprite {
 		startingState = PlayState;
 		#elseif credits
 		startingState = CreditsState;
+		#elseif testUI
+		startingState = UITestState;
 		#else
 		if (Macros.isDefined("SKIP_SPLASH")) {
 			startingState = MainMenuState;

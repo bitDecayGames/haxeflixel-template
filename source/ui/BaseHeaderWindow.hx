@@ -1,6 +1,8 @@
 package ui;
 
-import flixel.graphics.FlxGraphic;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.FlxG;
 import bitdecay.flixel.graphics.Aseprite;
 import bitdecay.flixel.graphics.AsepriteMacros;
 import bitdecay.flixel.spacial.Align;
@@ -17,12 +19,13 @@ import ui.font.BitmapText.PressStart;
  * objects once constructed.
 **/
 class BaseHeaderWindow extends FlxSpriteContainer {
-	public static var styles = AsepriteMacros.sliceNames("assets/aseprite/ui/windows.json");
-
 	public var headerText:PressStart;
 
 	public var header:Window;
 	public var content:Window;
+
+	var index:Int = 0;
+	var readyForInput = true;
 
 	public function new(title:String, X:Float, Y:Float, width:Int, contentHeight:Int, borderStyle:String, bgStyle:String) {
 		super(X, Y);
@@ -32,12 +35,14 @@ class BaseHeaderWindow extends FlxSpriteContainer {
 		var bgFrame = Aseprite.getSliceFrame(AssetPaths.windows__json, bgStyle);
 		header = new Window(0, 0, width, 32, borderFrame, sliceKey, bgFrame);
 		headerText = new PressStart(0, 0, title);
+		content = new Window(0, header.height + 5, width, contentHeight, borderFrame, sliceKey, bgFrame);
+
+		// Add everything at the end because `FlxSpriteContainer.add()` moves the object
+		// to account for the container's position, assuming the added object is positioned
+		// relative to the container's X/Y
 		add(header);
 		add(headerText);
-
-		Align.center(headerText, header);
-
-		content = new Window(0, header.height + 5, width, contentHeight, borderFrame, sliceKey, bgFrame);
 		add(content);
+		Align.center(headerText, header);
 	}
 }
