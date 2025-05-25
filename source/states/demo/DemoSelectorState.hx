@@ -21,6 +21,7 @@ class DemoSelectorState extends FlxState {
 		selectorWindow.padding = 10;
 		selectorWindow.bg.color = FlxColor.GRAY.getDarkened(.5);
 		selectorWindow.addItem(MenuBuilder.createTextButton("UI Windows", () -> FlxG.switchState(UIDemoState.new)));
+		selectorWindow.addItem(MenuBuilder.createTextButton("Align", () -> FlxG.switchState(AlignState.new)));
 
 		var headerWindow = new BaseHeaderWindow(50, 50, "Demo Selector", selectorWindow, Styles.windows.basic_0, Styles.windows.rabbitBG_0);
 		headerWindow.header.bg.color = FlxColor.GRAY.getDarkened(.5);
