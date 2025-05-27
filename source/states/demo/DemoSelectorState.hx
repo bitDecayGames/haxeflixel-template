@@ -25,6 +25,7 @@ class DemoSelectorState extends FlxSubState {
 		selectorWindow.bg.color = FlxColor.GRAY.getDarkened(.5);
 		selectorWindow.addItem(MenuBuilder.createTextButton("UI Windows", () -> FlxG.switchState(UIDemoState.new)));
 		selectorWindow.addItem(MenuBuilder.createTextButton("Align", () -> FlxG.switchState(AlignState.new)));
+		selectorWindow.addItem(MenuBuilder.createTextButton("Transition", () -> FlxG.switchState(TransitionDemoState.new)));
 
 		var exitButton = MenuBuilder.createTextButton("Exit", () -> {
 			close();
