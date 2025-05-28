@@ -1,6 +1,9 @@
 package states.demo;
 
-import flixel.math.FlxMath;
+import flixel.util.FlxTimer;
+import ui.font.BitmapText.PressStart;
+import flixel.FlxSubState;
+import bitdecay.flixel.transitions.TiledSpriteTransition;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxPoint;
@@ -16,47 +19,76 @@ using states.FlxStateExt;
 
 class TransitionDemoState extends FlxState {
 	var cascadeTransition:CascadingTileTransition;
+	var tileTrans:TiledSpriteTransition;
+
+	var currentIndex = 0;
+	var transitionNames:Array<String> = [];
+	var transitionBuilders:Array<() -> FlxSubState> = [];
+	var infoLabel:PressStart;
 
 	override public function create() {
 		super.create();
 
-		cascadeTransition = new CascadingTileTransition(FlxPoint.get(-1, .1), 40, 40, 4, tweenIn, tweenOut);
+		infoLabel = new PressStart(0, 20, "");
+		infoLabel.borderColor = FlxColor.BLUE;
+		infoLabel.borderStyle = OUTLINE;
+		infoLabel.screenCenter();
+		add(infoLabel);
+
+		addExample("Cascade", () -> {
+			var tweenIn = (x, y) -> {
+				var t = new FlxSprite(x, y);
+				t.makeGraphic(40, 40, FlxColor.fromHSB(FlxG.random.int(0, 359), 1, .7));
+				t.scale.set();
+				t.alpha = 0;
+				FlxTween.tween(t, {
+					"scale.x": 1,
+					"scale.y": 1,
+					angle: 360,
+					alpha: 1
+				}, 1);
+				return t;
+			};
+			var tweenOut = (s) -> {
+				FlxTween.linearMotion(s, s.x, s.y, s.x, camera.viewBottom, FlxG.random.float(.9, 1.1), true, {
+					ease: FlxEase.quadIn
+				});
+			};
+			var dir = FlxPoint.get(1, 0);
+			dir.degrees = FlxG.random.int(0, 359);
+			return new CascadingTileTransition(dir, 40, 40, 1, tweenIn, tweenOut);
+		});
+		addExample("Tiled", () -> {
+			var tileSprite = new FlxSprite();
+			Aseprite.loadAllAnimations(tileSprite, AssetPaths.items__json);
+			var anims = AsepriteMacros.tagNames("assets/aseprite/items.json");
+			return new TiledSpriteTransition(tileSprite, anims.items_0_aseprite, () -> {}, true);
+		});
 	}
 
-	function tweenIn(x, y):FlxSprite {
-		var t = new FlxSprite(x, y);
-		t.makeGraphic(40, 40, FlxColor.fromHSB(FlxG.random.int(0, 6) * 10, 1, .7));
-		t.setPosition(x, 0);
-		FlxTween.linearMotion(t, t.x, t.y, x, y, FlxG.random.float(.9, 1.1), true, {
-			ease: FlxEase.bounceOut
-		});
-		// t.scale.set();
-		// t.alpha = 0;
-		// FlxTween.tween(t, {"scale.x": 1, "scale.y": 1, angle: 360, alpha: 1}, 1);
-		return t;
-	}
-
-	function tweenOut(t:FlxSprite) {
-		FlxTween.linearMotion(t, t.x, t.y, t.x, camera.viewBottom, FlxG.random.float(.9, 1.1), true, {
-			ease: FlxEase.quadIn
-		});
+	function addExample(name:String, builder:() -> FlxSubState) {
+		transitionNames.push(name);
+		transitionBuilders.push(builder);
 	}
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ENTER) {
-			var tile = new FlxSprite();
-			var slices = AsepriteMacros.sliceNames("assets/aseprite/items.json");
-			Aseprite.loadSlice(tile, AssetPaths.items__json, slices.item1_0);
-			destroySubStates = false;
-			persistentUpdate = true;
-			openSubState(cascadeTransition);
+		if (FlxG.keys.justPressed.LEFT) {
+			currentIndex = (currentIndex + transitionNames.length - 1) % transitionNames.length;
+		} else if (FlxG.keys.justPressed.RIGHT) {
+			currentIndex = (currentIndex + 1) % transitionNames.length;
 		}
 
-		if (FlxG.keys.justPressed.C) {
-			cascadeTransition.modeIn = false;
-			cascadeTransition.resetSweep();
+		infoLabel.text = '${transitionNames[currentIndex]} (enter to see. left/right to choose)';
+		infoLabel.screenCenter(X);
+
+		if (FlxG.keys.justPressed.ENTER) {
+			var subState = transitionBuilders[currentIndex]();
+			FlxTimer.wait(3, () -> {
+				closeSubState();
+			});
+			openSubState(subState);
 		}
 	}
 }
