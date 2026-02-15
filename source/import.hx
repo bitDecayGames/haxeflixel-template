@@ -2,6 +2,7 @@
 // This is a special file that causes all files in this project to implicitly import
 // these imports
 import haxefmod.FmodManager;
+import haxefmod.FlxFmod;
 import FmodEventEnum.FmodSFX;
 import FmodEventEnum.FmodSong;
 import audio.FmodPlugin;

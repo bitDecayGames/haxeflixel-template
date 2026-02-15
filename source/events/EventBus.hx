@@ -49,7 +49,7 @@ class EventBus {
 
 	public static function unsubscribeAll(cb:EventHandler) {
 		for (l in subAllListeners) {
-			if (l.original = cb) {
+			if (l.original == cb) {
 				l.active = false;
 				if (originalFireEvent == null) {
 					subAllListeners.remove(l);
@@ -74,7 +74,7 @@ class EventBus {
 		}
 
 		for (l in listeners.get(key)) {
-			if (l.original = cb) {
+			if (l.original == cb) {
 				l.active = false;
 				if (originalFireEvent == null) {
 					if (listeners.exists(key)) {

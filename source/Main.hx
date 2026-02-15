@@ -1,5 +1,7 @@
 package;
 
+import macros.EnumAbstract;
+import flixel.graphics.frames.FlxBitmapFont;
 import achievements.Achievements;
 import bitdecay.flixel.debug.DebugSuite;
 import bitdecay.flixel.debug.tools.btree.BTreeInspector;
@@ -76,13 +78,7 @@ class Main extends Sprite {
 		stage.showDefaultContextMenu = false;
 		#end
 
-		// FMOD will be all of our audio stuff
-		FlxG.plugins.addPlugin(new FmodPlugin());
-
-		// Disable flixel volume controls as we don't use them because of FMOD
-		FlxG.sound.muteKeys = null;
-		FlxG.sound.volumeUpKeys = null;
-		FlxG.sound.volumeDownKeys = null;
+		FlxFmod.Init();
 
 		// Set up basic transitions. To override these see `transOut` and `transIn` on any FlxTransitionable states
 		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 0.35);
@@ -94,7 +90,7 @@ class Main extends Sprite {
 	}
 
 	private function configureDebug() {
-		DebugSuite.init(new DebugDraw(Type.allEnums(DebugLayers)), new BTreeInspector(), new EventLog());
+		DebugSuite.init(new DebugDraw(EnumAbstract.list(DebugLayers)), new BTreeInspector(), new EventLog());
 
 		#if debug
 		var fnt = Assets.getFont(AssetPaths.Brain_Slab_8__ttf);

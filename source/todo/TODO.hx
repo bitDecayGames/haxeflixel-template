@@ -6,6 +6,8 @@ import flixel.FlxG;
  * A development helper class to make finding needed assets easier
 **/
 class TODO {
+	static var previouslyWarned = new Map<String, Bool>();
+
 	#if debug
 	// Config
 	static var MAX_CALLS = 5;
@@ -13,14 +15,14 @@ class TODO {
 
 	// Map of name -> list of timestamps
 	static var callTimes = new Map<String, Array<Int>>();
-	static var previouslyWarned = new Map<String, Bool>();
 	#end
 
 	public static inline function sfx(name:String) {
-		#if debug
 		if (previouslyWarned.exists(name)) {
 			return;
 		}
+
+		#if debug
 		var now = FlxG.game.ticks;
 
 		if (!callTimes.exists(name)) {
@@ -42,6 +44,7 @@ class TODO {
 		times.push(now);
 		#else
 		QLog.warn('SFX "$name" yet to be implemented');
+		previouslyWarned.set(name, true);
 		#end
 	}
 

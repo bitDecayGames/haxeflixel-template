@@ -44,6 +44,7 @@
 	<haxelib name="bitlytics" />
 	<haxelib name="flixelutils" />
 	<haxelib name="haxefmod" />
+	<haxelib name="flixel-fmod" />
 	<haxelib name="newgrounds" />
 	<haxelib name="hscript" />
 

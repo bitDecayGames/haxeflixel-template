@@ -1,5 +1,6 @@
 package states;
 
+import haxefmod.FlxFmod;
 import ui.MenuBuilder;
 import com.bitdecay.analytics.Bitlytics;
 import bitdecay.flixel.transitions.SwirlTransition;
@@ -76,12 +77,12 @@ class MainMenuState extends FlxTransitionableState {
 
 	// If we want to add a way to go to credits from main menu, call this
 	function clickCredits():Void {
-		FmodFlxUtilities.TransitionToState(new CreditsState());
+		FlxFmod.TransitionToState(new CreditsState());
 	}
 
 	// If we want to add a way to go to achievements from main menu, call this
 	function clickAchievements():Void {
-		FmodFlxUtilities.TransitionToState(new AchievementsState());
+		FlxFmod.TransitionToState(new AchievementsState());
 	}
 
 	override public function onFocusLost() {
