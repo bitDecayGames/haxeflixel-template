@@ -1,7 +1,10 @@
 package ui;
 
+import FmodEnums.FmodSFXE;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+
+using FmodEnums;
 
 class MenuBuilder {
 	/**
@@ -12,12 +15,12 @@ class MenuBuilder {
 	 * @param   clickSFX Optional SFX to play when the button is clicked
 	 * @param   hoverSFX Optional SFX to play when the button is hovered
 	 */
-	public static function createTextButton(Text:String, cb:Void->Void, ?clickSFX:FmodSFX = MenuSelect, ?hoverSFX:FmodSFX = MenuHover):FlxButton {
+	public static function createTextButton(Text:String, cb:Void->Void, ?clickSFX:FmodSFXE = MenuSelect, ?hoverSFX:FmodSFXE = MenuHover):FlxButton {
 		var button = new FlxButton(0, 0, Text);
 		button.allowSwiping = false;
 		button.onOver.callback = function() {
 			if (hoverSFX != null) {
-				FmodPlugin.playSFX(hoverSFX);
+				FmodManager.PlaySoundOneShot(hoverSFX.path());
 			}
 			button.color = FlxColor.GRAY;
 		};
@@ -26,7 +29,7 @@ class MenuBuilder {
 		};
 		button.onUp.callback = function() {
 			if (clickSFX != null) {
-				FmodPlugin.playSFX(clickSFX);
+				FmodManager.PlaySoundOneShot(clickSFX.path());
 			}
 			cb();
 		};

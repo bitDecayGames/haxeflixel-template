@@ -75,7 +75,7 @@ class AchievementDef {
 	public function toToast(show:Bool, force:Bool = false):AchievementToast {
 		var a = new AchievementToast(this);
 		if (show) {
-			FmodPlugin.playSFX(FmodSFX.MenuSelect);
+			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 			Achievements.ACHIEVEMENTS_DISPLAYED++;
 			a.show(Achievements.ACHIEVEMENTS_DISPLAYED);
 		} else {

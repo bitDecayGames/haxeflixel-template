@@ -38,7 +38,7 @@ class MainMenuState extends FlxTransitionableState {
 		startButton.y = FlxG.height * .6;
 		add(startButton);
 
-		FmodPlugin.playSong(FmodSong.LetsGo);
+		FmodManager.PlaySong(FmodSongs.LetsGo);
 
 		// we will handle transitions manually
 		transOut = null;
@@ -50,7 +50,7 @@ class MainMenuState extends FlxTransitionableState {
 		if (FlxG.keys.pressed.D && FlxG.keys.justPressed.M) {
 			// Keys D.M. for Disable Metrics
 			Bitlytics.Instance().EndSession(false);
-			FmodPlugin.playSFX(FmodSFX.MenuSelect);
+			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 			trace("---------- Bitlytics Stopped ----------");
 		}
 

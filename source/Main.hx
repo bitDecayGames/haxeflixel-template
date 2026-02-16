@@ -7,7 +7,6 @@ import bitdecay.flixel.debug.DebugSuite;
 import bitdecay.flixel.debug.tools.btree.BTreeInspector;
 import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import events.EventBus;
-import audio.FmodPlugin;
 import config.Configure;
 import debug.DebugLayers;
 import debug.events.EventLog;
@@ -85,8 +84,9 @@ class Main extends Sprite {
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.35);
 
 		// Set any default font you want to be the default
-		// FlxTextFactory.defaultFont = AssetPaths.Brain_Slab_8__ttf;
-		FlxTextFactory.defaultSize = 24;
+		var exampleFont = FlxBitmapFont.fromAngelCode(AssetPaths.safety_0__png, AssetPaths.safety__fnt);
+		FlxTextFactory.defaultFont = exampleFont;
+		FlxTextFactory.defaultSize = 12;
 	}
 
 	private function configureDebug() {

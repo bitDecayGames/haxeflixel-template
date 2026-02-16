@@ -11,7 +11,7 @@
 	"iid": "48a599b0-1460-11ee-8f1d-1923aa7248a0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 226,
+	"nextUid": 238,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "GridVania",
@@ -374,25 +374,31 @@
 			{ "id": "INVISIBLE", "tileRect": null, "color": 14984818 }
 		], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }
 	], "externalEnums": [
-		{ "identifier": "FmodSong", "uid": 223, "values": [{ "id": "LetsGo", "tileRect": null, "color": 12470831 }], "iconTilesetUid": null, "externalRelPath": "../source/FmodEventEnum.hx", "externalFileChecksum": "9b28c866d309fe113c2f90fe6f44ee77", "tags": [] },
-		{ "identifier": "FmodSFX", "uid": 224, "values": [ { "id": "MenuHover", "tileRect": null, "color": 12470831 }, { "id": "MenuSelect", "tileRect": null, "color": 14120515 } ], "iconTilesetUid": null, "externalRelPath": "../source/FmodEventEnum.hx", "externalFileChecksum": "9b28c866d309fe113c2f90fe6f44ee77", "tags": [] }
+		{ "identifier": "FmodSongE", "uid": 233, "values": [{ "id": "LetsGo", "tileRect": null, "color": 12470831 }], "iconTilesetUid": null, "externalRelPath": "../source/FmodEnums.hx", "externalFileChecksum": "a2cacc92ad1d4008e1e664e8a35ea010", "tags": [] },
+		{ "identifier": "FmodSFXE", "uid": 234, "values": [ { "id": "MenuHover", "tileRect": null, "color": 12470831 }, { "id": "MenuSelect", "tileRect": null, "color": 14120515 } ], "iconTilesetUid": null, "externalRelPath": "../source/FmodEnums.hx", "externalFileChecksum": "a2cacc92ad1d4008e1e664e8a35ea010", "tags": [] },
+		{ "identifier": "FmodBusE", "uid": 235, "values": [
+			{ "id": "Master", "tileRect": null, "color": 12470831 },
+			{ "id": "Music", "tileRect": null, "color": 14120515 },
+			{ "id": "SFX", "tileRect": null, "color": 15389866 },
+			{ "id": "QuietOnes", "tileRect": null, "color": 14984818 }
+		], "iconTilesetUid": null, "externalRelPath": "../source/FmodEnums.hx", "externalFileChecksum": "a2cacc92ad1d4008e1e664e8a35ea010", "tags": [] }
 	], "levelFields": [
 		{
-			"identifier": "Music",
+			"identifier": "Song",
 			"doc": null,
-			"__type": "ExternEnum.FmodSong",
-			"uid": 225,
-			"type": "F_Enum(223)",
+			"__type": "ExternEnum.FmodSongE",
+			"uid": 237,
+			"type": "F_Enum(233)",
 			"isArray": false,
-			"canBeNull": false,
+			"canBeNull": true,
 			"arrayMinLength": null,
 			"arrayMaxLength": null,
-			"editorDisplayMode": "NameAndValue",
+			"editorDisplayMode": "Hidden",
 			"editorDisplayScale": 1,
 			"editorDisplayPos": "Above",
 			"editorLinkStyle": "StraightArrow",
 			"editorDisplayColor": null,
-			"editorAlwaysShow": true,
+			"editorAlwaysShow": false,
 			"editorShowInWorld": true,
 			"editorCutLongValues": true,
 			"editorTextSuffix": null,
@@ -435,7 +441,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [{ "__identifier": "Music", "__type": "ExternEnum.FmodSong", "__value": "LetsGo", "__tile": null, "defUid": 225, "realEditorValues": [{
+			"fieldInstances": [{ "__identifier": "Song", "__type": "ExternEnum.FmodSongE", "__value": "LetsGo", "__tile": null, "defUid": 237, "realEditorValues": [{
 				"id": "V_String",
 				"params": ["LetsGo"]
 			}] }],

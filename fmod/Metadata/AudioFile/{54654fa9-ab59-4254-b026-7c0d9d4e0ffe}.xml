@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.00.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{54654fa9-ab59-4254-b026-7c0d9d4e0ffe}">
 		<property name="assetPath">
 			<value>menu_select.ogg</value>

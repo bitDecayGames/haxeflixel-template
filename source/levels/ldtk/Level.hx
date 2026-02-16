@@ -6,6 +6,7 @@ import flixel.math.FlxPoint;
 import levels.ldtk.Ldtk.LdtkProject;
 
 using levels.ldtk.LdtkUtils;
+using FmodEnums;
 
 /**
  * The middle layer between LDTK project and game code. This class
@@ -21,6 +22,8 @@ class Level {
 	**/
 	public var raw:Ldtk.Ldtk_Level;
 
+	public var songEvent:String = "";
+
 	public var terrainLayer:BDTilemap;
 	public var spawnPoint:FlxPoint = FlxPoint.get();
 
@@ -29,6 +32,11 @@ class Level {
 
 	public function new(nameOrIID:String) {
 		raw = project.getLevel(nameOrIID);
+
+		if (raw.f_Song != null) {
+			songEvent = raw.f_Song.path();
+		}
+
 		terrainLayer = new BDTilemap();
 		terrainLayer.loadLdtk(raw.l_Terrain);
 

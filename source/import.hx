@@ -3,9 +3,8 @@
 // these imports
 import haxefmod.FmodManager;
 import haxefmod.FlxFmod;
-import FmodEventEnum.FmodSFX;
-import FmodEventEnum.FmodSong;
-import audio.FmodPlugin;
+import FmodConstants.FmodSFX;
+import FmodConstants.FmodSongs;
 // Give easy access to logging and debug
 import bitdecay.flixel.system.QuickLog as QLog;
 import bitdecay.flixel.debug.DebugSuite as DS;

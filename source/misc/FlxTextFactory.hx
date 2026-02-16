@@ -17,7 +17,7 @@ class FlxTextFactory {
 	/**
 	 * Default font for anything this factory creates
 	 */
-	public static var defaultFont:FlxBitmapFont = null;
+	public static var defaultFont(get, default):FlxBitmapFont = null;
 
 	/**
 	 * Default color for anything this factory creates
@@ -29,6 +29,14 @@ class FlxTextFactory {
 	 */
 	public static var defaultAlign:FlxTextAlign = FlxTextAlign.LEFT;
 
+	private static function get_defaultFont():FlxBitmapFont {
+		if (defaultFont == null) {
+			defaultFont = FlxBitmapFont.getDefaultFont();
+		}
+
+		return defaultFont;
+	}
+
 	/**
 	 * Creats a FlxText object with the project defaults
 	 *
@@ -38,11 +46,11 @@ class FlxTextFactory {
 	 * @param size  `Optional` The font size if something other than default is desired
 	 * @param align `Optional` The font alignment
 	**/
-	public static function make(text:String, ?x:Float, ?y:Float, ?size:Int, ?align:Null<FlxTextAlign>, ?color:Int):FlxBitmapText {
-		if (defaultFont != null) {
-			defaultFont = FlxBitmapFont.getDefaultFont();
+	public static function make(text:String, ?x:Float, ?y:Float, ?size:Int, ?align:Null<FlxTextAlign>, ?color:Int, ?font:FlxBitmapFont):FlxBitmapText {
+		if (font == null) {
+			font = defaultFont;
 		}
-		var txt = new FlxBitmapText(defaultFont);
+		var txt = new FlxBitmapText(font);
 		txt.text = text;
 		txt.setPosition(x, y);
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.00.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{7028e983-03fc-4e59-ab28-4b3d3738f0e7}">
 		<property name="assetPath">
 			<value>hover.ogg</value>

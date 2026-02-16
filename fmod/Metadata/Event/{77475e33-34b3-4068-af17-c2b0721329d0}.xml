@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.00.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{77475e33-34b3-4068-af17-c2b0721329d0}">
 		<property name="name">
 			<value>LetsGo</value>
@@ -54,7 +54,7 @@
 			<destination>{51869e21-30fc-465f-b192-233b3f733472}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{40c4223a-8ffc-4670-9117-448edcd107e0}</destination>
+			<destination>{72686812-9f20-4d6b-ba92-7b05e4899a7a}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{3f1831d3-1e90-406f-a847-fd00146c2f67}" />
@@ -73,8 +73,8 @@
 			<destination>{725c085d-f145-4d93-9fd1-28d8ffcf1187}</destination>
 		</relationship>
 		<relationship name="markers">
-			<destination>{8b26316e-88aa-4462-987b-dbb92ce8b268}</destination>
 			<destination>{667fc25f-f68b-4f4b-8b1c-722f9882f4b0}</destination>
+			<destination>{8b26316e-88aa-4462-987b-dbb92ce8b268}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{76c05f62-0f70-460f-9e59-6af543ac1380}">
@@ -119,20 +119,6 @@
 			<destination>{76c05f62-0f70-460f-9e59-6af543ac1380}</destination>
 		</relationship>
 	</object>
-	<object class="LoopRegion" id="{8b26316e-88aa-4462-987b-dbb92ce8b268}">
-		<property name="position">
-			<value>8.5714285714285712</value>
-		</property>
-		<property name="length">
-			<value>53.571428571428569</value>
-		</property>
-		<relationship name="timeline">
-			<destination>{fb6a4c8f-15b0-491d-bfa2-c688b4507af6}</destination>
-		</relationship>
-		<relationship name="markerTrack">
-			<destination>{80ad0a74-a03d-483e-b6ba-67181fd16065}</destination>
-		</relationship>
-	</object>
 	<object class="TempoMarker" id="{667fc25f-f68b-4f4b-8b1c-722f9882f4b0}">
 		<property name="position">
 			<value>0</value>
@@ -145,6 +131,20 @@
 		</relationship>
 		<relationship name="markerTrack">
 			<destination>{06fc9d73-a952-4f14-a621-631fc35ce608}</destination>
+		</relationship>
+	</object>
+	<object class="LoopRegion" id="{8b26316e-88aa-4462-987b-dbb92ce8b268}">
+		<property name="position">
+			<value>8.5714285714285712</value>
+		</property>
+		<property name="length">
+			<value>53.571428571428569</value>
+		</property>
+		<relationship name="timeline">
+			<destination>{fb6a4c8f-15b0-491d-bfa2-c688b4507af6}</destination>
+		</relationship>
+		<relationship name="markerTrack">
+			<destination>{80ad0a74-a03d-483e-b6ba-67181fd16065}</destination>
 		</relationship>
 	</object>
 	<object class="ADSRModulator" id="{8d7aa41d-bf3d-4543-9854-ed89f9328ad2}">

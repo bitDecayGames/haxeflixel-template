@@ -1,5 +1,7 @@
 package states;
 
+import debug.DebugLayers;
+import bitdecay.flixel.debug.tools.draw.DebugDraw;
 import todo.TODO;
 import flixel.group.FlxGroup;
 import flixel.math.FlxRect;
@@ -49,7 +51,9 @@ class PlayState extends FlxTransitionableState {
 		unload();
 
 		var level = new Level(level);
-		FmodPlugin.playSong(level.raw.f_Music);
+		if (level.songEvent != "") {
+			FmodManager.PlaySong(level.songEvent);
+		}
 		midGroundGroup.add(level.terrainLayer);
 		FlxG.worldBounds.copyFrom(level.terrainLayer.getBounds());
 
@@ -96,7 +100,11 @@ class PlayState extends FlxTransitionableState {
 		FlxG.collide(midGroundGroup, player);
 		handleCameraBounds();
 
+		// TODO helps devs call audio correctly, and helps audio folks find where sounds are needed
 		TODO.sfx('scarySound');
+
+		// DS "Debug Suite" is how we get to all of our debugging tools
+		DS.get(DebugDraw).drawCameraText(50, 50, "hello", DebugLayers.AUDIO);
 	}
 
 	function handleCameraBounds() {

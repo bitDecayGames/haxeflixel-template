@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.00.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{8cd03190-6009-42a3-87e1-ca72460f6e24}">
 		<property name="name">
 			<value>MenuSelect</value>
@@ -53,7 +53,7 @@
 			<destination>{85b89561-90f7-4769-842f-bce070efb5a0}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{40c4223a-8ffc-4670-9117-448edcd107e0}</destination>
+			<destination>{3fa7a9db-4aba-41a6-9192-6e4deb461530}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{e92b5284-b755-4a9b-ab05-96ccfd8d799b}" />
