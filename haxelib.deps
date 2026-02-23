@@ -28,5 +28,5 @@ flixelutils git https://github.com/bitDecayGames/flixel-utils.git
 json2object 3.11.0
 
 # audio deps
-haxefmod git https://github.com/Tanz0rz/haxe-fmod.git
+haxefmod git https://github.com/Tanz0rz/haxe-fmod.git 1.1.0-beta
 flixel-fmod git https://github.com/MondayHopscotch/flixel-fmod.git
