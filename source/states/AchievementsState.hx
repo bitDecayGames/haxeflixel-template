@@ -20,6 +20,10 @@ class AchievementsState extends FlxTransitionableState {
 	var _txtTitle:FlxText;
 	var _btnDone:FlxButton;
 
+	public function new() {
+		super();
+	}
+
 	override public function create():Void {
 		super.create();
 		Achievements.ACHIEVEMENTS_DISPLAYED = 0;
@@ -47,7 +51,7 @@ class AchievementsState extends FlxTransitionableState {
 	}
 
 	function clickMainMenu():Void {
-		FmodFlxUtilities.TransitionToState(new MainMenuState());
+		FlxFmod.switchState(MainMenuState.new);
 	}
 
 	function addAchievementToasts() {

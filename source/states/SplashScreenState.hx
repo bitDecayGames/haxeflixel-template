@@ -106,7 +106,7 @@ class SplashScreenState extends FlxState {
 		} else {
 			splashesOver = true;
 			currentTween.onComplete = (t) -> {
-				FmodFlxUtilities.TransitionToState(new MainMenuState());
+				FlxFmod.switchState(new MainMenuState());
 			};
 		}
 	}

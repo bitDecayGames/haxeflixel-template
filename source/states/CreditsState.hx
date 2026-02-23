@@ -40,6 +40,10 @@ class CreditsState extends FlxTransitionableState {
 		AssetPaths.aseprite__png
 	];
 
+	public function new() {
+		super();
+	}
+
 	override public function create():Void {
 		super.create();
 		bgColor = backgroundColor;
@@ -159,7 +163,7 @@ class CreditsState extends FlxTransitionableState {
 	}
 
 	function clickMainMenu():Void {
-		FmodFlxUtilities.TransitionToState(new MainMenuState());
+		FlxFmod.switchState(MainMenuState.new);
 	}
 
 	override public function onFocusLost() {

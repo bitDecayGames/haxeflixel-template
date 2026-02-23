@@ -22,6 +22,10 @@ class MainMenuState extends FlxTransitionableState {
 	var startButton:FlxButton;
 	var handleInput = true;
 
+	public function new() {
+		super();
+	}
+
 	override public function create():Void {
 		super.create();
 		bgColor = FlxColor.TRANSPARENT;
@@ -77,12 +81,12 @@ class MainMenuState extends FlxTransitionableState {
 
 	// If we want to add a way to go to credits from main menu, call this
 	function clickCredits():Void {
-		FlxFmod.TransitionToState(new CreditsState());
+		FlxFmod.switchState(CreditsState.new);
 	}
 
 	// If we want to add a way to go to achievements from main menu, call this
 	function clickAchievements():Void {
-		FlxFmod.TransitionToState(new AchievementsState());
+		FlxFmod.switchState(AchievementsState.new);
 	}
 
 	override public function onFocusLost() {

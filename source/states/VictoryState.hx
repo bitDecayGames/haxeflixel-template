@@ -39,7 +39,7 @@ class VictoryState extends FlxTransitionableState {
 	}
 
 	function clickMainMenu():Void {
-		FmodFlxUtilities.TransitionToState(new MainMenuState());
+		FlxFmod.switchState(new MainMenuState());
 	}
 
 	override public function onFocusLost() {
