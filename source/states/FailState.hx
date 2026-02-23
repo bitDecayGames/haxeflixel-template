@@ -37,7 +37,7 @@ class FailState extends FlxTransitionableState {
 	}
 
 	function clickMainMenu():Void {
-		FlxFmod.switchState(new MainMenuState());
+		FlxFmod.switchState(MainMenuState.new);
 	}
 
 	override public function onFocusLost() {

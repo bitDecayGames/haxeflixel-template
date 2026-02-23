@@ -72,9 +72,7 @@ class MainMenuState extends FlxTransitionableState {
 		var swirlOut = new SwirlTransition(TransitionDirection.OUT, () -> {
 			// make sure our music is stopped;
 			FmodManager.StopSongImmediately();
-			FlxG.switchState(() -> {
-				new PlayState();
-			});
+			FlxG.switchState(PlayState.new);
 		}, FlxColor.GRAY, 0.75);
 		openSubState(swirlOut);
 	}

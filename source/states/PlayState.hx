@@ -28,6 +28,10 @@ class PlayState extends FlxTransitionableState {
 
 	var ldtk = new LdtkProject();
 
+	public function new() {
+		super();
+	}
+
 	override public function create() {
 		super.create();
 
