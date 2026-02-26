@@ -28,7 +28,7 @@ jobs:
           initScriptFile: ./bin/init_deps.sh
 
       - name: Upload html5 zip artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: html5-build
           path: export/html5.zip
