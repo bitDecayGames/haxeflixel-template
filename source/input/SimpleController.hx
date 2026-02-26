@@ -53,6 +53,17 @@ class SimpleController {
 		return FlxG.keys.anyPressed(key_bindings[player][button]);
 	}
 
+	public static function anyPressed(buttons:Array<Button>, player:Int = 0):Bool {
+		var condition:Bool = false;
+		for (button in buttons) {
+			if (pressed_key(button, player) || pressed_pad(button, player)) {
+				condition = true;
+				break;
+			};
+		};
+		return condition;
+	}
+
 	static function pressed_pad(button:Button, player:Int):Bool {
 		var gamepads = FlxG.gamepads.getActiveGamepads();
 		if (gamepads.length < player || gamepads[player] == null)
